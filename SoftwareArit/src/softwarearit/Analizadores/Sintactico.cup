@@ -1,0 +1,111 @@
+package softwarearit.Analizadores;
+
+import software.Arbol.Estructura.Base.*;
+import software.Frame.Interfaz;
+import java_cup.runtime.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.LinkedList;
+
+parser code
+{:
+    public AST AST;
+
+    /**Metodo al que se llama automáticamente ante algún error sintactico.*/
+    public void syntax_error(Symbol s){
+        System.err.println("Se puede recuperar de error en la Línea: " + s.right + " Columna: "+ s.left + ". Identificador: " +s.value + " Error de simbolo");
+    }
+
+    /**Metodo al que se llama en el momento en que ya no es posible una recuperación de
+    errores.*/
+    public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception{
+        System.err.println("No se puede recuperar de error en la Línea: " + s.right + " Columna: "+ s.left + ". Identificador: " +s.value + " Error de simbolo");
+    }
+
+:}
+
+
+action code {:
+    
+:}
+
+/*terminales reservados*/
+terminal String valorbooleano;
+
+terminal String imprimir;
+terminal String masmas, menosmenos;
+terminal String mas, menos, multiplicacion, division,modulo;
+terminal String menorque, mayorque,menorigual, mayorigual, diferenteque, igualigual, igual;
+terminal String and, or, not;
+terminal String puntoycoma, coma, llaveizquierda, llavederecha, corcheteizquierda, corchetederecha,parentesisizquierda, parentesisderecha, punto;
+terminal String entero, decimal, _id, _string, _caracter;
+terminal String umenos;
+terminal String _double, _int, _char, _long, _float, _short;
+terminal String _do, _if, _case, _else, _while, _for;
+terminal String _break, _continue, _return;
+terminal String _void, _sizeof, _static, _enum, _struct, _const, _typedef;
+terminal String _include;
+
+
+/*
+* Este terminal tiene un valor string. Recuerda que le dábamos el valor
+* en el código del analizador léxico, al darle como parámetro un valor
+* string al objeto Symbolo.
+*/
+
+
+/*
+* Aquí están los no terminales
+*/
+non terminal INICIO;
+non terminal Expresion E;
+non terminal Instruccion IMPRIMIR;
+non terminal LinkedList<Instruccion> L_IMPRIMIR;
+
+/* Precedencia */
+precedence left or;
+precedence left and;
+precedence right not;
+
+precedence left menorque, menorigual,mayorque,mayorigual,igualigual,diferenteque;
+precedence left mas, menos;
+precedence left multiplicacion, division,modulo;
+precedence left umenos;
+
+
+/* ­­­­­­­­­­­­­­ Declaración de la gramática  ­­­­­­­­­­­ */
+
+start with INICIO; // start with sirve para indicarle al parser con que produccion empezar
+
+    INICIO::= L_IMPRIMIR:a {: parser.AST = new AST(a); :};
+
+    L_IMPRIMIR::= L_IMPRIMIR:a IMPRIMIR:b {: RESULT = a; RESULT.add(b); :}
+                | IMPRIMIR:a {: RESULT = new LinkedList<>(); RESULT.add(a); :}
+                ;
+
+    IMPRIMIR::= imprimir:ins parentesisizquierda E:a parentesisderecha puntoycoma {: RESULT = new Imprimir(insleft,insright,a); :};
+
+    E::= E:a mas:op E :b           {: RESULT = new Suma(opleft,opright,a,b); :}  
+       | E:a menos:op E:b          {: RESULT = new Resta(opleft,opright,a,b); :} 
+       | E:a multiplicacion:op E:b {: RESULT = new Multiplicacion(opleft,opright,a,b); :}
+       | E:a division:op E:b       {: RESULT = new Division(opleft,opright,a,b); :}
+       | E:a modulo:op E:b         {: RESULT = new Modulo(opleft,opright,a,b); :}
+       
+       | menos:op E:a              {: RESULT = new MenorUnario(opleft,opright,a); :}
+       
+       | E:a menorque:op E:b     {: RESULT = new MenorQue(opleft,opright,a,b); :}
+       | E:a mayorque:op E:b     {: RESULT = new MayorQue(opleft,opright,a,b); :}
+       | E:a menorigual:op E:b   {: RESULT = new MenorIgual(opleft,opright,a,b); :}
+       | E:a mayorigual:op E:b   {: RESULT = new MayorIgual(opleft,opright,a,b); :}
+       | E:a igualigual:op E:b   {: RESULT = new IgualIgual(opleft,opright,a,b); :}
+       | E:a diferenteque:op E:b {: RESULT = new Diferente(opleft,opright,a,b); :}
+       
+       | E:a or:op E:b           {: RESULT = new Or(opleft,opright,a,b); :}
+       | E:a and:op E:b          {: RESULT = new And(opleft,opright,a,b); :}
+       | not:op E:a              {: RESULT = new Not(opleft,opright,a); :}
+       
+       | entero:a                {: RESULT = new Real(new Tipo(Tipo.EnumTipo.ENTERO),a); :}
+       | decimal:a               {: RESULT = new Real(new Tipo(Tipo.EnumTipo.DOBLE),a); :}
+
+       | parentesisizquierda E:a parentesisderecha {: RESULT = a; :}
+       ;

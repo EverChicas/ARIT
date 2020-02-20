@@ -1,2 +1,4 @@
 /build
 *.class
+/SoftwareArit/nbproject/private/
+/SoftwareArit/build/
