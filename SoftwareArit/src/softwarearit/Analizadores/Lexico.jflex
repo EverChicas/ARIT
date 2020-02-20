@@ -42,7 +42,7 @@ import softwarearit.Arbol.Estructura.Base.*;
     ERROR_ID1 = (".")({DIGITO})({LETRA}|{DIGITO}|".")+
     ERROR_ID2 = ({DIGITO})({LETRA}|{DIGITO}|".")+
 
-//##### Estados ##########3
+//##### Estados ##########
 %state INICIO, COMENTARIO_MULTILINEA, ESTADO_CADENA
 
 %%
@@ -59,11 +59,11 @@ import softwarearit.Arbol.Estructura.Base.*;
 
 <YYINITIAL> "\"" { yybegin(ESTADO_CADENA); cadena.delete(0,cadena.length()); }
 <ESTADO_CADENA> "\"" {yybegin(YYINITIAL); return new Symbol(sym._string,yyline,yychar,cadena.toString());}
-<ESTADO_CADENA> "\\\"" {cadena.append("\\\""); }
+<ESTADO_CADENA> "\\\"" {cadena.append("\""); }
 <ESTADO_CADENA> "\\" {cadena.append("\\"); }
-<ESTADO_CADENA> "\n" {cadena.append("\\n"); }
-<ESTADO_CADENA> "\r" {cadena.append("\\r"); }
-<ESTADO_CADENA> "\t" {cadena.append("\\t"); }
+<ESTADO_CADENA> "\\n" {cadena.append("\n"); }
+<ESTADO_CADENA> "\\r" {cadena.append("\r"); }
+<ESTADO_CADENA> "\\t" {cadena.append("\t"); }
 <ESTADO_CADENA> . {cadena.append(yytext()); }
 
 <YYINITIAL> "true" { return new Symbol(sym.valorbooleano, yyline,yychar,yytext()); }

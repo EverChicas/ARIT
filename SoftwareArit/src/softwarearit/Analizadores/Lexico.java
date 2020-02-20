@@ -42,12 +42,12 @@ public class Lexico implements java_cup.runtime.Scanner {
    * Translates characters to character classes
    */
   private static final String ZZ_CMAP_PACKED = 
-    "\11\0\1\15\1\7\1\11\1\11\1\6\22\0\1\5\1\0\1\13"+
+    "\11\0\1\5\1\7\1\11\1\11\1\6\22\0\1\5\1\0\1\13"+
     "\1\10\6\0\1\12\3\0\1\3\1\0\12\1\7\0\1\23\3\2"+
-    "\1\21\1\22\5\2\1\24\5\2\1\17\1\26\1\16\1\20\5\2"+
-    "\1\0\1\14\2\0\1\4\1\0\1\23\3\2\1\21\1\22\5\2"+
-    "\1\24\5\2\1\17\1\26\1\16\1\20\5\2\12\0\1\11\371\0"+
-    "\1\25\u1ea8\0\1\11\1\11\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\udfe6\0";
+    "\1\21\1\22\5\2\1\24\1\2\1\15\3\2\1\16\1\26\1\17"+
+    "\1\20\5\2\1\0\1\14\2\0\1\4\1\0\1\23\3\2\1\21"+
+    "\1\22\5\2\1\24\1\2\1\15\3\2\1\16\1\26\1\17\1\20"+
+    "\5\2\12\0\1\11\371\0\1\25\u1ea8\0\1\11\1\11\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\udfe6\0";
 
   /** 
    * Translates characters to character classes
@@ -61,8 +61,8 @@ public class Lexico implements java_cup.runtime.Scanner {
 
   private static final String ZZ_ACTION_PACKED_0 =
     "\4\0\1\1\1\2\1\3\1\1\2\4\1\5\1\1"+
-    "\1\6\2\3\2\4\1\7\1\10\1\11\1\12\1\13"+
-    "\1\14\2\15\2\0\2\16\1\17\2\3\1\20\1\21"+
+    "\1\6\2\3\2\4\1\7\1\10\1\11\2\12\2\0"+
+    "\2\13\1\14\2\3\1\15\1\16\1\17\1\20\1\21"+
     "\1\22\2\3\1\23\1\0\1\23";
 
   private static int [] zzUnpackAction() {
@@ -93,8 +93,8 @@ public class Lexico implements java_cup.runtime.Scanner {
   private static final String ZZ_ROWMAP_PACKED_0 =
     "\0\0\0\27\0\56\0\105\0\134\0\163\0\212\0\241"+
     "\0\270\0\317\0\134\0\346\0\134\0\375\0\u0114\0\134"+
-    "\0\u012b\0\134\0\134\0\134\0\134\0\u0142\0\134\0\u0159"+
-    "\0\u0170\0\u0159\0\u0187\0\u019e\0\134\0\u0187\0\u01b5\0\u01cc"+
+    "\0\u012b\0\134\0\134\0\u0142\0\u0159\0\u0170\0\u0159\0\u0187"+
+    "\0\u019e\0\134\0\u0187\0\u01b5\0\u01cc\0\134\0\134\0\134"+
     "\0\134\0\134\0\u0170\0\u01e3\0\u01fa\0\212\0\u0211\0\134";
 
   private static int [] zzUnpackRowMap() {
@@ -122,25 +122,24 @@ public class Lexico implements java_cup.runtime.Scanner {
 
   private static final String ZZ_TRANS_PACKED_0 =
     "\1\5\1\6\1\7\1\10\1\5\1\11\1\12\1\13"+
-    "\1\14\1\0\1\5\1\15\1\5\1\11\1\16\3\7"+
+    "\1\14\1\0\1\5\1\15\1\5\2\7\1\16\2\7"+
     "\1\17\2\7\1\5\1\7\6\5\2\0\1\5\1\0"+
-    "\15\5\5\20\2\11\1\13\1\20\1\0\1\21\2\20"+
-    "\1\11\11\20\6\22\1\23\1\24\1\22\1\0\1\22"+
-    "\1\25\1\26\1\27\11\22\30\0\1\6\1\30\1\31"+
-    "\12\0\7\30\1\0\1\30\1\0\4\7\11\0\7\7"+
-    "\1\0\1\7\1\0\1\32\1\7\13\0\7\7\1\0"+
-    "\1\7\5\0\2\11\6\0\1\11\16\0\2\11\1\13"+
-    "\5\0\1\11\11\0\6\33\1\34\1\35\1\33\1\0"+
-    "\1\36\14\33\1\0\4\7\11\0\1\7\1\37\5\7"+
-    "\1\0\1\7\1\0\4\7\11\0\5\7\1\40\1\7"+
-    "\1\0\1\7\10\0\1\41\31\0\1\42\14\0\3\30"+
-    "\12\0\7\30\1\0\1\30\1\0\1\43\2\30\12\0"+
-    "\7\30\1\0\1\30\6\33\1\34\1\35\1\33\1\0"+
-    "\15\33\7\0\1\35\20\0\4\7\11\0\2\7\1\44"+
-    "\4\7\1\0\1\7\1\0\4\7\11\0\6\7\1\45"+
-    "\1\0\1\7\1\0\4\7\11\0\3\7\1\46\3\7"+
-    "\1\0\1\7\1\0\4\7\11\0\7\7\1\47\1\44"+
-    "\21\0\1\50\5\0";
+    "\15\5\5\20\2\11\1\13\1\20\1\0\1\21\14\20"+
+    "\6\22\2\0\1\22\1\0\1\22\1\23\1\24\12\22"+
+    "\30\0\1\6\1\25\1\26\11\0\10\25\1\0\1\25"+
+    "\1\0\4\7\10\0\10\7\1\0\1\7\1\0\1\27"+
+    "\1\7\12\0\10\7\1\0\1\7\5\0\2\11\25\0"+
+    "\2\11\1\13\17\0\6\30\1\31\1\32\1\30\1\0"+
+    "\1\33\14\30\1\0\4\7\10\0\1\7\1\34\6\7"+
+    "\1\0\1\7\1\0\4\7\10\0\6\7\1\35\1\7"+
+    "\1\0\1\7\10\0\1\36\31\0\1\37\1\0\1\40"+
+    "\1\41\1\42\10\0\3\25\11\0\10\25\1\0\1\25"+
+    "\1\0\1\43\2\25\11\0\10\25\1\0\1\25\6\30"+
+    "\1\31\1\32\1\30\1\0\15\30\7\0\1\32\20\0"+
+    "\4\7\10\0\3\7\1\44\4\7\1\0\1\7\1\0"+
+    "\4\7\10\0\7\7\1\45\1\0\1\7\1\0\4\7"+
+    "\10\0\4\7\1\46\3\7\1\0\1\7\1\0\4\7"+
+    "\10\0\10\7\1\47\1\44\21\0\1\50\5\0";
 
   private static int [] zzUnpackTrans() {
     int [] result = new int[552];
@@ -182,8 +181,8 @@ public class Lexico implements java_cup.runtime.Scanner {
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
     "\4\0\1\11\5\1\1\11\1\1\1\11\2\1\1\11"+
-    "\1\1\4\11\1\1\1\11\2\1\2\0\1\1\1\11"+
-    "\3\1\2\11\4\1\1\0\1\11";
+    "\1\1\2\11\3\1\2\0\1\1\1\11\3\1\5\11"+
+    "\4\1\1\0\1\11";
 
   private static int [] zzUnpackAttribute() {
     int [] result = new int[40];
@@ -287,7 +286,7 @@ public class Lexico implements java_cup.runtime.Scanner {
     char [] map = new char[0x110000];
     int i = 0;  /* index in packed string  */
     int j = 0;  /* index in unpacked array */
-    while (i < 142) {
+    while (i < 150) {
       int  count = packed.charAt(i++);
       char value = packed.charAt(i++);
       do map[j++] = value; while (--count > 0);
@@ -688,52 +687,52 @@ public class Lexico implements java_cup.runtime.Scanner {
             // fall through
           case 26: break;
           case 8: 
-            { cadena.append("\\r");
+            { yybegin(YYINITIAL); return new Symbol(sym._string,yyline,yychar,cadena.toString());
             } 
             // fall through
           case 27: break;
           case 9: 
-            { cadena.append("\\n");
+            { cadena.append("\\");
             } 
             // fall through
           case 28: break;
           case 10: 
-            { yybegin(YYINITIAL); return new Symbol(sym._string,yyline,yychar,cadena.toString());
+            { softwarearit.Frame.Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.LEXICO), "Identificador incorrecto " + yytext(), yyline, yychar));
             } 
             // fall through
           case 29: break;
           case 11: 
-            { cadena.append("\\");
+            { yychar=1;
             } 
             // fall through
           case 30: break;
           case 12: 
-            { cadena.append("\\t");
+            { yybegin(COMENTARIO_MULTILINEA);
             } 
             // fall through
           case 31: break;
           case 13: 
-            { softwarearit.Frame.Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.LEXICO), "Identificador incorrecto " + yytext(), yyline, yychar));
+            { yybegin(YYINITIAL);
             } 
             // fall through
           case 32: break;
           case 14: 
-            { yychar=1;
+            { cadena.append("\"");
             } 
             // fall through
           case 33: break;
           case 15: 
-            { yybegin(COMENTARIO_MULTILINEA);
+            { cadena.append("\n");
             } 
             // fall through
           case 34: break;
           case 16: 
-            { yybegin(YYINITIAL);
+            { cadena.append("\r");
             } 
             // fall through
           case 35: break;
           case 17: 
-            { cadena.append("\\\"");
+            { cadena.append("\t");
             } 
             // fall through
           case 36: break;
