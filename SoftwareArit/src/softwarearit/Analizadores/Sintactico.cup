@@ -34,7 +34,7 @@ terminal String _id;
 terminal String entero, decimal, _string, valorbooleano;
 terminal String mas, menos, multiplicacion, division, modulo, potencia;
 terminal String menorque, mayorque,menorigual, mayorigual;
-terminal String igualigual, diferenteque, igual;
+terminal String igualigual, diferenteque, igual, flecha;
 terminal String and, or, not;
 terminal String puntoycoma, coma, llaveizquierda, llavederecha, corcheteizquierda, corchetederecha,parentesisizquierda, parentesisderecha, dospuntos;
 terminal String ternario;

@@ -88,7 +88,8 @@ import softwarearit.Arbol.Estructura.Base.*;
 
 <YYINITIAL> "==" { return new Symbol(sym.igualigual,yyline,yychar,yytext()); } 
 <YYINITIAL> "!=" { return new Symbol(sym.diferenteque,yyline,yychar,yytext()); } 
-<YYINITIAL> "=" { return new Symbol(sym.igual,yyline,yychar,yytext()); } 
+<YYINITIAL> "=" { return new Symbol(sym.igual,yyline,yychar,yytext()); }
+<YYINITIAL> "=>" { return new Symbol(sym.flecha,yyline,yychar,yytext()); } 
 
 <YYINITIAL> "<" { return new Symbol(sym.menorque,yyline,yychar,yytext()); } 
 <YYINITIAL> ">" { return new Symbol(sym.mayorque,yyline,yychar,yytext()); } 
