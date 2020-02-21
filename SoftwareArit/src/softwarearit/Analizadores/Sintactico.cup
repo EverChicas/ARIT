@@ -30,21 +30,29 @@ action code {:
 :}
 
 /*terminales reservados*/
-terminal String valorbooleano;
-
-terminal String imprimir;
-terminal String masmas, menosmenos;
-terminal String mas, menos, multiplicacion, division,modulo;
-terminal String menorque, mayorque,menorigual, mayorigual, diferenteque, igualigual, igual;
+terminal String _id;
+terminal String entero, decimal, _string, valorbooleano;
+terminal String mas, menos, multiplicacion, division, modulo, potencia;
+terminal String menorque, mayorque,menorigual, mayorigual;
+terminal String igualigual, diferenteque, igual;
 terminal String and, or, not;
-terminal String puntoycoma, coma, llaveizquierda, llavederecha, corcheteizquierda, corchetederecha,parentesisizquierda, parentesisderecha, punto;
-terminal String entero, decimal, _id, _string, _caracter;
-terminal String umenos;
-terminal String _double, _int, _char, _long, _float, _short;
-terminal String _do, _if, _case, _else, _while, _for;
+terminal String puntoycoma, coma, llaveizquierda, llavederecha, corcheteizquierda, corchetederecha,parentesisizquierda, parentesisderecha, dospuntos;
+terminal String ternario;
+terminal String _if, _else;
+terminal String _switch, _case, _default;
+terminal String _while, _do;
+terminal String _for, _in;
 terminal String _break, _continue, _return;
-terminal String _void, _sizeof, _static, _enum, _struct, _const, _typedef;
-terminal String _include;
+terminal String _funcion;
+terminal String _print;
+terminal String _c, _list, _matrix, _array;
+terminal String _typeof, _length, _ncol, _nrow, _stringlength, _remove; 
+terminal String _tolowercase, touppercase, _trunk, _round;
+terminal String _mean, _median, _mode;
+terminal String _null;
+terminal String _pie, _barplot, _plot, _hist;
+terminal String umenos;
+
 
 
 /*
@@ -83,7 +91,7 @@ start with INICIO; // start with sirve para indicarle al parser con que producci
                 | IMPRIMIR:a {: RESULT = new LinkedList<>(); RESULT.add(a); :}
                 ;
 
-    IMPRIMIR::= imprimir:ins parentesisizquierda E:a parentesisderecha puntoycoma {: RESULT = new Imprimir(insleft,insright,a); :};
+    IMPRIMIR::= _print:ins parentesisizquierda E:a parentesisderecha puntoycoma {: RESULT = new Imprimir(insleft,insright,a); :};
 
     E::= E:a mas:op E :b           {: RESULT = new Suma(opleft,opright,a,b); :}  
        | E:a menos:op E:b          {: RESULT = new Resta(opleft,opright,a,b); :} 
