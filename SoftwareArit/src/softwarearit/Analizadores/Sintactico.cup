@@ -84,6 +84,12 @@ non terminal Instruccion TERNARIO;
 non terminal Instruccion BLOQUE;
 non terminal Instruccion SENTENCIA_IF;
 non terminal LinkedList<Instruccion> ELSE_IF;
+non terminal Instruccion SENTENCIA_SWITCH;
+non terminal Instruccion BLOQUE_SWITCH;
+non terminal LinkedList<Instruccion> L_CASOS;
+non terminal Instruccion CASO;
+non terminal Instruccion SENTENCIA_WHILE;
+non terminal Instruccion SENTENCIA_DO_WHILE;
 
 
 /* Precedencia */
@@ -103,7 +109,7 @@ start with INICIO; // start with sirve para indicarle al parser con que producci
     INICIO::= L_SENTENCIAS;
 
     BLOQUE::= llaveizquierda L_SENTENCIAS llavederecha
-            | llaveizquierda llavederecha {: System.out.println("bloque vacio"); :}
+            | llaveizquierda llavederecha 
             ;
 
     L_SENTENCIAS::= L_SENTENCIAS SENTENCIA
@@ -114,7 +120,38 @@ start with INICIO; // start with sirve para indicarle al parser con que producci
                 | IMPRIMIR
                 | TERNARIO
                 | SENTENCIA_IF
+                | SENTENCIA_SWITCH
+                | SENTENCIA_WHILE
+                | SENTENCIA_DO_WHILE
+                | _break
+                | _break puntoycoma
+                | _continue
+                | _return
                 ;
+    
+    SENTENCIA_DO_WHILE::= _do BLOQUE _while parentesisizquierda E parentesisderecha puntoycoma
+                        | _do BLOQUE _while parentesisizquierda E parentesisderecha
+                        ;
+
+    SENTENCIA_WHILE::= _while parentesisizquierda E parentesisderecha BLOQUE
+                        ;
+
+    SENTENCIA_SWITCH::= _switch parentesisizquierda E parentesisderecha BLOQUE_SWITCH
+                        ;
+
+    BLOQUE_SWITCH::= llaveizquierda L_CASOS llavederecha
+                    | llaveizquierda llavederecha
+                    ;
+
+    L_CASOS::= L_CASOS CASO
+            | CASO
+            ;
+
+    CASO::= _case E dospuntos L_SENTENCIAS
+            | _default dospuntos L_SENTENCIAS
+            | _case E dospuntos  
+            | _default dospuntos 
+            ;
 
     SENTENCIA_IF::= ELSE_IF _else BLOQUE
             | ELSE_IF

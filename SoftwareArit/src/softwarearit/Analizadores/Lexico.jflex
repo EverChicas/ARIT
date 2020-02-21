@@ -112,7 +112,7 @@ import softwarearit.Arbol.Instrucciones.*;
 
 <YYINITIAL> "switch" { return new Symbol(sym._switch,yyline,yychar,yytext()); } 
 <YYINITIAL> "case" { return new Symbol(sym._case,yyline,yychar,yytext()); }
-<YYINITIAL> "defult" { return new Symbol(sym._default,yyline,yychar,yytext()); }
+<YYINITIAL> "default" { return new Symbol(sym._default,yyline,yychar,yytext()); }
 
 <YYINITIAL> "while" { return new Symbol(sym._while,yyline,yychar,yytext()); } 
 <YYINITIAL> "do" { return new Symbol(sym._do,yyline,yychar,yytext()); } 
