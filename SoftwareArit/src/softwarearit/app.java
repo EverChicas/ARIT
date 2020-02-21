@@ -24,5 +24,5 @@ public class app {
 //        ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 //        ventana.setVisible(true);
 //    }
-//    
+
 }

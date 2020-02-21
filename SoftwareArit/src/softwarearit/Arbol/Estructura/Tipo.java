@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package softwarearit.Arbol.Estructura.Base;
+package softwarearit.Arbol.Estructura;
 
 /**
  *
@@ -32,14 +32,15 @@ public class Tipo {
      * 
      */
     public enum EnumTipo {
-        INTEGER,
+        ENTERO,
         NUMERIC,
         BOOLEAN,
         STRING,
         VECTOR,
         LISTA,
         MATRIZ,
-        ARRAY
+        ARRAY,
+        ERROR
     }
 
 }

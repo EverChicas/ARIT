@@ -1,0 +1,25 @@
+
+E::=  E + E
+    | E - E
+    | E * E
+    | E / E
+    | E % E
+    | menos E %prec umenos
+
+    | E mayorque E
+    | E menorque E
+    | E mayorigual E
+    | E menorigual E
+    | E igualigual E
+    | E diferenteque E
+
+    | E and E
+    | E or E
+    | not E
+
+    | entero
+    | decimal
+    | string
+    | valorbooleano
+    
+    ;

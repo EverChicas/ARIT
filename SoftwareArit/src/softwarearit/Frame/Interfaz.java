@@ -5,9 +5,9 @@
  */
 package softwarearit.Frame;
 
-import softwarearit.Analizadores.Lexico;
+import softwarearit.Analizadores.*;
 import softwarearit.Arbol.AST;
-import softwarearit.Arbol.Estructura.Base.NodoError;
+import softwarearit.Arbol.Estructura.NodoError;
 import softwarearit.Archivos.AbrirArchivo;
 import softwarearit.Archivos.Archivo;
 import softwarearit.Archivos.Guardar;
@@ -346,14 +346,14 @@ public class Interfaz extends javax.swing.JFrame {
         cleanConsola();
 
         try {
+            /*
             Lexico tokens = new Lexico(new BufferedReader(new StringReader(tmp2.getText())));
             Symbol sym = (Symbol) tokens.next_token();
             while (sym.sym != 0) {
                 printConsola(String.valueOf(sym.value) + " ->                  " + sym.sym);
                 sym = (Symbol) tokens.next_token();
             }
-            
-            /*
+            */
             Lexico lexico = new Lexico(new BufferedReader(new StringReader(tmp2.getText())));
             Sintactico sintactico = new Sintactico(lexico);
             sintactico.parse();
@@ -362,7 +362,6 @@ public class Interfaz extends javax.swing.JFrame {
             if (arbol != null) {
                 //arbol.ejecutar();
             }
-            */
         } catch (Exception ex) {
             System.out.println(ex.toString());
             Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);

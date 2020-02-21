@@ -1,7 +1,7 @@
 package softwarearit.Arbol;
 
-import softwarearit.Arbol.Estructura.Base.Entorno;
-import softwarearit.Arbol.Estructura.Base.Instruccion;
+import softwarearit.Arbol.Estructura.Entorno;
+import softwarearit.Arbol.Instrucciones.Instruccion;
 import java.util.LinkedList;
 
 /*
@@ -37,7 +37,7 @@ public class AST {
     public Object ejecutar(){
         
         for(Instruccion instruccion : LISTA_INSTRUCCIONES){
-            instruccion.ejecutar(TABLA);
+            instruccion.Ejecutar(TABLA);
         }
         return null;
     }

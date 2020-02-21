@@ -3,7 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package softwarearit.Arbol.Estructura.Base;
+package softwarearit.Arbol.Instrucciones;
+
+import softwarearit.Arbol.Estructura.Entorno;
+import softwarearit.Arbol.Estructura.Nodo;
 
 /**
  *
@@ -11,12 +14,5 @@ package softwarearit.Arbol.Estructura.Base;
  */
 public abstract class Instruccion extends Nodo{
     
-    /**
-     * Ejecutar de cada instruccion
-     * 
-     * @param e - Resive entorno local de la instruccion Entorno
-     * @return - Retorna un objecto Object
-     */
-    public abstract Object ejecutar(Entorno e);
-    
+    public abstract Object Ejecutar(Entorno e);
 }

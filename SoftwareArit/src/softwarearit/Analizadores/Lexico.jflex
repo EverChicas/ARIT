@@ -4,7 +4,9 @@ package softwarearit.Analizadores;
 import java_cup.runtime.Symbol;
 import java.util.Collections;
 import java.util.List;
-import softwarearit.Arbol.Estructura.Base.*;
+import softwarearit.Arbol.Estructura.*;
+import softwarearit.Arbol.Expresiones.*;
+import softwarearit.Arbol.Instrucciones.*;
 
 %%
 %cupsym sym
@@ -36,21 +38,24 @@ import softwarearit.Arbol.Estructura.Base.*;
 
     BLANCOS = [ \r\t]+
     FIN_LINEA = \r|\n|\r\n
-    COMENTARIO_LINEA = "#" .* {FIN_LINEA}
 
 //### ERRORES DE IDENTIFICADORES
     ERROR_ID1 = (".")({DIGITO})({LETRA}|{DIGITO}|".")+
     ERROR_ID2 = ({DIGITO})({LETRA}|{DIGITO}|".")+
 
 //##### Estados ##########
-%state INICIO, COMENTARIO_MULTILINEA, ESTADO_CADENA
+%state INICIO, COMENTARIO_MULTILINEA, ESTADO_CADENA, COMENTARIO_LINEA
 
 %%
 
 <YYINITIAL> {BLANCOS} {}
 <YYINITIAL> {FIN_LINEA} { yychar = 1; }
-<YYINITIAL> {COMENTARIO_LINEA} { yychar=1; }
+<YYINITIAL> "#" { yybegin(COMENTARIO_LINEA); }
 <YYINITIAL> "#*" { yybegin(COMENTARIO_MULTILINEA); }
+
+<COMENTARIO_LINEA> {FIN_LINEA} {yybegin(YYINITIAL); yychar = 1; }
+<COMENTARIO_LINEA> {BLANCOS} {}
+<COMENTARIO_LINEA> . {}
 
 <COMENTARIO_MULTILINEA> "*#" { yybegin(YYINITIAL); }
 <COMENTARIO_MULTILINEA> \n { yychar = 1; }
@@ -58,7 +63,7 @@ import softwarearit.Arbol.Estructura.Base.*;
 <COMENTARIO_MULTILINEA> . {}
 
 <YYINITIAL> "\"" { yybegin(ESTADO_CADENA); cadena.delete(0,cadena.length()); }
-<ESTADO_CADENA> "\"" {yybegin(YYINITIAL); return new Symbol(sym._string,yyline,yychar,cadena.toString());}
+<ESTADO_CADENA> "\"" {yybegin(YYINITIAL); return new Symbol(sym.string,yyline,yychar,cadena.toString());}
 <ESTADO_CADENA> "\\\"" {cadena.append("\""); }
 <ESTADO_CADENA> "\\" {cadena.append("\\"); }
 <ESTADO_CADENA> "\\n" {cadena.append("\n"); }
@@ -147,16 +152,16 @@ import softwarearit.Arbol.Estructura.Base.*;
 <YYINITIAL> "null" { return new Symbol(sym._null,yyline,yychar,yytext()); }
 
 <YYINITIAL> "pie" { return new Symbol(sym._pie,yyline,yychar,yytext()); }
-<YYINITIAL> "barplot" { return new Symbol(sym.,yyline,yychar,yytext()); }
-<YYINITIAL> "plot" { return new Symbol(sym.,yyline,yychar,yytext()); }
-<YYINITIAL> "hist" { return new Symbol(sym.,yyline,yychar,yytext()); }
+<YYINITIAL> "barplot" { return new Symbol(sym._barplot,yyline,yychar,yytext()); }
+<YYINITIAL> "plot" { return new Symbol(sym._plot,yyline,yychar,yytext()); }
+<YYINITIAL> "hist" { return new Symbol(sym._hist,yyline,yychar,yytext()); }
 
 <YYINITIAL> {NUMERO_ENTERO} { return new Symbol(sym.entero,yyline,yychar,yytext()); } 
 <YYINITIAL> {NUMERO_DECIMAL} { return new Symbol(sym.decimal,yyline,yychar,yytext()); } 
 <YYINITIAL> {IDENTIFICADOR}  {return new Symbol(sym._id,yyline,yychar,yytext());}
-<YYINITIAL> {ERROR_ID1} { softwarearit.Frame.Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.LEXICO), "Identificador incorrecto " + yytext(), yyline, yychar)); }
-<YYINITIAL> {ERROR_ID2} { softwarearit.Frame.Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.LEXICO), "Identificador incorrecto " + yytext(), yyline, yychar)); }
+<YYINITIAL> {ERROR_ID1} { softwarearit.Frame.Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.LEXICO), "Identificador incorrecto "  + "\"" + yytext() + "\"", yyline, yychar)); }
+<YYINITIAL> {ERROR_ID2} { softwarearit.Frame.Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.LEXICO), "Identificador incorrecto "  + "\"" + yytext() + "\"", yyline, yychar)); }
 
 . {
-    softwarearit.Frame.Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.LEXICO), "Simbolo no conocido " + yytext(), yyline, yychar));
+    softwarearit.Frame.Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.LEXICO), "Simbolo no conocido " + "\"" + yytext() + "\"", yyline, yychar));
 }

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package softwarearit.Arbol.Estructura.Base;
+package softwarearit.Arbol.Estructura;
 
 /**
  *
@@ -14,4 +14,5 @@ package softwarearit.Arbol.Estructura.Base;
 public abstract class Nodo {
     public int Linea;
     public int Columna;
+    public String Grafica;
 }
