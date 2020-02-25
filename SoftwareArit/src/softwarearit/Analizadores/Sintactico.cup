@@ -134,31 +134,31 @@ precedence right llaveizquierda, llavederecha;
 /* ­­­­­­­­­­­­­­ Declaración de la gramática  ­­­­­­­­­­­ */
 start with INICIO; // start with sirve para indicarle al parser con que produccion empezar
 
-INICIO::= L_SENTENCIAS;
-
-BLOQUE::= llaveizquierda L_SENTENCIAS llavederecha
-        | llaveizquierda llavederecha 
+INICIO::= L_SENTENCIAS:a {: parser.AST = new AST(a); :}
         ;
 
-L_SENTENCIAS::= L_SENTENCIAS SENTENCIA
-                | SENTENCIA
+BLOQUE::= llaveizquierda L_SENTENCIAS:a llavederecha  {: RESULT = new Bloque(a); :}
+        | llaveizquierda llavederecha                 {: RESULT = new Bloque(new LinkedList<>()); :}
+        ;
+
+L_SENTENCIAS::= L_SENTENCIAS:a SENTENCIA:b {: RESULT = a; RESULT.add(b); :}
+                | SENTENCIA:a              {: RESULT = new LinkedList<>(); RESULT.add(a); :}
                 ;
 
-SENTENCIA::= ASIGNACION
-        | IMPRIMIR
-        | TERNARIO
-        | SENTENCIA_IF
-        | SENTENCIA_SWITCH
-        | SENTENCIA_WHILE
-        | SENTENCIA_DO_WHILE
-        | SENTENCIA_FOR
-        | FUNCIONES
-        | _break
-        | _break puntoycoma
-        | _continue
-        | _continue puntoycoma
-        | RETURN
-        | E
+SENTENCIA::= ASIGNACION:a        {: RESULT = a; :}
+        | IMPRIMIR:a             {: RESULT = a; :}
+        | TERNARIO:a             {: RESULT = a; :}
+        | SENTENCIA_IF:a         {: RESULT = a; :}
+        | SENTENCIA_SWITCH:a     {: RESULT = a; :}
+        | SENTENCIA_WHILE:a      {: RESULT = a; :}
+        | SENTENCIA_DO_WHILE:a   {: RESULT = a; :}
+        | SENTENCIA_FOR:a        {: RESULT = a; :}
+        | FUNCIONES:a            {: RESULT = a; :}
+        | _break:a               {: RESULT = new Break(aleft,aright); :}
+        | _break:a puntoycoma    {: RESULT = new Break(aleft,aright); :}
+        | _continue:a            {: RESULT = new Continue(aleft,aright); :}
+        | _continue:a puntoycoma {: RESULT = new Continue(aleft,aright); :}
+        | RETURN:a               {: RESULT = a; :}
         ;
 
 RETURN::= _return parentesisizquierda E parentesisderecha
@@ -220,8 +220,8 @@ ASIGNACION::= _id igual E
         | _id igual E puntoycoma
         ;
 
-IMPRIMIR::= _print parentesisizquierda E parentesisderecha
-        | _print parentesisizquierda E parentesisderecha puntoycoma
+IMPRIMIR::= _print:op parentesisizquierda E:a parentesisderecha          {: RESULT = new Print(opleft,opright,a); :}
+        | _print:op parentesisizquierda E:a parentesisderecha puntoycoma {: RESULT = new Print(opleft,opright,a); :}
         ;
 
     // TODO producciones con problemas
