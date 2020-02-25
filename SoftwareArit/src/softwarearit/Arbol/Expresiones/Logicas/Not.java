@@ -15,15 +15,12 @@ import softwarearit.Arbol.Expresiones.Expresion;
  */
 public class Not extends Expresion{
     
+    Expresion var1;
+    
     public Not(int linea,int columna,Expresion valor){
         this.Linea = linea;
         this.Columna = columna;
-        this.Valor = valor;
-        Graficar((Nodo)valor);
-    }
-    
-    private void Graficar(Nodo nodo){
-        this.Grafica = "Not -> " + nodo.Grafica + ";\n";
+        this.var1 = valor;
     }
 
     @Override

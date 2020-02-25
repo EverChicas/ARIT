@@ -12,18 +12,15 @@ import softwarearit.Arbol.Expresiones.Expresion;
  *
  * @author chicas
  */
-public class Or extends Expresion{
-
+public class And extends Expresion{
+    
     Expresion var1;
     Expresion var2;
-    
-    public Or(int linea,int columna,Expresion var1,Expresion var2){
-        this.Linea = linea;
-        this.Columna = columna;
-        this.var1 = var1;
-        this.var2 = var2;
+ 
+    public And(int linea, int columna,Expresion var1,Expresion Var2){
+        
     }
-    
+
     @Override
     public Expresion getValor(Entorno e) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

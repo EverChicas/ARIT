@@ -124,7 +124,7 @@ import softwarearit.Arbol.Instrucciones.*;
 <YYINITIAL> "continue" { return new Symbol(sym._continue,yyline,yychar,yytext()); } 
 <YYINITIAL> "return" { return new Symbol(sym._return,yyline,yychar,yytext()); } 
 
-<YYINITIAL> "funcion" { return new Symbol(sym._funcion,yyline,yychar,yytext()); } 
+<YYINITIAL> "function" { return new Symbol(sym._funcion,yyline,yychar,yytext()); } 
 
 <YYINITIAL> "print" { return new Symbol(sym._print,yyline,yychar,yytext()); }
 

@@ -3,6 +3,8 @@ package softwarearit.Analizadores;
 import softwarearit.Arbol.Estructura.*;
 import softwarearit.Arbol.Expresiones.*;
 import softwarearit.Arbol.Expresiones.Logicas.*;
+import softwarearit.Arbol.Expresiones.Relacionales.*;
+import softwarearit.Arbol.Expresiones.Aritmeticas.*;
 import softwarearit.Arbol.Instrucciones.*;
 import softwarearit.Arbol.*;
 import softwarearit.Frame.Interfaz;
@@ -90,9 +92,20 @@ non terminal LinkedList<Instruccion> L_CASOS;
 non terminal Instruccion CASO;
 non terminal Instruccion SENTENCIA_WHILE;
 non terminal Instruccion SENTENCIA_DO_WHILE;
-
+non terminal Instruccion SENTENCIA_FOR;
+non terminal Instruccion RETURN;
+non terminal Instruccion PARAMETROS;
+non terminal LinkedList<Instruccion> L_PARAMETROS;
+non terminal Instruccion PARAMETRO;
+non terminal Instruccion FUNCIONES;
+non terminal LinkedList<Expresion> EXPRESIONES;
+non terminal LinkedList<Expresion> L_EXPRESIONES;
+non terminal Expresion ACCESO;
 
 /* Precedencia */
+/*
+precedence right ternario, dospuntos;
+
 precedence left or;
 precedence left and;
 precedence right not;
@@ -102,95 +115,147 @@ precedence left mas, menos;
 precedence left multiplicacion, division, modulo, potencia;
 precedence left umenos;
 
+precedence right parentesisizquierda, parentesisderecha;
+*/
+
+precedence right igual;
+precedence right ternario, dospuntos;
+precedence left or;
+precedence left and;
+precedence left igualigual, diferenteque;
+precedence left menorque, menorigual, mayorque, mayorigual;
+precedence left mas, menos;
+precedence left multiplicacion, division, modulo, potencia;
+precedence right umenos;
+precedence left corcheteizquierda, corchetederecha;
+precedence right parentesisizquierda, parentesisderecha;
+precedence right llaveizquierda, llavederecha;
 
 /* ­­­­­­­­­­­­­­ Declaración de la gramática  ­­­­­­­­­­­ */
 start with INICIO; // start with sirve para indicarle al parser con que produccion empezar
 
-    INICIO::= L_SENTENCIAS;
+INICIO::= L_SENTENCIAS;
 
-    BLOQUE::= llaveizquierda L_SENTENCIAS llavederecha
-            | llaveizquierda llavederecha 
-            ;
+BLOQUE::= llaveizquierda L_SENTENCIAS llavederecha
+        | llaveizquierda llavederecha 
+        ;
 
-    L_SENTENCIAS::= L_SENTENCIAS SENTENCIA
-                        | SENTENCIA
-                        ;
-
-    SENTENCIA::= ASIGNACION
-                | IMPRIMIR
-                | TERNARIO
-                | SENTENCIA_IF
-                | SENTENCIA_SWITCH
-                | SENTENCIA_WHILE
-                | SENTENCIA_DO_WHILE
-                | _break
-                | _break puntoycoma
-                | _continue
-                | _return
+L_SENTENCIAS::= L_SENTENCIAS SENTENCIA
+                | SENTENCIA
                 ;
+
+SENTENCIA::= ASIGNACION
+        | IMPRIMIR
+        | TERNARIO
+        | SENTENCIA_IF
+        | SENTENCIA_SWITCH
+        | SENTENCIA_WHILE
+        | SENTENCIA_DO_WHILE
+        | SENTENCIA_FOR
+        | FUNCIONES
+        | _break
+        | _break puntoycoma
+        | _continue
+        | _continue puntoycoma
+        | RETURN
+        | E
+        ;
+
+RETURN::= _return parentesisizquierda E parentesisderecha
+        | _return parentesisizquierda E parentesisderecha puntoycoma
+        | _return puntoycoma
+        ;
+        
+FUNCIONES::= _id igual _funcion PARAMETROS BLOQUE 
+        ;    
+
+PARAMETROS::= parentesisizquierda L_PARAMETROS parentesisderecha
+        | parentesisizquierda parentesisderecha
+        ;
+
+L_PARAMETROS::= L_PARAMETROS coma PARAMETRO
+        | PARAMETRO
+        ;
+
+PARAMETRO::= _id igual E
+        | E
+        ;
+
+SENTENCIA_FOR::= _for parentesisizquierda E _in E parentesisderecha BLOQUE
+        ;
     
-    SENTENCIA_DO_WHILE::= _do BLOQUE _while parentesisizquierda E parentesisderecha puntoycoma
-                        | _do BLOQUE _while parentesisizquierda E parentesisderecha
-                        ;
-
-    SENTENCIA_WHILE::= _while parentesisizquierda E parentesisderecha BLOQUE
-                        ;
-
-    SENTENCIA_SWITCH::= _switch parentesisizquierda E parentesisderecha BLOQUE_SWITCH
-                        ;
-
-    BLOQUE_SWITCH::= llaveizquierda L_CASOS llavederecha
-                    | llaveizquierda llavederecha
-                    ;
-
-    L_CASOS::= L_CASOS CASO
-            | CASO
-            ;
-
-    CASO::= _case E dospuntos L_SENTENCIAS
-            | _default dospuntos L_SENTENCIAS
-            | _case E dospuntos  
-            | _default dospuntos 
-            ;
-
-    SENTENCIA_IF::= ELSE_IF _else BLOQUE
-            | ELSE_IF
-            ;
-
-    ELSE_IF::= ELSE_IF _else _if parentesisizquierda E parentesisderecha BLOQUE
-            | _if parentesisizquierda E parentesisderecha BLOQUE
-            ;
-
-    TERNARIO::= E ternario E dospuntos E
-                | _id igual E ternario E dospuntos E
+SENTENCIA_DO_WHILE::= _do BLOQUE _while parentesisizquierda E parentesisderecha puntoycoma
+                | _do BLOQUE _while parentesisizquierda E parentesisderecha
                 ;
 
-    ASIGNACION::= _id igual E
-                | _id igual E puntoycoma
+SENTENCIA_WHILE::= _while parentesisizquierda E parentesisderecha BLOQUE
                 ;
 
-    IMPRIMIR::= _print parentesisizquierda E parentesisderecha
-                | _print parentesisizquierda E parentesisderecha puntoycoma
+SENTENCIA_SWITCH::= _switch parentesisizquierda E parentesisderecha BLOQUE_SWITCH
                 ;
 
-    E::=  E mas E              //{:  :}
-        | E menos E            //{:  :}
-        | E multiplicacion E   //{:  :}
-        | E division E         //{:  :}
-        | E modulo E           //{:  :}
-        | E potencia E         //{:  :}
-        | menos:op E:a       {: System.out.println(op.toString() + " " + a.Valor.toString()); :} %prec umenos
+BLOQUE_SWITCH::= llaveizquierda L_CASOS llavederecha
+                | llaveizquierda llavederecha
+                ;
 
-        | E mayorque E         //{:  :}
-        | E menorque E         //{:  :}
-        | E mayorigual E       //{:  :}
-        | E menorigual E       //{:  :}
-        | E igualigual E       //{:  :}
-        | E diferenteque E     //{:  :}
+L_CASOS::= L_CASOS CASO
+        | CASO
+        ;
 
-        | E and E              //{:  :}
-        | E or:op E:a  {: RESULT = new Or(opleft,opright,a); :}
-        | not:op E:a   {: RESULT = new Not(opleft,opright,a); :}
+CASO::= _case E dospuntos L_SENTENCIAS
+        | _default dospuntos L_SENTENCIAS
+        | _case E dospuntos  
+        | _default dospuntos 
+        ;
+
+SENTENCIA_IF::= ELSE_IF _else BLOQUE
+        | ELSE_IF
+        ;
+
+ELSE_IF::= ELSE_IF _else _if parentesisizquierda E parentesisderecha BLOQUE
+        | _if parentesisizquierda E parentesisderecha BLOQUE
+        ;
+
+ASIGNACION::= _id igual E
+        | _id igual E puntoycoma
+        ;
+
+IMPRIMIR::= _print parentesisizquierda E parentesisderecha
+        | _print parentesisizquierda E parentesisderecha puntoycoma
+        ;
+
+    // TODO producciones con problemas
+
+EXPRESIONES ::= parentesisizquierda L_EXPRESIONES parentesisderecha
+        | parentesisizquierda  parentesisderecha
+        ;
+
+L_EXPRESIONES ::= L_EXPRESIONES coma E
+        | E
+        ;
+
+ACCESO ::= _id
+        | _id EXPRESIONES
+        ;
+
+E::=    E:a mas:op E:b               {: RESULT = new Suma(opleft,opright,a,b); :}
+        | E:a menos:op E:b           {: RESULT = new Resta(opleft,opright,a,b); :}
+        | E:a multiplicacion:op E:b  {: RESULT = new Multiplicacion(opleft,opright,a,b); :}
+        | E:a division:op E:b        {: RESULT = new Division(opleft,opright,a,b); :}
+        | E:a modulo:op E:b          {: RESULT = new Modulo(opleft,opright,a,b); :}
+        | E:a potencia:op E:b        {: RESULT = new Potencia(opleft,opright,a,b); :}
+        | menos:op E:a               {: RESULT = new Negativo(opleft,opright,a); :} %prec umenos
+
+        | E:a mayorque:op E:b         {: RESULT = new MayorQue(opleft,opright,a,b); :}
+        | E:a menorque:op E:b         {: RESULT = new MenorQue(opleft,opright,a,b); :}
+        | E:a mayorigual:op E:b       {: RESULT = new MayorIgual(opleft,opright,a,b); :}
+        | E:a menorigual:op E:b       {: RESULT = new MenorIgual(opleft,opright,a,b); :}
+        | E:a igualigual:op E:b       {: RESULT = new IgualIgual(opleft,opright,a,b); :}
+        | E:a diferenteque:op E:b     {: RESULT = new DiferenteQue(opleft,opright,a,b); :}
+
+        | E:a and:op E:b {: RESULT = new And(opleft,opright,a,b); :}
+        | E:a or:op E:b  {: RESULT = new Or(opleft,opright,a,b); :}
+        | not:op E:a     {: RESULT = new Not(opleft,opright,a); :}
 
         | entero:a                                  {: RESULT = new Valor(new Tipo(Tipo.EnumTipo.ENTERO),a); :}
         | decimal:a                                 {: RESULT = new Valor(new Tipo(Tipo.EnumTipo.NUMERIC),a); :}
@@ -198,5 +263,13 @@ start with INICIO; // start with sirve para indicarle al parser con que producci
         | valorbooleano:a                           {: RESULT = new Valor(new Tipo(Tipo.EnumTipo.BOOLEAN),a.toLowerCase()); :}
         | parentesisizquierda E:a parentesisderecha {: RESULT = a; :}
         
-        // TODO terminar de poner acceso a id 
+        | E ternario E dospuntos E
+
+
+        // TODO terminar con llamada de variables y funciones
+        //| ACCESO
+        | _id:a {: System.out.println(a.toString()); :}
+        //| _id EXPRESIONES
+        // TODO funciones nativas
+        //| _c EXPRESIONES
         ;
