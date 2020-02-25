@@ -15,7 +15,7 @@ import java.util.LinkedList;
  * @author chicas
  */
 public class AST {
-    public LinkedList<Instruccion> LISTA_INSTRUCCIONES;
+    public LinkedList<Instruccion> INSTRUCCIONES;
     public Entorno TABLA;
     public static int i;
 
@@ -24,8 +24,8 @@ public class AST {
      * 
      * @param - LISTA_INSTRUCCIONES lista de instrucciones que tienen 
      */
-    public AST(LinkedList<Instruccion> LISTA_INSTRUCCIONES) {
-        this.LISTA_INSTRUCCIONES = LISTA_INSTRUCCIONES;
+    public AST(LinkedList<Instruccion> instrucciones) {
+        this.INSTRUCCIONES = instrucciones;
         this.TABLA = new Entorno(null);
     }
     
@@ -36,7 +36,7 @@ public class AST {
      */
     public Object ejecutar(){
         
-        for(Instruccion instruccion : LISTA_INSTRUCCIONES){
+        for(Instruccion instruccion : INSTRUCCIONES){
             instruccion.Ejecutar(TABLA);
         }
         return null;

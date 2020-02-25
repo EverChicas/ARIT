@@ -5,6 +5,7 @@
  */
 package softwarearit.Arbol;
 
+import java.util.ArrayList;
 import softwarearit.Arbol.Estructura.Entorno;
 import softwarearit.Arbol.Estructura.Tipo;
 import softwarearit.Arbol.Expresiones.Expresion;
@@ -24,19 +25,13 @@ public class Valor extends Expresion{
      */
     public Valor(Tipo tipo,Object valor) {
         this.Tipo = tipo;
-        this.Valor = valor;
+        this.Valor = new ArrayList<Object>();
+        this.Valor.add(valor);
     }
-    
-    public Valor(Tipo tipo,Object valor,int nodo){
-        this.Tipo = tipo;
-        this.Valor = valor;
-        this.Grafica = valor.toString();
-    }
-    
-    
+
     @Override
     public Expresion getValor(Entorno e) {
-        return new Valor(Tipo, Valor);
+        return new Valor(Tipo, Valor.get(0));
     }
     
 }

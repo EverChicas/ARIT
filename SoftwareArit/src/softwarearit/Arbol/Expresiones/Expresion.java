@@ -5,6 +5,7 @@
  */
 package softwarearit.Arbol.Expresiones;
 
+import java.util.ArrayList;
 import softwarearit.Arbol.Estructura.Entorno;
 import softwarearit.Arbol.Estructura.Nodo;
 import softwarearit.Arbol.Estructura.Tipo;
@@ -18,7 +19,7 @@ import softwarearit.Arbol.Estructura.Tipo;
  */
 public abstract class Expresion extends Nodo{
     public Tipo Tipo;
-    public Object Valor;
+    public ArrayList<Object> Valor;
     
     public abstract Expresion getValor(Entorno e);
     

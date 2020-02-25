@@ -20,6 +20,7 @@ import java_cup.runtime.Symbol;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import softwarearit.Arbol.Instrucciones.Instruccion;
 
 /**
  *
@@ -353,14 +354,18 @@ public class Interfaz extends javax.swing.JFrame {
                 printConsola(String.valueOf(sym.value) + " ->                  " + sym.sym);
                 sym = (Symbol) tokens.next_token();
             }
-            */
+             */
             Lexico lexico = new Lexico(new BufferedReader(new StringReader(tmp2.getText())));
             Sintactico sintactico = new Sintactico(lexico);
             sintactico.parse();
 
             arbol = sintactico.AST;
             if (arbol != null) {
-                //arbol.ejecutar();
+                //for(Instruccion t:arbol.INSTRUCCIONES){
+                //    printConsola(t.getClass().toString());
+                //}
+
+                arbol.ejecutar();
             }
         } catch (Exception ex) {
             System.out.println(ex.toString());

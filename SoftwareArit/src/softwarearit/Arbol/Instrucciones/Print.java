@@ -1,0 +1,40 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package softwarearit.Arbol.Instrucciones;
+
+import softwarearit.Arbol.Estructura.Entorno;
+import softwarearit.Arbol.Estructura.Tipo;
+import softwarearit.Arbol.Expresiones.Expresion;
+import static softwarearit.Frame.Interfaz.printConsola;
+
+/**
+ *
+ * @author chicas
+ */
+public class Print extends Instruccion {
+
+    Expresion var1;
+
+    public Print(int linea, int columna, Expresion var1) {
+        this.Linea = linea;
+        this.Columna = columna;
+        this.var1 = var1;
+    }
+
+    @Override
+    public Object Ejecutar(Entorno e) {
+        Expresion resul = var1.getValor(e);
+
+        if (resul.Tipo.Tipo != Tipo.EnumTipo.ERROR) {
+            for (Object item : resul.Valor) {
+                System.out.println(item.toString());
+                printConsola(item.toString());
+            }
+        }
+        return null;
+    }
+
+}

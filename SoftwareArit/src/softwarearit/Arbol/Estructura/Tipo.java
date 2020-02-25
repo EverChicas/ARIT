@@ -15,7 +15,7 @@ public class Tipo {
      * Tipo de dato que estoy utilizando
      * 
      */
-    private EnumTipo Tipo;
+    public EnumTipo Tipo;
 
     /**
      * Tipo de dato que es
