@@ -18,8 +18,8 @@ import softwarearit.Arbol.Estructura.Tipo;
  * su tipo, extiende de nodo, para poder usar lo que es linea, columna,grafica
  */
 public abstract class Expresion extends Nodo{
-    public Tipo Tipo;
-    public ArrayList<Object> Valor;
+    public Tipo TIPO;
+    public ArrayList<Object> VALOR;
     
     public abstract Expresion getValor(Entorno e);
     

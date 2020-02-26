@@ -19,8 +19,8 @@ public class Print extends Instruccion {
     Expresion var1;
 
     public Print(int linea, int columna, Expresion var1) {
-        this.Linea = linea;
-        this.Columna = columna;
+        this.LINEA = linea;
+        this.COLUMNA = columna;
         this.var1 = var1;
     }
 
@@ -28,9 +28,8 @@ public class Print extends Instruccion {
     public Object Ejecutar(Entorno e) {
         Expresion resul = var1.getValor(e);
 
-        if (resul.Tipo.Tipo != Tipo.EnumTipo.ERROR) {
-            for (Object item : resul.Valor) {
-                System.out.println(item.toString());
+        if (resul.TIPO.Tipo != Tipo.EnumTipo.ERROR) {
+            for (Object item : resul.VALOR) {
                 printConsola(item.toString());
             }
         }

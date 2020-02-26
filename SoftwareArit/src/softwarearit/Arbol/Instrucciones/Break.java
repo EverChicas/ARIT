@@ -14,8 +14,8 @@ import softwarearit.Arbol.Estructura.Entorno;
 public class Break extends Instruccion{
 
     public Break(int linea,int columna){
-        this.Linea = linea;
-        this.Columna = columna;
+        this.LINEA = linea;
+        this.COLUMNA = columna;
     }
     
     @Override

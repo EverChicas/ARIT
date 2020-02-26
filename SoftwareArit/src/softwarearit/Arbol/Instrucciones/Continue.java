@@ -14,8 +14,8 @@ import softwarearit.Arbol.Estructura.Entorno;
 public class Continue extends Instruccion{
     
     public Continue(int linea,int columna){
-        this.Linea = linea;
-        this.Columna = columna;
+        this.LINEA = linea;
+        this.COLUMNA = columna;
     }
     
     @Override

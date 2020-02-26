@@ -24,14 +24,14 @@ public class Valor extends Expresion{
      * @param valor 
      */
     public Valor(Tipo tipo,Object valor) {
-        this.Tipo = tipo;
-        this.Valor = new ArrayList<Object>();
-        this.Valor.add(valor);
+        this.TIPO = tipo;
+        this.VALOR = new ArrayList<Object>();
+        this.VALOR.add(valor);
     }
 
     @Override
     public Expresion getValor(Entorno e) {
-        return new Valor(Tipo, Valor.get(0));
+        return new Valor(TIPO, VALOR.get(0));
     }
     
 }

@@ -6,7 +6,11 @@
 package softwarearit.Arbol.Expresiones.Aritmeticas;
 
 import softwarearit.Arbol.Estructura.Entorno;
+import softwarearit.Arbol.Estructura.*;
 import softwarearit.Arbol.Expresiones.Expresion;
+import softwarearit.Arbol.Herramientas.TratamientoTipos;
+import softwarearit.Arbol.Valor;
+import softwarearit.Frame.Interfaz;
 
 /**
  *
@@ -17,15 +21,40 @@ public class Modulo extends Expresion{
     Expresion var2;
     
     public Modulo(int linea,int columna,Expresion var1,Expresion var2){
-        this.Linea = linea;
-        this.Columna = columna;
+        this.LINEA = linea;
+        this.COLUMNA = columna;
         this.var1 = var1;
         this.var2 = var2;
     }
 
     @Override
     public Expresion getValor(Entorno e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        TratamientoTipos tratamiento = new TratamientoTipos();
+        
+        Valor resul = new Valor(new Tipo(Tipo.EnumTipo.ERROR),"error");
+        
+        Expresion resul1 = this.var1.getValor(e);
+        Expresion resul2 = this.var2.getValor(e);
+        
+        switch (tratamiento.tipoSuperior(resul1, resul2)) {
+            case ERROR:
+                Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.SEMANTICO),"error de tipos: "+resul1.TIPO.Tipo + ", " + resul2.TIPO.Tipo, this.LINEA, this.COLUMNA));
+                break;
+            case STRING:
+                Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.SEMANTICO),"error de tipos: "+resul1.TIPO.Tipo + ", " + resul2.TIPO.Tipo, this.LINEA, this.COLUMNA));
+                break;
+            case ENTERO:
+                resul.TIPO = new Tipo(Tipo.EnumTipo.ENTERO);
+                resul.VALOR.clear();
+                resul.VALOR.add(Integer.parseInt(resul1.VALOR.get(0).toString()) % Integer.parseInt(resul2.VALOR.get(0).toString()));
+                break;
+            case NUMERIC:
+                resul.TIPO = new Tipo(Tipo.EnumTipo.NUMERIC);
+                resul.VALOR.clear();
+                resul.VALOR.add(Double.parseDouble(resul1.VALOR.get(0).toString()) % Double.parseDouble(resul2.VALOR.get(0).toString()));  
+                break;
+        }
+        return resul;
     }
 
 }

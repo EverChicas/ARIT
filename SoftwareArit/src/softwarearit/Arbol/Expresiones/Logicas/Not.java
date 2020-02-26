@@ -18,8 +18,8 @@ public class Not extends Expresion{
     Expresion var1;
     
     public Not(int linea,int columna,Expresion valor){
-        this.Linea = linea;
-        this.Columna = columna;
+        this.LINEA = linea;
+        this.COLUMNA = columna;
         this.var1 = valor;
     }
 

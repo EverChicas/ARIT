@@ -12,7 +12,7 @@ package softwarearit.Arbol.Estructura;
  * Representea cada nodo que se va reconociendo en la entrada
  */
 public abstract class Nodo {
-    public int Linea;
-    public int Columna;
+    public int LINEA;
+    public int COLUMNA;
     public String Grafica;
 }

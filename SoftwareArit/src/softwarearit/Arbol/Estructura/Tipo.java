@@ -40,7 +40,7 @@ public class Tipo {
         LISTA,
         MATRIZ,
         ARRAY,
-        ERROR
+        ERROR,
     }
 
 }

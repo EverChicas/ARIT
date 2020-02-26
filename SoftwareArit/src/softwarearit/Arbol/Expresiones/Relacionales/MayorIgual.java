@@ -17,8 +17,8 @@ public class MayorIgual extends Expresion{
     Expresion var2;
     
     public MayorIgual(int linea,int columna,Expresion var1,Expresion var2){
-        this.Linea = linea;
-        this.Columna = columna;
+        this.LINEA = linea;
+        this.COLUMNA = columna;
         this.var1 = var1;
         this.var2 = var2;
     }
