@@ -42,7 +42,7 @@ public class MenorQue extends Expresion{
         
         Tipo.EnumTipo TipoSuperiorValores = tratamiento.tipoSuperior(resul1, resul2);
         
-        if(TipoSuperiorValores == Tipo.EnumTipo.STRING){
+        if(resul1.TIPO.Tipo == Tipo.EnumTipo.STRING && resul2.TIPO.Tipo == Tipo.EnumTipo.STRING){
             resul.TIPO.Tipo = Tipo.EnumTipo.BOOLEAN;
             resul.VALOR.clear(); 
             double cadena1 = valorCadena.StringToDouble(resul1.VALOR.get(0).toString());
@@ -53,7 +53,7 @@ public class MenorQue extends Expresion{
             resul.VALOR.clear(); 
             resul.VALOR.add(Double.parseDouble(resul1.VALOR.get(0).toString()) < Double.parseDouble(resul2.VALOR.get(0).toString()));
         }else{
-            Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.SEMANTICO), "Error de tipos para mayor que", LINEA, COLUMNA));
+            Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.SEMANTICO), "Error de tipos para menor que " + resul1.TIPO.Tipo + ", " + resul2.TIPO.Tipo, LINEA, COLUMNA));
         }
         return resul;
     }
