@@ -21,6 +21,11 @@ public abstract class Expresion extends Nodo{
     public Tipo TIPO;
     public ArrayList<Object> VALOR;
     
+    /**
+     * 
+     * @param e - entorno local que
+     * @return valor tipo expresion si es quue tiene, de lo contrario retorna null
+     */
     public abstract Expresion getValor(Entorno e);
     
 }
