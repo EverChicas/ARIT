@@ -64,12 +64,12 @@ terminal String _for, _in;
 terminal String _break, _continue, _return;
 terminal String _funcion;
 terminal String _print;
-terminal String _c, _list, _matrix, _array;
-terminal String _typeof, _length, _ncol, _nrow, _stringlength, _remove; 
-terminal String _tolowercase, _touppercase, _trunk, _round;
-terminal String _mean, _median, _mode;
 terminal String _null;
-terminal String _pie, _barplot, _plot, _hist;
+//terminal String _c, _list, _matrix, _array;
+//terminal String _typeof, _length, _ncol, _nrow, _stringlength, _remove; 
+//terminal String _tolowercase, _touppercase, _trunk, _round;
+//terminal String _mean, _median, _mode;
+//terminal String _pie, _barplot, _plot, _hist;
 terminal umenos;
 
 
@@ -164,6 +164,7 @@ SENTENCIA::= ASIGNACION:a        {: RESULT = a; :}
 RETURN::= _return parentesisizquierda E parentesisderecha
         | _return parentesisizquierda E parentesisderecha puntoycoma
         | _return puntoycoma
+        | _return
         ;
         
 FUNCIONES::= _id igual _funcion PARAMETROS BLOQUE 
@@ -212,12 +213,12 @@ CASO::= _case E dospuntos L_SENTENCIAS
         | _default dospuntos 
         ;
 
-SENTENCIA_IF::= ELSE_IF _else BLOQUE
-        | ELSE_IF
+SENTENCIA_IF::= ELSE_IF:a _else BLOQUE:b {: RESULT = new If(a,b); :}
+        | ELSE_IF:a                      {: RESULT = new If(a); :}
         ;
 
-ELSE_IF::= ELSE_IF _else _if parentesisizquierda E parentesisderecha BLOQUE
-        | _if parentesisizquierda E parentesisderecha BLOQUE
+ELSE_IF::= ELSE_IF:a _else _if:op parentesisizquierda E:b parentesisderecha BLOQUE:c {: RESULT = a; RESULT.add(new BloqueIf(opleft,opright,b,c)); :}
+        | _if:op parentesisizquierda E:a parentesisderecha BLOQUE:b                  {: RESULT = new LinkedList<>(); RESULT.add(new BloqueIf(opleft,opright,a,b)); :}
         ;
 
 ASIGNACION::= _id igual E
@@ -267,7 +268,7 @@ E::=    E:a mas:op E:b               {: RESULT = new Suma(opleft,opright,a,b); :
         | valorbooleano:a                           {: RESULT = new Valor(new Tipo(Tipo.EnumTipo.BOOLEAN),a.toLowerCase()); :}
         | parentesisizquierda E:a parentesisderecha {: RESULT = a; :}
         
-        | E ternario E dospuntos E
+        | E:a ternario:op E:v dospuntos E:f {: RESULT = new Ternario(opleft,opright,a,v,f); :}
 
 
         // TODO terminar con llamada de variables y funciones

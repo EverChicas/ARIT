@@ -127,7 +127,9 @@ import softwarearit.Arbol.Instrucciones.*;
 <YYINITIAL> "function" { return new Symbol(sym._funcion,yyline,yychar,yytext()); } 
 
 <YYINITIAL> "print" { return new Symbol(sym._print,yyline,yychar,yytext()); }
+<YYINITIAL> "null" { return new Symbol(sym._null,yyline,yychar,yytext()); }
 
+/*
 <YYINITIAL> "c" { return new Symbol(sym._c,yyline,yychar,yytext()); }
 <YYINITIAL> "list" { return new Symbol(sym._list,yyline,yychar,yytext()); }
 <YYINITIAL> "matrix" { return new Symbol(sym._matrix,yyline,yychar,yytext()); }
@@ -149,12 +151,11 @@ import softwarearit.Arbol.Instrucciones.*;
 <YYINITIAL> "median" { return new Symbol(sym._median,yyline,yychar,yytext()); }
 <YYINITIAL> "mode" { return new Symbol(sym._mode,yyline,yychar,yytext()); }
 
-<YYINITIAL> "null" { return new Symbol(sym._null,yyline,yychar,yytext()); }
-
 <YYINITIAL> "pie" { return new Symbol(sym._pie,yyline,yychar,yytext()); }
 <YYINITIAL> "barplot" { return new Symbol(sym._barplot,yyline,yychar,yytext()); }
 <YYINITIAL> "plot" { return new Symbol(sym._plot,yyline,yychar,yytext()); }
 <YYINITIAL> "hist" { return new Symbol(sym._hist,yyline,yychar,yytext()); }
+*/
 
 <YYINITIAL> {NUMERO_ENTERO} { return new Symbol(sym.entero,yyline,yychar,yytext()); } 
 <YYINITIAL> {NUMERO_DECIMAL} { return new Symbol(sym.decimal,yyline,yychar,yytext()); } 

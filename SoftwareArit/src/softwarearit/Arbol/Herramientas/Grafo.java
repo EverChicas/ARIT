@@ -36,9 +36,15 @@ public class Grafo {
      * @param exp - Tipo Expresion
      * @return - nodo para el grafico
      */
-    public StringBuilder generarHoja(Expresion exp) {
+    public StringBuilder generarHojaExpresion(Expresion exp) {
         StringBuilder nodo = new StringBuilder();
         nodo.append(exp.NOMBRE + " [label = \"" + exp.VALOR.get(0).toString() + "\"];\n");
+        return nodo;
+    }
+
+    public StringBuilder generarHojaInstruccion(Instruccion ins, String nombre) {
+        StringBuilder nodo = new StringBuilder();
+        nodo.append(ins.NOMBRE + " [label = \"" + nombre + "\"];\n");
         return nodo;
     }
 
@@ -49,7 +55,7 @@ public class Grafo {
      * @param hijo - hijos nodos
      * @return StringBuilder con el grafico
      */
-    public StringBuilder generarGraficaExpresion(String nombreExpresion, Nodo padre, Expresion hijo) {
+    public StringBuilder generarGraficaUnHijo(String nombreExpresion, Nodo padre, Nodo hijo) {
         StringBuilder nodo = new StringBuilder();
         nodo.append(hijo.GRAFICA);
         nodo.append(padre.NOMBRE + " [label = \"" + nombreExpresion + "\"];\n");
@@ -65,28 +71,63 @@ public class Grafo {
      * @param hijo2 - expresion hijo 2
      * @return
      */
-    public StringBuilder generarGraficaExpresionDosHijos(String nombreExpresion, Nodo padre, Expresion hijo1, Expresion hijo2) {
+    public StringBuilder generarGraficaExpresionDosHijos(String nombreExpresion, Nodo padre, Nodo hijo1, Nodo hijo2) {
         StringBuilder nodo = new StringBuilder();
-        nodo.append(generarGraficaExpresion(nombreExpresion, padre, hijo1));
-        nodo.append(generarGraficaExpresion(nombreExpresion, padre, hijo2));
+        nodo.append(generarGraficaUnHijo(nombreExpresion, padre, hijo1));
+        nodo.append(generarGraficaUnHijo(nombreExpresion, padre, hijo2));
         return nodo;
     }
-    
-    public StringBuilder generarGraficaRoot(LinkedList<Instruccion> lista){
+
+    public StringBuilder generarGraficaExpresionTresHijos(String nombreExpresion, Nodo padre, Nodo hijo1, Nodo hijo2, Nodo hijo3) {
+        StringBuilder nodo = new StringBuilder();
+        nodo.append(generarGraficaUnHijo(nombreExpresion, padre, hijo1));
+        nodo.append(generarGraficaUnHijo(nombreExpresion, padre, hijo2));
+        nodo.append(generarGraficaUnHijo(nombreExpresion, padre, hijo3));
+        return nodo;
+    }
+
+    /**
+     * Metodo para graficar la raiz el programa
+     *
+     * @param lista
+     * @return
+     */
+    public StringBuilder generarGraficaRoot(LinkedList<Instruccion> lista) {
         StringBuilder nodo = new StringBuilder();
         String root = getNombreNodo();
-        
+
         nodo.append(root + " [label = \"root\"];\n");
-        
-        for(Instruccion ins:lista){
+
+        for (Instruccion ins : lista) {
             nodo.append(ins.GRAFICA);
         }
-        
-        for(Instruccion ins:lista){
+
+        for (Instruccion ins : lista) {
             nodo.append(root + " -> " + ins.NOMBRE + ";\n");
         }
-        
+
         return nodo;
     }
-    
+
+    /**
+     * Metodo para generar grafica, cuando el padre tiene varios hijos en una
+     * lista
+     *
+     * @param lista
+     * @return
+     */
+    public StringBuilder generarGraficaPadreHijos(Nodo padre, LinkedList<Instruccion> lista) {
+        StringBuilder nodo = new StringBuilder();
+
+        for (Instruccion ins : lista) {
+            nodo.append(ins.GRAFICA);
+        }
+
+        for (Instruccion ins : lista) {
+            nodo.append(padre.NOMBRE + " -> " + ins.NOMBRE + ";\n");
+        }
+
+        return nodo;
+    }
+
 }

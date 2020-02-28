@@ -48,22 +48,20 @@ public class And extends Expresion {
         if (resul1.TIPO.Tipo != Tipo.EnumTipo.BOOLEAN || resul2.TIPO.Tipo != Tipo.EnumTipo.BOOLEAN) {
             Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.SEMANTICO), "error de tipos: " + resul1.TIPO.Tipo + ", " + resul2.TIPO.Tipo, this.LINEA, this.COLUMNA));
         } else {
-            resul.TIPO.Tipo = var1.TIPO.Tipo;
+            resul.TIPO = new Tipo(Tipo.EnumTipo.BOOLEAN);
             resul.VALOR.clear();
-            resul.VALOR.add(verificarAnd());
+            resul.VALOR.add(verificarAnd(resul1.VALOR.get(0).toString(), resul2.VALOR.get(0).toString()));
         }
         return resul;
     }
 
-    private boolean verificarAnd() {
-        for (Object o : var1.VALOR) {
-            for (Object p : var2.VALOR) {
-                if (Boolean.parseBoolean(o.toString()) != Boolean.parseBoolean(p.toString())) {
-                    return false;
-                }
-            }
+    private boolean verificarAnd(String resul1, String resul2) {
+
+        if (Boolean.parseBoolean(resul1) != Boolean.parseBoolean(resul2)) {
+            return false;
+        } else {
+            return true;
         }
-        return true;
     }
 
 }

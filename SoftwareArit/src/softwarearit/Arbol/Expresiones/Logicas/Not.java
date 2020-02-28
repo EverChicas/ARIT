@@ -34,7 +34,7 @@ public class Not extends Expresion {
      */
     private void generarGrafica() {
         this.NOMBRE = Interfaz.GRAFICA_ARBOL.getNombreNodo();
-        this.GRAFICA = Interfaz.GRAFICA_ARBOL.generarGraficaExpresion("not", this, var1);
+        this.GRAFICA = Interfaz.GRAFICA_ARBOL.generarGraficaUnHijo("not", this, var1);
     }
 
     @Override
@@ -46,9 +46,9 @@ public class Not extends Expresion {
         if (resul1.TIPO.Tipo != Tipo.EnumTipo.BOOLEAN) {
             Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.SEMANTICO), "error de tipos: " + resul1.TIPO.Tipo, this.LINEA, this.COLUMNA));
         } else {
-            resul.TIPO.Tipo = var1.TIPO.Tipo;
+            resul.TIPO = new Tipo(Tipo.EnumTipo.BOOLEAN);
             resul.VALOR.clear();
-            resul.VALOR.add(!Boolean.parseBoolean(var1.VALOR.get(0).toString()));
+            resul.VALOR.add(!Boolean.parseBoolean(resul1.VALOR.get(0).toString()));
         }
         return resul;
     }

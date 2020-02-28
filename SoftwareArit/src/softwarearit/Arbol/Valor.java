@@ -30,7 +30,7 @@ public class Valor extends Expresion {
         this.VALOR.add(valor);
 
         this.NOMBRE = Interfaz.GRAFICA_ARBOL.getNombreNodo();
-        this.GRAFICA = Interfaz.GRAFICA_ARBOL.generarHoja(this);
+        this.GRAFICA = Interfaz.GRAFICA_ARBOL.generarHojaExpresion(this);
     }
 
     /**

@@ -6,6 +6,7 @@
 package softwarearit.Arbol.Instrucciones;
 
 import softwarearit.Arbol.Estructura.Entorno;
+import softwarearit.Frame.Interfaz;
 
 /**
  *
@@ -16,6 +17,9 @@ public class Continue extends Instruccion{
     public Continue(int linea,int columna){
         this.LINEA = linea;
         this.COLUMNA = columna;
+        
+        this.NOMBRE = Interfaz.GRAFICA_ARBOL.getNombreNodo();
+        this.GRAFICA = Interfaz.GRAFICA_ARBOL.generarHojaInstruccion(this,"continue");
     }
     
     @Override

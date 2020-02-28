@@ -34,7 +34,7 @@ public class Negativo extends Expresion{
      */
     private void generarGrafica(){
         this.NOMBRE = Interfaz.GRAFICA_ARBOL.getNombreNodo();
-        this.GRAFICA = Interfaz.GRAFICA_ARBOL.generarGraficaExpresion("-", this, var1);
+        this.GRAFICA = Interfaz.GRAFICA_ARBOL.generarGraficaUnHijo("-", this, var1);
     }
 
     @Override

@@ -31,7 +31,7 @@ public class Print extends Instruccion {
      */
     private void generarGrafica() {
         this.NOMBRE = Interfaz.GRAFICA_ARBOL.getNombreNodo();
-        this.GRAFICA = Interfaz.GRAFICA_ARBOL.generarGraficaExpresion("Print", this, var1);
+        this.GRAFICA = Interfaz.GRAFICA_ARBOL.generarGraficaUnHijo("Print", this, var1);
     }
 
     @Override
