@@ -167,6 +167,10 @@ RETURN::= _return parentesisizquierda E parentesisderecha
         ;
         
 FUNCIONES::= _id igual _funcion PARAMETROS BLOQUE 
+        | _id igual parentesisizquierda E parentesisderecha flecha BLOQUE
+        | _id igual parentesisizquierda _id coma L_PARAMETROS parentesisderecha flecha BLOQUE
+        | _id igual parentesisizquierda _id igual E coma L_PARAMETROS parentesisderecha flecha BLOQUE
+        | _id igual parentesisizquierda _id igual E parentesisderecha flecha BLOQUE
         ;    
 
 PARAMETROS::= parentesisizquierda L_PARAMETROS parentesisderecha

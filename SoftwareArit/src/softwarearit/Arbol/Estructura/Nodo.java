@@ -14,5 +14,6 @@ package softwarearit.Arbol.Estructura;
 public abstract class Nodo {
     public int LINEA;
     public int COLUMNA;
-    public String Grafica;
+    public String NOMBRE;
+    public StringBuilder GRAFICA;
 }

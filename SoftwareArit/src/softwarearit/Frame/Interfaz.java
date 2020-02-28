@@ -20,6 +20,7 @@ import java_cup.runtime.Symbol;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import softwarearit.Arbol.Herramientas.Grafo;
 import softwarearit.Arbol.Instrucciones.Instruccion;
 
 /**
@@ -35,6 +36,7 @@ public class Interfaz extends javax.swing.JFrame {
     private final Guardar GUARDAR;
     private final Pestania PESTANIA;
     public static LinkedList<NodoError> LISTA_ERRORES;
+    public static Grafo GRAFICA_ARBOL;
 
     public Interfaz() {
         initComponents();
@@ -42,6 +44,7 @@ public class Interfaz extends javax.swing.JFrame {
         ABRIR = new AbrirArchivo();
         PESTANIA = new Pestania();
         GUARDAR = new Guardar();
+        GRAFICA_ARBOL = new Grafo();
     }
 
     /**
@@ -343,6 +346,7 @@ public class Interfaz extends javax.swing.JFrame {
         JScrollPane tmp = (JScrollPane) jTabbedPane1.getSelectedComponent();
         JTextArea tmp2 = (JTextArea) tmp.getViewport().getComponent(0);
         LISTA_ERRORES = new LinkedList<>();
+        GRAFICA_ARBOL.nuevoGrafo();
         AST arbol;
         cleanConsola();
 
@@ -364,7 +368,7 @@ public class Interfaz extends javax.swing.JFrame {
                 //for(Instruccion t:arbol.INSTRUCCIONES){
                 //    printConsola(t.getClass().toString());
                 //}
-
+                arbol.getGrafica();
                 arbol.ejecutar();
             }
         } catch (Exception ex) {

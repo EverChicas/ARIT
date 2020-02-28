@@ -18,6 +18,12 @@ public class Archivo {
         
     }
     
+    /**
+     * 
+     * @param Path - path de archivo 
+     * @param Nombre - nombre del archivo
+     * @param Contenido - contenido de archivo
+     */
     public Archivo(String Path, String Nombre, String Contenido) {
         this.Path = Path;
         this.Nombre = Nombre;

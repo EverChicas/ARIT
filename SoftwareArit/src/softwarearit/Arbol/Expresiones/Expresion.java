@@ -13,19 +13,21 @@ import softwarearit.Arbol.Estructura.Tipo;
 /**
  *
  * @author chicas
- * 
- * Expresion usada para guardar el valor de una expresion
- * su tipo, extiende de nodo, para poder usar lo que es linea, columna,grafica
+ *
+ * Expresion usada para guardar el valor de una expresion su tipo, extiende de
+ * nodo, para poder usar lo que es linea, columna,grafica
  */
-public abstract class Expresion extends Nodo{
+public abstract class Expresion extends Nodo {
+
     public Tipo TIPO;
     public ArrayList<Object> VALOR;
-    
+
     /**
-     * 
+     *
      * @param e - entorno local que
-     * @return valor tipo expresion si es quue tiene, de lo contrario retorna null
+     * @return valor tipo expresion si es quue tiene, de lo contrario retorna
+     * null
      */
     public abstract Expresion getValor(Entorno e);
-    
+
 }

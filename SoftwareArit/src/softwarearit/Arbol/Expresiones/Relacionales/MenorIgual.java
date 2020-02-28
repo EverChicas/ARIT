@@ -28,6 +28,15 @@ public class MenorIgual extends Expresion {
         this.COLUMNA = columna;
         this.var1 = var1;
         this.var2 = var2;
+        generarGrafica();
+    }
+    
+    /**
+     * Metodo para generar el codigo del grafo
+     */
+    private void generarGrafica(){
+        this.NOMBRE = Interfaz.GRAFICA_ARBOL.getNombreNodo();
+        this.GRAFICA = Interfaz.GRAFICA_ARBOL.generarGraficaExpresionDosHijos("<=", this, var1,var2);
     }
 
     @Override

@@ -8,6 +8,7 @@ package softwarearit.Arbol.Instrucciones;
 import softwarearit.Arbol.Estructura.Entorno;
 import softwarearit.Arbol.Estructura.Tipo;
 import softwarearit.Arbol.Expresiones.Expresion;
+import softwarearit.Frame.Interfaz;
 import static softwarearit.Frame.Interfaz.printConsola;
 
 /**
@@ -22,6 +23,15 @@ public class Print extends Instruccion {
         this.LINEA = linea;
         this.COLUMNA = columna;
         this.var1 = var1;
+        generarGrafica();
+    }
+
+    /**
+     * Metodo para generar el codigo del grafo
+     */
+    private void generarGrafica() {
+        this.NOMBRE = Interfaz.GRAFICA_ARBOL.getNombreNodo();
+        this.GRAFICA = Interfaz.GRAFICA_ARBOL.generarGraficaExpresion("Print", this, var1);
     }
 
     @Override

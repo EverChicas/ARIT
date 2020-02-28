@@ -26,6 +26,15 @@ public class Negativo extends Expresion{
         this.LINEA = linea;
         this.COLUMNA = columna;
         this.var1 = valor;
+        generarGrafica();
+    }
+    
+    /**
+     * Metodo para generar el codigo del grafo
+     */
+    private void generarGrafica(){
+        this.NOMBRE = Interfaz.GRAFICA_ARBOL.getNombreNodo();
+        this.GRAFICA = Interfaz.GRAFICA_ARBOL.generarGraficaExpresion("-", this, var1);
     }
 
     @Override

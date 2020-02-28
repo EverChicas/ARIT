@@ -18,41 +18,55 @@ import javax.swing.JOptionPane;
  * @author chicas
  */
 public class Guardar {
-    
-    public Guardar(){
-        
+
+    public Guardar() {
+
     }
-    
-    public void Guardar(Archivo archivo){
-        try{
+
+    public void Guardar(Archivo archivo) {
+        try {
             FileWriter save = new FileWriter(archivo.getPath());
             save.write(archivo.getContenido());
             save.close();
-            JOptionPane.showMessageDialog(null,"Guardado","Informacion",JOptionPane.INFORMATION_MESSAGE);
-        }catch(IOException e){
-            JOptionPane.showMessageDialog(null,"Error no se puedo guardar el archivo","Informacion",JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Guardado", "Informacion", JOptionPane.INFORMATION_MESSAGE);
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Error no se puedo guardar el archivo", "Informacion", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
-    public void GuardarComo(Archivo archivo){
+
+    public void GuardarComo(Archivo archivo) {
         JFileChooser chooser = new JFileChooser();
         chooser.setCurrentDirectory(new File("/home/me/Desktop"));
         int retrival = chooser.showSaveDialog(null);
-        if(retrival == JFileChooser.APPROVE_OPTION){
-            try{
-                FileWriter save = new FileWriter(chooser.getSelectedFile()+".java");
+        if (retrival == JFileChooser.APPROVE_OPTION) {
+            try {
+                FileWriter save = new FileWriter(chooser.getSelectedFile() + ".java");
                 save.write(archivo.getContenido());
                 save.close();
-                
-                Path name = Paths.get(chooser.getSelectedFile()+".java");
-                
-                archivo.setPath(chooser.getSelectedFile()+".java");
+
+                Path name = Paths.get(chooser.getSelectedFile() + ".java");
+
+                archivo.setPath(chooser.getSelectedFile() + ".java");
                 archivo.setNombre(name.getFileName().toString());
-                
-                JOptionPane.showMessageDialog(null,"Guardado","Informacion",JOptionPane.INFORMATION_MESSAGE);
-            }catch(IOException ex){
+
+                JOptionPane.showMessageDialog(null, "Guardado", "Informacion", JOptionPane.INFORMATION_MESSAGE);
+            } catch (IOException ex) {
             }
         }
     }
-    
+
+    public void GuardarDot(Archivo archivo) {
+        try {
+            File file = new File(archivo.getNombre());
+            if(!file.exists()){
+                file.createNewFile();
+            }
+            FileWriter save = new FileWriter(archivo.getNombre());
+            save.write(archivo.getContenido());
+            save.close();
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Error no se puedo guardar el archivo", "Informacion", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
 }

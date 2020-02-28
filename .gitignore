@@ -2,3 +2,5 @@
 *.class
 /SoftwareArit/nbproject/private/
 /SoftwareArit/build/
+.png
+.dot
