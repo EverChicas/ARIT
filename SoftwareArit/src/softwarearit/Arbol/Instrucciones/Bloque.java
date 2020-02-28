@@ -18,7 +18,11 @@ public class Bloque extends Instruccion{
     
     public Bloque(LinkedList<Instruccion> instrucciones){
         this.instrucciones = instrucciones;
+        
+       
     }
+    
+    // TODO al hacer la grafica de los bloques tengo que mandar el padre del bloque y no el bloque como padre    
     
     @Override
     public Object Ejecutar(Entorno e) {
