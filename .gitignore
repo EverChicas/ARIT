@@ -1,7 +1,6 @@
-/build
-*.class
-/SoftwareArit/nbproject/private/
+/SoftwareArit/nbproject/
 /SoftwareArit/build/
+/SoftwareArit/dist/
+*.class
 *.png
 *.dot
-/SoftwareArit/dist/
