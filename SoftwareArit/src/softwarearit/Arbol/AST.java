@@ -49,11 +49,8 @@ public class AST {
         guardar.GuardarDot(new Archivo("", "AST.dot", this.GRAFICA_ARBOL.toString()));
         StringBuilder comando = new StringBuilder();
         comando.append("C:\\\\Program Files (x86)\\\\Graphviz2.38\\\\bin\\\\dot.exe ");
-        comando.append("-Tpng ");
-        comando.append("AST.dot ");
-        comando.append(" -o ");
-        comando.append("AST.png");
-
+        comando.append("-Tpng AST.dot -o AST.png");
+        
         Runtime run = Runtime.getRuntime();
         try {
             run.exec(comando.toString());

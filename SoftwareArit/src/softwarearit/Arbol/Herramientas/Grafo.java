@@ -113,11 +113,15 @@ public class Grafo {
      * Metodo para generar grafica, cuando el padre tiene varios hijos en una
      * lista
      *
-     * @param lista
-     * @return
+     * @param nombreEtiqueta - nombre de la funcion, padre de instrucciones
+     * @param padre - nodo padre con su nombre
+     * @param lista - lista de instrucciones hijas
+     * @return - StringBuilder con el codigo para el grafico
      */
-    public StringBuilder generarGraficaPadreHijos(Nodo padre, LinkedList<Instruccion> lista) {
+    public StringBuilder generarGraficaPadreHijos(String nombreEtiqueta, Nodo padre, LinkedList<Instruccion> lista) {
         StringBuilder nodo = new StringBuilder();
+
+        nodo.append(padre.NOMBRE + "[label = \"" + nombreEtiqueta + "\"];\n");
 
         for (Instruccion ins : lista) {
             nodo.append(ins.GRAFICA);
@@ -129,5 +133,21 @@ public class Grafo {
 
         return nodo;
     }
+
+//    public StringBuilder generarGraficaElseIf(String nombreEtiqueta, Nodo padre, Nodo condicion, LinkedList<Instruccion> lista) {
+//        StringBuilder nodo = new StringBuilder();
+//
+//        nodo.append(padre.NOMBRE + "[label = \"" + nombreEtiqueta + "\"];\n");
+//
+//        for (Instruccion ins : lista) {
+//            nodo.append(ins.GRAFICA);
+//        }
+//
+//        for (Instruccion ins : lista) {
+//            nodo.append(padre.NOMBRE + " -> " + ins.NOMBRE + ";\n");
+//        }
+//
+//        return nodo;
+//    }
 
 }

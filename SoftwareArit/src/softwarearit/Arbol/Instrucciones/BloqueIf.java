@@ -21,7 +21,9 @@ public class BloqueIf extends Instruccion {
 
     public BloqueIf(int linea, int columna, Expresion condicion, Instruccion bloque) {
         this.LINEA = linea;
-        this.COLUMNA = COLUMNA;
+        this.COLUMNA = columna;
+        this.condicion = condicion;
+        this.bloque = bloque;
         this.condificionCumplida = false;
         generarGrafica();
     }
@@ -31,7 +33,7 @@ public class BloqueIf extends Instruccion {
      */
     private void generarGrafica() {
         this.NOMBRE = Interfaz.GRAFICA_ARBOL.getNombreNodo();
-        this.GRAFICA = Interfaz.GRAFICA_ARBOL.generarGraficaUnHijo("", this, bloque);
+        this.GRAFICA = Interfaz.GRAFICA_ARBOL.generarGraficaExpresionDosHijos("Bloque if", this, condicion, bloque);
     }
 
     @Override
