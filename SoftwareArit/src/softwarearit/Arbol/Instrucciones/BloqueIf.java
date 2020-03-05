@@ -6,6 +6,9 @@
 package softwarearit.Arbol.Instrucciones;
 
 import softwarearit.Arbol.Estructura.Entorno;
+import softwarearit.Arbol.Estructura.NodoError;
+import softwarearit.Arbol.Estructura.Tipo;
+import softwarearit.Arbol.Estructura.TipoError;
 import softwarearit.Arbol.Expresiones.Expresion;
 import softwarearit.Frame.Interfaz;
 
@@ -38,7 +41,43 @@ public class BloqueIf extends Instruccion {
 
     @Override
     public Object Ejecutar(Entorno e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        /**
+         * Primero vamos a poner que la condicion es falsa, para limpiar la
+         * variable luego verifico si la condicion es boolean luego tengo que
+         * verificar si la condicion es verdadera de ser verdadera tengo que
+         * ejecutar el bloque de codigo que tiene de ser falsa solo me salgo
+         * para ejecutar el bloque creo un entorno local y comienzo a ejecutar
+         * las intrucciones luego de ejecutar el entorno, verifico si retorna
+         * una instancia de break, continue, return y retorno el objecto. cambio
+         * la variable que si se ejecuto este bloque if
+         */
+        this.condificionCumplida = false;
+        Expresion resultado = this.condicion.getValor(e);
+
+        if (resultado.TIPO.Tipo == Tipo.EnumTipo.BOOLEAN) {
+            if (Boolean.parseBoolean(resultado.VALOR.get(0).toString())) {
+                /**
+                 * Se cumple la condicion y ejecuta lo que esta dentro
+                 *
+                 */
+                Entorno entornoLocal = new Entorno(e, Entorno.EnumEntorno.IF);
+                Object resultadoBloque = this.bloque.Ejecutar(entornoLocal);
+                this.condificionCumplida = true;
+
+                if (resultadoBloque != null) {
+                    if (resultadoBloque instanceof Break) {
+                        return resultadoBloque;
+                    } else if (resultadoBloque instanceof Continue) {
+                        return resultadoBloque;
+                    } else if (resultadoBloque instanceof Return) {
+                        return resultadoBloque;
+                    }
+                }
+            }
+        } else {
+            Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.SEMANTICO), "Error de tipo", LINEA, COLUMNA));
+        }
+        return null;
     }
 
 }

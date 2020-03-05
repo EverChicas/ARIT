@@ -79,8 +79,8 @@ terminal umenos;
 non terminal INICIO;
 non terminal Expresion E;
 non terminal Instruccion IMPRIMIR;
-non terminal LinkedList<Instruccion> L_SENTENCIAS;
-non terminal Instruccion SENTENCIA;
+non terminal LinkedList<Nodo> L_SENTENCIAS;
+non terminal Nodo SENTENCIA;
 non terminal Instruccion ASIGNACION;
 non terminal Instruccion TERNARIO;
 non terminal Instruccion BLOQUE;
@@ -161,10 +161,10 @@ SENTENCIA::= ASIGNACION:a        {: RESULT = a; :}
         | RETURN:a               {: RESULT = a; :}
         ;
 
-RETURN::= _return parentesisizquierda E parentesisderecha
-        | _return parentesisizquierda E parentesisderecha puntoycoma
-        | _return puntoycoma
-        | _return
+RETURN::= _return:op parentesisizquierda E:e parentesisderecha              {: RESULT = new Return(opleft,opright,e); :}
+        | _return:op parentesisizquierda E:e parentesisderecha puntoycoma   {: RESULT = new Return(opleft,opright,e); :}
+        | _return:op puntoycoma                                             {: RESULT = new Return(opleft,opright);   :}
+        | _return:op                                                        {: RESULT = new Return(opleft,opright);   :}
         ;
         
 FUNCIONES::= _id igual _funcion PARAMETROS BLOQUE 

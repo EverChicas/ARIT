@@ -5,6 +5,11 @@ import softwarearit.Arbol.Estructura.Entorno;
 import softwarearit.Arbol.Instrucciones.Instruccion;
 import java.util.LinkedList;
 import javax.xml.transform.stax.StAXResult;
+import softwarearit.Arbol.Estructura.Nodo;
+import softwarearit.Arbol.Expresiones.Expresion;
+import softwarearit.Arbol.Instrucciones.Break;
+import softwarearit.Arbol.Instrucciones.Continue;
+import softwarearit.Arbol.Instrucciones.Return;
 import softwarearit.Archivos.Archivo;
 import softwarearit.Archivos.Guardar;
 import softwarearit.Frame.Interfaz;
@@ -20,7 +25,7 @@ import softwarearit.Frame.Interfaz;
  */
 public class AST {
 
-    public LinkedList<Instruccion> INSTRUCCIONES;
+    public LinkedList<Nodo> INSTRUCCIONES;
     public Entorno TABLA;
     public StringBuilder GRAFICA_ARBOL;
     //public static int i;
@@ -30,9 +35,9 @@ public class AST {
      *
      * @param - LISTA_INSTRUCCIONES lista de instrucciones que tienen
      */
-    public AST(LinkedList<Instruccion> instrucciones) {
+    public AST(LinkedList<Nodo> instrucciones) {
         this.INSTRUCCIONES = instrucciones;
-        this.TABLA = new Entorno(null);
+        this.TABLA = new Entorno(null, Entorno.EnumEntorno.GLOBAL);
         generarArbol();
     }
 
@@ -50,7 +55,7 @@ public class AST {
         StringBuilder comando = new StringBuilder();
         comando.append("C:\\\\Program Files (x86)\\\\Graphviz2.38\\\\bin\\\\dot.exe ");
         comando.append("-Tpng AST.dot -o AST.png");
-        
+
         Runtime run = Runtime.getRuntime();
         try {
             run.exec(comando.toString());
@@ -67,8 +72,27 @@ public class AST {
      */
     public Object ejecutar() {
 
-        for (Instruccion instruccion : INSTRUCCIONES) {
-            instruccion.Ejecutar(TABLA);
+        for (Nodo nodo : this.INSTRUCCIONES) {
+
+            if (nodo instanceof Instruccion) {
+                Object resultBloque = ((Instruccion) nodo).Ejecutar(this.TABLA);
+
+                if (resultBloque != null) {
+                    if (resultBloque instanceof Break) {
+                        return resultBloque;
+                    } else if (resultBloque instanceof Continue) {
+                        return resultBloque;
+                    } else if (resultBloque instanceof Return) {
+                        return resultBloque;
+                    } else {
+                        return null;
+                    }
+                }
+
+            } else if (nodo instanceof Expresion) {
+                ((Expresion) nodo).getValor(this.TABLA);
+            }
+
         }
         return null;
     }

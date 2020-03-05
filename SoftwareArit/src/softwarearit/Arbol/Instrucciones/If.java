@@ -7,6 +7,8 @@ package softwarearit.Arbol.Instrucciones;
 
 import java.util.LinkedList;
 import softwarearit.Arbol.Estructura.Entorno;
+import softwarearit.Arbol.Estructura.NodoError;
+import softwarearit.Arbol.Estructura.TipoError;
 import softwarearit.Frame.Interfaz;
 
 /**
@@ -34,11 +36,12 @@ public class If extends Instruccion {
      * Metodo para generar el codigo del grafo
      */
     private void generarGrafica() {
-        LinkedList hijos = this.listaCondiciones;
+        LinkedList<Instruccion> hijos = new LinkedList();
+        hijos = (LinkedList)this.listaCondiciones.clone();
 
         if (this.bloqueElse != null) {
             this.bloqueElse.NOMBRE = Interfaz.GRAFICA_ARBOL.getNombreNodo();
-            this.bloqueElse.GRAFICA = Interfaz.GRAFICA_ARBOL.generarGraficaPadreHijos("Bloque else", this.bloqueElse, ((Bloque) this.bloqueElse).instrucciones);
+            this.bloqueElse.GRAFICA = Interfaz.GRAFICA_ARBOL.generarGraficaPadreHijosNodos("Bloque else", this.bloqueElse, ((Bloque) this.bloqueElse).instrucciones);
             hijos.add(this.bloqueElse);
 
         }
@@ -49,6 +52,40 @@ public class If extends Instruccion {
 
     @Override
     public Object Ejecutar(Entorno e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        for (Instruccion condicionIf : this.listaCondiciones) {
+            Object resultIf = condicionIf.Ejecutar(e);
+            if (((BloqueIf) condicionIf).condificionCumplida) {
+                if (resultIf != null) {
+                    if (resultIf instanceof Break) {
+                        return resultIf;
+                    } else if (resultIf instanceof Continue) {
+                        return resultIf;
+                    } else if (resultIf instanceof Return) {
+                        return resultIf;
+                    } else {
+                        Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.SEMANTICO), "Error en la salida del if", LINEA, COLUMNA));
+                    }
+                } else {
+                    return null;
+                }
+            }
+        }
+
+        if (this.bloqueElse != null) {
+            Entorno entornoIf = new Entorno(e, Entorno.EnumEntorno.IF);
+            Object resultElse = this.bloqueElse.Ejecutar(entornoIf);
+            if (resultElse != null) {
+                if (resultElse instanceof Break) {
+                    return resultElse;
+                } else if (resultElse instanceof Continue) {
+                    return resultElse;
+                } else if (resultElse instanceof Return) {
+                    return resultElse;
+                } else {
+                    return null;
+                }
+            }
+        }
+        return null;
     }
 }

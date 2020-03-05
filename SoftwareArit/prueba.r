@@ -66,13 +66,14 @@ print(4+6+7+1+3+6+8+1+2+3+4+5+6+7+8+9+10+9+8+7+6+5+4+3+2+1)
 print(4<5?"si":"no")
 
 
-If( 3 < 4) {
-print(3 < 4)
-} else if (2 < 5){
-print(2 < 5)
+If( 35 < 4) {
+print("3 < 4")
+} else if (52 < 5){
+print("2 < 5")
 } else {
 print("no se pudo hacer match")
 }
+
 If(true){
 print(true)
 }

@@ -92,17 +92,17 @@ public class Grafo {
      * @param lista
      * @return
      */
-    public StringBuilder generarGraficaRoot(LinkedList<Instruccion> lista) {
+    public StringBuilder generarGraficaRoot(LinkedList<Nodo> lista) {
         StringBuilder nodo = new StringBuilder();
         String root = getNombreNodo();
 
         nodo.append(root + " [label = \"root\"];\n");
 
-        for (Instruccion ins : lista) {
+        for (Nodo ins : lista) {
             nodo.append(ins.GRAFICA);
         }
 
-        for (Instruccion ins : lista) {
+        for (Nodo ins : lista) {
             nodo.append(root + " -> " + ins.NOMBRE + ";\n");
         }
 
@@ -134,6 +134,29 @@ public class Grafo {
         return nodo;
     }
 
+    /**
+     *
+     * @param nombreEtiqueta - nombre de etiqueta
+     * @param padre - nodo padre
+     * @param lista - nodos
+     * @return
+     */
+    public StringBuilder generarGraficaPadreHijosNodos(String nombreEtiqueta, Nodo padre, LinkedList<Nodo> lista) {
+        StringBuilder graficaNodo = new StringBuilder();
+
+        graficaNodo.append(padre.NOMBRE + "[label = \"" + nombreEtiqueta + "\"];\n");
+
+        for (Nodo nodo : lista) {
+            graficaNodo.append(nodo.GRAFICA);
+        }
+
+        for (Nodo nodo : lista) {
+            graficaNodo.append(padre.NOMBRE + " -> " + nodo.NOMBRE + ";\n");
+        }
+
+        return graficaNodo;
+    }
+
 //    public StringBuilder generarGraficaElseIf(String nombreEtiqueta, Nodo padre, Nodo condicion, LinkedList<Instruccion> lista) {
 //        StringBuilder nodo = new StringBuilder();
 //
@@ -149,5 +172,4 @@ public class Grafo {
 //
 //        return nodo;
 //    }
-
 }
