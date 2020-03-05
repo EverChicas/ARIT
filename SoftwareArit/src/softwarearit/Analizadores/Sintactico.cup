@@ -221,8 +221,8 @@ ELSE_IF::= ELSE_IF:a _else _if:op parentesisizquierda E:b parentesisderecha BLOQ
         | _if:op parentesisizquierda E:a parentesisderecha BLOQUE:b                  {: RESULT = new LinkedList<>(); RESULT.add(new BloqueIf(opleft,opright,a,b)); :}
         ;
 
-ASIGNACION::= _id igual E
-        | _id igual E puntoycoma
+ASIGNACION::= _id:ide igual:op E:exp        {:RESULT = new Asignacion(opleft,opright,ide,exp); :}
+        | _id:ide igual:op E:exp puntoycoma {:RESULT = new Asignacion(opleft,opright,ide,exp); :}
         ;
 
 IMPRIMIR::= _print:op parentesisizquierda E:a parentesisderecha          {: RESULT = new Print(opleft,opright,a); :}
@@ -272,9 +272,7 @@ E::=    E:a mas:op E:b               {: RESULT = new Suma(opleft,opright,a,b); :
 
 
         // TODO terminar con llamada de variables y funciones
-        //| ACCESO
-        | _id:a {: System.out.println(a.toString()); :}
-        //| _id EXPRESIONES
-        // TODO funciones nativas
-        //| _c EXPRESIONES
+        
+        | _id:a {: RESULT = new Acceso(aleft,aright,a); :}
+        
         ;

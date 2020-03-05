@@ -30,13 +30,13 @@ public class Division extends Expresion {
         this.var2 = var2;
         generarGrafica();
     }
-    
+
     /**
      * Metodo para generar el codigo del grafo
      */
-    private void generarGrafica(){
+    private void generarGrafica() {
         this.NOMBRE = Interfaz.GRAFICA_ARBOL.getNombreNodo();
-        this.GRAFICA = Interfaz.GRAFICA_ARBOL.generarGraficaExpresionDosHijos("/", this, var1,var2);
+        this.GRAFICA = Interfaz.GRAFICA_ARBOL.generarGraficaExpresionDosHijos("/", this, var1, var2);
     }
 
     @Override
@@ -59,9 +59,10 @@ public class Division extends Expresion {
                 if (isCero(Double.parseDouble(resul1.VALOR.get(0).toString()), Double.parseDouble(resul2.VALOR.get(0).toString()))) {
                     Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.SEMANTICO), "error division con 0", this.LINEA, this.COLUMNA));
                 } else {
-                    resul.TIPO = new Tipo(Tipo.EnumTipo.ENTERO);
+                    double resultEntero = Double.parseDouble(resul1.VALOR.get(0).toString()) / Double.parseDouble(resul2.VALOR.get(0).toString());
+                    resul.TIPO = new Tipo(Tipo.EnumTipo.NUMERIC);
                     resul.VALOR.clear();
-                    resul.VALOR.add(Integer.parseInt(resul1.VALOR.get(0).toString()) / Integer.parseInt(resul2.VALOR.get(0).toString()));
+                    resul.VALOR.add(resultEntero);
                 }
                 break;
             case NUMERIC:

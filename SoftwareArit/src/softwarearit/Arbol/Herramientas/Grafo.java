@@ -42,6 +42,12 @@ public class Grafo {
         return nodo;
     }
 
+    public StringBuilder generarHojaNodo(Nodo exp, String etiqueta) {
+        StringBuilder nodo = new StringBuilder();
+        nodo.append(exp.NOMBRE + " [label = \"" + etiqueta + "\"];\n");
+        return nodo;
+    }
+
     public StringBuilder generarHojaInstruccion(Instruccion ins, String nombre) {
         StringBuilder nodo = new StringBuilder();
         nodo.append(ins.NOMBRE + " [label = \"" + nombre + "\"];\n");

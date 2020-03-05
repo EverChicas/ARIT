@@ -84,3 +84,12 @@ If(false){
 print(false+" 2")
 }
 
+3 - (1 + 3) * 32 / 90 # 1.58
+
+
+var1 = 1
+var2 = 2
+var3 = 3
+var4 = 4
+var5 = 5
+print(var1)

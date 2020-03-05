@@ -6,6 +6,7 @@
 package softwarearit.Arbol.Estructura;
 
 import java.util.HashMap;
+import softwarearit.Arbol.Expresiones.Expresion;
 import softwarearit.Frame.Interfaz;
 
 /**
@@ -29,16 +30,21 @@ public class Entorno {
      * @param anterior - Entorno
      */
     public Entorno(Entorno anterior, EnumEntorno tipoEntorno) {
+        this.tabla = new HashMap<>();
         this.anterior = anterior;
     }
 
     public void insertar(String nombre, Simbolo simbolo, int linea, int columna) {
-        if (tabla.containsKey(nombre)) {
-            Interfaz.printConsola("No estoy implementado ENTORNO-INSERTAR");
-            //softwarearit.Frame.Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.SEMANTICO), "La variable ya se encuentra declarada", linea, columna));
-        } else {
-            tabla.put(nombre, simbolo);
+        tabla.put(nombre, simbolo);
+    }
+
+    public Simbolo buscar(String identificador) {
+        for (Entorno e = this; e != null; e = e.anterior) {
+            if (e.tabla.containsKey(identificador)) {
+                return e.tabla.get(identificador);
+            }
         }
+        return null;
     }
 
     public enum EnumEntorno {
