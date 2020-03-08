@@ -23,6 +23,7 @@ public class Entorno {
      */
     public Entorno anterior;
     public HashMap<String, Simbolo> tabla;
+    public EnumEntorno tipoEntorno;
 
     /**
      * Entorno anterior para construir otro entorno
@@ -32,6 +33,7 @@ public class Entorno {
     public Entorno(Entorno anterior, EnumEntorno tipoEntorno) {
         this.tabla = new HashMap<>();
         this.anterior = anterior;
+        this.tipoEntorno = tipoEntorno;
     }
 
     public void insertar(String nombre, Simbolo simbolo, int linea, int columna) {

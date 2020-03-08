@@ -266,6 +266,7 @@ E::=    E:a mas:op E:b               {: RESULT = new Suma(opleft,opright,a,b); :
         | decimal:a                                 {: RESULT = new Valor(new Tipo(Tipo.EnumTipo.NUMERIC),a); :}
         | string:a                                  {: RESULT = new Valor(new Tipo(Tipo.EnumTipo.STRING),a); :} 
         | valorbooleano:a                           {: RESULT = new Valor(new Tipo(Tipo.EnumTipo.BOOLEAN),a.toLowerCase()); :}
+        | _null:a                                   {: RESULT = new Valor(new Tipo(Tipo.EnumTipo.NULL),a); :}
         | parentesisizquierda E:a parentesisderecha {: RESULT = a; :}
         
         | E:a ternario:op E:v dospuntos E:f {: RESULT = new Ternario(opleft,opright,a,v,f); :}

@@ -109,3 +109,42 @@ default:
 # Declaraciones ejecutadas cuando ninguno de los valores coincide con el valor de la expresión
 break
 }
+
+
+var1 = "hola mundo"
+if(5 > 3){
+switch (10*8) {
+case 10:
+	print(10)
+	break
+case 80:
+	print(80)
+	break
+case 90:
+	print(90)
+	break
+default:
+var = "estoy dentro de switch en el if verdadero"
+print(var)
+print(var1)
+break
+}
+}
+else{
+switch (10*8) {
+case 10:
+	print(10)
+	break
+case 80:
+	print(80)
+	break
+case 90:
+	print(90)
+	break
+default:
+var = "estoy dentro de switch en el esle"
+print(var)
+print(var1)
+break
+}
+}

@@ -41,6 +41,7 @@ public class Tipo {
         MATRIZ,
         ARRAY,
         ERROR,
+        NULL,
     }
 
 }
