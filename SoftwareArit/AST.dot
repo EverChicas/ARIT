@@ -1,15 +1,31 @@
 digraph G{
-6 [label = "root"];
-2 [label = "var1"];
+13 [label = "root"];
+2 [label = "var"];
 3 [label = "Asignacion"];
 3 -> 2;
-1 [label = "null"];
+1 [label = "global"];
 3 [label = "Asignacion"];
 3 -> 1;
-4 [label = "var1"];
-5 [label = "Print"];
-5 -> 4;
-6 -> 3;
-6 -> 5;
+10[label = "if"];
+4 [label = "true"];
+9 [label = "Bloque if"];
+9 -> 4;
+8[label = "instrucciones"];
+6 [label = "var"];
+7 [label = "Asignacion"];
+7 -> 6;
+5 [label = "modifico valor"];
+7 [label = "Asignacion"];
+7 -> 5;
+8 -> 7;
+9 [label = "Bloque if"];
+9 -> 8;
+10 -> 9;
+11 [label = "var"];
+12 [label = "Print"];
+12 -> 11;
+13 -> 3;
+13 -> 10;
+13 -> 12;
 
 }

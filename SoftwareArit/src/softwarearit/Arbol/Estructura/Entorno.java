@@ -37,6 +37,14 @@ public class Entorno {
     }
 
     public void insertar(String nombre, Simbolo simbolo, int linea, int columna) {
+        for (Entorno e = this; e != null; e = e.anterior) {
+            if (e.tabla.containsKey(nombre)) {
+                if (e.tipoEntorno == EnumEntorno.GLOBAL || e.tipoEntorno == EnumEntorno.FUNCION) {
+                    e.tabla.put(nombre, simbolo);
+                    return;
+                }
+            }
+        }
         tabla.put(nombre, simbolo);
     }
 
@@ -55,6 +63,7 @@ public class Entorno {
         FOR,
         SWITCH,
         WHILE,
+        FUNCION,
     }
 
 }

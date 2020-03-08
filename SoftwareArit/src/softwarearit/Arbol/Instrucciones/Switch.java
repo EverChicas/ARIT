@@ -61,7 +61,7 @@ public class Switch extends Instruccion {
                      * Ejecuto las instrucciones del caso en un entorno local
                      */
                     entornoLocal = new Entorno(e, Entorno.EnumEntorno.SWITCH);
-                    resultInstuccionesCaso = ((CasoSwitch) caso).bloqueInstrucciones.Ejecutar(entornoLocal);
+                    resultInstuccionesCaso = ((CasoSwitch) caso).Ejecutar(entornoLocal);
                     if (resultInstuccionesCaso != null) {
                         if (resultInstuccionesCaso instanceof Break) {
                             return null;
@@ -80,7 +80,7 @@ public class Switch extends Instruccion {
                 } else {
                     esDefault = true;
                     entornoLocal = new Entorno(e, Entorno.EnumEntorno.SWITCH);
-                    resultInstuccionesCaso = ((CasoSwitch) caso).bloqueInstrucciones.Ejecutar(entornoLocal);
+                    resultInstuccionesCaso = ((CasoSwitch) caso).Ejecutar(entornoLocal);
                     if (resulCaso != null) {
                         if (resultInstuccionesCaso instanceof Break) {
                             return null;
