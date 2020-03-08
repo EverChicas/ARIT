@@ -93,3 +93,19 @@ var3 = 3
 var4 = 4
 var5 = 5
 print(var1)
+
+
+switch (expresion) {
+case expr1:
+# Declaraciones ejecutadas cuando el resultado de expresión coincide con el expr1
+break
+case expr2:
+# Declaraciones ejecutadas cuando el resultado de expresión coincide con el expr2
+break
+case exprN:
+# Declaraciones ejecutadas cuando el resultado de expresión coincide con exprN
+break
+default:
+# Declaraciones ejecutadas cuando ninguno de los valores coincide con el valor de la expresión
+break
+}

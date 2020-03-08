@@ -162,20 +162,4 @@ public class Grafo {
 
         return graficaNodo;
     }
-
-//    public StringBuilder generarGraficaElseIf(String nombreEtiqueta, Nodo padre, Nodo condicion, LinkedList<Instruccion> lista) {
-//        StringBuilder nodo = new StringBuilder();
-//
-//        nodo.append(padre.NOMBRE + "[label = \"" + nombreEtiqueta + "\"];\n");
-//
-//        for (Instruccion ins : lista) {
-//            nodo.append(ins.GRAFICA);
-//        }
-//
-//        for (Instruccion ins : lista) {
-//            nodo.append(padre.NOMBRE + " -> " + ins.NOMBRE + ";\n");
-//        }
-//
-//        return nodo;
-//    }
 }

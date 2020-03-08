@@ -43,7 +43,6 @@ public class If extends Instruccion {
             this.bloqueElse.NOMBRE = Interfaz.GRAFICA_ARBOL.getNombreNodo();
             this.bloqueElse.GRAFICA = Interfaz.GRAFICA_ARBOL.generarGraficaPadreHijosNodos("Bloque else", this.bloqueElse, ((Bloque) this.bloqueElse).instrucciones);
             hijos.add(this.bloqueElse);
-
         }
 
         this.NOMBRE = Interfaz.GRAFICA_ARBOL.getNombreNodo();
