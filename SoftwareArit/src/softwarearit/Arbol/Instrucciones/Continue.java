@@ -26,11 +26,12 @@ public class Continue extends Instruccion {
 
     @Override
     public Object Ejecutar(Entorno e) {
-        if (e.tipoEntorno == Entorno.EnumEntorno.FOR || e.tipoEntorno == Entorno.EnumEntorno.SWITCH || e.tipoEntorno == Entorno.EnumEntorno.WHILE) {
-            return this;
-        } else {
-            Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.SEMANTICO), "Error con el break", LINEA, COLUMNA));
+        for (Entorno buscar = e; e != null; buscar = e.anterior) {
+            if (buscar.tipoEntorno == Entorno.EnumEntorno.FOR || buscar.tipoEntorno == Entorno.EnumEntorno.SWITCH || buscar.tipoEntorno == Entorno.EnumEntorno.WHILE) {
+                return this;
+            }
         }
+        Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.SEMANTICO), "Error con el continue", LINEA, COLUMNA));
         return null;
     }
 

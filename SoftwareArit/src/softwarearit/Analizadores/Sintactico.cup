@@ -159,6 +159,8 @@ SENTENCIA::= ASIGNACION:a        {: RESULT = a; :}
         | _continue:a            {: RESULT = new Continue(aleft,aright); :}
         | _continue:a puntoycoma {: RESULT = new Continue(aleft,aright); :}
         | RETURN:a               {: RESULT = a; :}
+        | error puntoycoma
+        | error llavederecha
         ;
 
 RETURN::= _return:op parentesisizquierda E:e parentesisderecha              {: RESULT = new Return(opleft,opright,e); :}
@@ -193,7 +195,7 @@ SENTENCIA_DO_WHILE::= _do BLOQUE _while parentesisizquierda E parentesisderecha 
                 | _do BLOQUE _while parentesisizquierda E parentesisderecha
                 ;
 
-SENTENCIA_WHILE::= _while parentesisizquierda E parentesisderecha BLOQUE
+SENTENCIA_WHILE::= _while parentesisizquierda E:e1 parentesisderecha BLOQUE:b {: RESULT = new While(e1,b); :}
                 ;
 
 SENTENCIA_SWITCH::= _switch parentesisizquierda E:es parentesisderecha BLOQUE_SWITCH:bs {: RESULT = new Switch(es,bs); :}
