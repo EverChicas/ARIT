@@ -148,3 +148,27 @@ print(var1)
 break
 }
 }
+
+While(false){
+Print("hola")
+}
+
+boolean = true
+contador = 1
+while(boolean){
+	if(contador > 10){
+		boolean = false
+		print("llegue a valor mayor de 10: " + contador)
+	}else if(contador == 5){
+		contador = contador + 1
+		continue
+		print("imprimio despues de continue")
+	}else if(contador == 7){
+		break;
+	}else{
+		print(boolean + " " + contador)
+		contador = contador + 1
+	}
+}
+print("Sali del while")
+print(contador)
