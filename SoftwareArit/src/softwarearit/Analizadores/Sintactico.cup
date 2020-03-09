@@ -191,8 +191,8 @@ PARAMETRO::= _id igual E
 SENTENCIA_FOR::= _for parentesisizquierda E _in E parentesisderecha BLOQUE
         ;
     
-SENTENCIA_DO_WHILE::= _do BLOQUE _while parentesisizquierda E parentesisderecha puntoycoma
-                | _do BLOQUE _while parentesisizquierda E parentesisderecha
+SENTENCIA_DO_WHILE::= _do BLOQUE:b _while:a parentesisizquierda E:cond parentesisderecha puntoycoma  {: RESULT = new Do(aleft,aright,cond,b); :}
+                | _do BLOQUE:b _while:a parentesisizquierda E:cond parentesisderecha                 {: RESULT = new Do(aleft,aright,cond,b); :}
                 ;
 
 SENTENCIA_WHILE::= _while parentesisizquierda E:e1 parentesisderecha BLOQUE:b {: RESULT = new While(e1,b); :}

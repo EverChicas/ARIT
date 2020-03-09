@@ -26,8 +26,11 @@ public class Break extends Instruccion {
 
     @Override
     public Object Ejecutar(Entorno e) {
-        for (Entorno buscar = e; e != null; buscar = e.anterior) {
-            if (buscar.tipoEntorno == Entorno.EnumEntorno.FOR || buscar.tipoEntorno == Entorno.EnumEntorno.SWITCH || buscar.tipoEntorno == Entorno.EnumEntorno.WHILE) {
+        for (Entorno buscar = e; buscar != null; buscar = buscar.anterior) {
+            if (buscar.tipoEntorno == Entorno.EnumEntorno.FOR || 
+                    buscar.tipoEntorno == Entorno.EnumEntorno.SWITCH || 
+                    buscar.tipoEntorno == Entorno.EnumEntorno.WHILE ||
+                    buscar.tipoEntorno == Entorno.EnumEntorno.DO) {
                 return this;
             }
         }

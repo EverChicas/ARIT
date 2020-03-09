@@ -64,6 +64,7 @@ public class Entorno {
         SWITCH,
         WHILE,
         FUNCION,
+        DO,
     }
 
 }
