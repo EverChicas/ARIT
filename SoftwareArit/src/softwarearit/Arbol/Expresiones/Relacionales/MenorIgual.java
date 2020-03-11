@@ -105,7 +105,7 @@ public class MenorIgual extends Expresion {
                 resul.VALOR.add(operar(resul1, resul2));
             }
         } else {
-            Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.SEMANTICO), "Error tamaño de vectores diferente, no se puede realizar la suma", LINEA, COLUMNA));
+            Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.SEMANTICO), "Error tamaño de vectores diferente, no se puede realizar la operacion", LINEA, COLUMNA));
             return resul;
         }
         resul.TIPO.Tipo = Tipo.EnumTipo.C;

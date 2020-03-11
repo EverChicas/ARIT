@@ -39,10 +39,35 @@ public class Not extends Expresion {
 
     @Override
     public Expresion getValor(Entorno e) {
-        Valor resul = new Valor(new Tipo(Tipo.EnumTipo.ERROR), "Error");
-
         Expresion resul1 = var1.getValor(e);
 
+        if (resul1.TIPO.Tipo == Tipo.EnumTipo.C) {
+            return operarC(e, resul1);
+        } else {
+            return operar(resul1);
+        }
+    }
+
+    private Expresion operarC(Entorno e, Expresion valorTipoC) { //el var1 siempre va hacer el tipo c
+        Valor resul = new Valor(new Tipo(Tipo.EnumTipo.ERROR), "error");
+
+        Expresion resulValor;
+
+        resul.VALOR.clear();
+        for (Object valor : valorTipoC.VALOR) {
+            resulValor = ((Expresion) valor).getValor(e);
+            if (resulValor == null) {
+                Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.SEMANTICO), "valor nulo", LINEA, COLUMNA));
+            } else {
+                resul.VALOR.add(operar(resulValor));
+            }
+        }
+        resul.TIPO.Tipo = Tipo.EnumTipo.C;
+        return resul;
+    }
+
+    private Expresion operar(Expresion resul1) {
+        Valor resul = new Valor(new Tipo(Tipo.EnumTipo.ERROR), "Error");
         if (resul1.TIPO.Tipo != Tipo.EnumTipo.BOOLEAN) {
             Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.SEMANTICO), "error de tipos: " + resul1.TIPO.Tipo, this.LINEA, this.COLUMNA));
         } else {

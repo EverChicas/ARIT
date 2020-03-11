@@ -55,7 +55,42 @@ public class Ternario extends Expresion {
 
         Expresion resulCondicion = this.condicion.getValor(e);
 
-        if (resulCondicion.TIPO.Tipo != Tipo.EnumTipo.BOOLEAN) {
+        if (resulCondicion.TIPO.Tipo == Tipo.EnumTipo.C) {
+            if (resulCondicion.VALOR.size() == 1) {
+                resul.VALOR.clear();
+                resulCondicion = ((Expresion) resulCondicion.VALOR.get(0)).getValor(e);
+                if (Boolean.parseBoolean(resulCondicion.VALOR.get(0).toString())) {
+                    Expresion resultVerdadero = verdadera.getValor(e);
+                    resul.TIPO = resultVerdadero.TIPO;
+                    resul.VALOR = resultVerdadero.VALOR;
+                } else {
+                    Expresion resultFalso = falsa.getValor(e);
+                    resul.TIPO = resultFalso.TIPO;
+                    resul.VALOR = resultFalso.VALOR;
+                }
+            } else {
+                Expresion resulTemp;
+                for (Object item : resulCondicion.VALOR) {
+                    resulTemp = ((Expresion) item).getValor(e);
+                    if (resulTemp.TIPO.Tipo == Tipo.EnumTipo.BOOLEAN) {
+                        if (!Boolean.parseBoolean(resulTemp.VALOR.get(0).toString())) {
+                            Expresion resultFalso = falsa.getValor(e);
+                            resul.TIPO = resultFalso.TIPO;
+                            resul.VALOR = resultFalso.VALOR;
+                            return resul;
+                        }
+                    } else {
+                        Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.SEMANTICO), "Tipo de valor incorrecto "
+                                + resulCondicion.TIPO.Tipo, LINEA, COLUMNA));
+                    }
+                }
+
+                Expresion resultVerdadero = verdadera.getValor(e);
+                resul.TIPO = resultVerdadero.TIPO;
+                resul.VALOR = resultVerdadero.VALOR;
+                return resul;
+            }
+        } else if (resulCondicion.TIPO.Tipo != Tipo.EnumTipo.BOOLEAN) {
             Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.SEMANTICO), "Tipo de valor incorrecto "
                     + resulCondicion.TIPO.Tipo, LINEA, COLUMNA));
         } else {
@@ -70,6 +105,7 @@ public class Ternario extends Expresion {
                 resul.VALOR = resultFalso.VALOR;
             }
         }
+
         return resul;
     }
 }
