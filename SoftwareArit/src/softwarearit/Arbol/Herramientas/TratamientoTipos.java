@@ -5,9 +5,13 @@
  */
 package softwarearit.Arbol.Herramientas;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
 import softwarearit.Arbol.Estructura.Tipo;
 import softwarearit.Arbol.Estructura.Tipo.EnumTipo;
+import softwarearit.Arbol.Estructura.TipoError;
 import softwarearit.Arbol.Expresiones.Expresion;
+import softwarearit.Arbol.Valor;
 
 /**
  *
@@ -15,11 +19,7 @@ import softwarearit.Arbol.Expresiones.Expresion;
  */
 public class TratamientoTipos {
 
-    public TratamientoTipos() {
-
-    }
-
-    public EnumTipo tipoSuperior(Expresion var1, Expresion var2) {
+    public static EnumTipo tipoSuperiorExpresion(Expresion var1, Expresion var2) {
 
         if (var1.TIPO.Tipo == Tipo.EnumTipo.STRING || var2.TIPO.Tipo == Tipo.EnumTipo.STRING) {
             return Tipo.EnumTipo.STRING;
@@ -41,6 +41,40 @@ public class TratamientoTipos {
         } else {
             return Tipo.EnumTipo.ERROR;
         }
+    }
+
+    public static EnumTipo TipoSuperior(Expresion var1, Expresion var2) {
+
+        if (var1.TIPO.Tipo == Tipo.EnumTipo.LISTA || var2.TIPO.Tipo == Tipo.EnumTipo.LISTA) {
+            return Tipo.EnumTipo.LISTA;
+        } else if (var1.TIPO.Tipo == Tipo.EnumTipo.STRING || var2.TIPO.Tipo == Tipo.EnumTipo.STRING) {
+            return Tipo.EnumTipo.STRING;
+        } else if (var1.TIPO.Tipo == Tipo.EnumTipo.NUMERIC || var2.TIPO.Tipo == Tipo.EnumTipo.NUMERIC) {
+            return Tipo.EnumTipo.NUMERIC;
+        } else if (var1.TIPO.Tipo == Tipo.EnumTipo.ENTERO || var2.TIPO.Tipo == Tipo.EnumTipo.ENTERO) {
+            return Tipo.EnumTipo.ENTERO;
+        } else if (var1.TIPO.Tipo == Tipo.EnumTipo.BOOLEAN || var2.TIPO.Tipo == Tipo.EnumTipo.BOOLEAN) {
+            return Tipo.EnumTipo.BOOLEAN;
+        } else {
+            return Tipo.EnumTipo.ERROR;
+        }
+    }
+
+    public static EnumTipo tipoSuperiorLista(ArrayList<Object> lista) {
+        EnumTipo tipoSuperior = Tipo.EnumTipo.ERROR;
+
+        if (lista.get(0) instanceof Valor) {
+            Valor actual = (Valor) lista.get(0);
+            tipoSuperior = actual.TIPO.Tipo;
+
+            for (Object item : lista) {
+                if (item instanceof Valor) {
+                    tipoSuperior = TipoSuperior(actual, (Valor) item);
+                    actual.TIPO.Tipo = tipoSuperior;
+                }
+            }
+        }
+        return tipoSuperior;
     }
 
 }

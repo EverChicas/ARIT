@@ -166,3 +166,4 @@ import softwarearit.Arbol.Instrucciones.*;
 . {
     softwarearit.Frame.Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.LEXICO), "Simbolo no conocido " + "\"" + yytext() + "\"", yyline, yychar));
 }
+

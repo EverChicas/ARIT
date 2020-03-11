@@ -5,11 +5,15 @@
  */
 package softwarearit.Arbol.Instrucciones;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
 import softwarearit.Arbol.Estructura.Entorno;
 import softwarearit.Arbol.Estructura.Tipo;
 import softwarearit.Arbol.Expresiones.Expresion;
+import softwarearit.Arbol.Funcion.C;
+import softwarearit.Arbol.Valor;
 import softwarearit.Frame.Interfaz;
-import static softwarearit.Frame.Interfaz.printConsola;
+import static softwarearit.Frame.Interfaz.*;
 
 /**
  *
@@ -38,12 +42,11 @@ public class Print extends Instruccion {
     public Object Ejecutar(Entorno e) {
         Expresion resul = var1.getValor(e);
 
-        if (resul.TIPO.Tipo != Tipo.EnumTipo.ERROR) {
-            for (Object item : resul.VALOR) {
-                printConsola(item.toString());
-            }
+        if (resul.TIPO.Tipo == Tipo.EnumTipo.C) {
+            C.imprimirC(e, (Valor) resul);
+        } else if (resul.TIPO.Tipo != Tipo.EnumTipo.ERROR) {
+            printConsolaLinea(resul.VALOR.get(0).toString());
         }
         return null;
     }
-
 }

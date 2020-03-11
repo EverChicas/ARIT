@@ -20,6 +20,7 @@ import java_cup.runtime.Symbol;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import softwarearit.Arbol.Funcion.FactoryFunction;
 import softwarearit.Arbol.Herramientas.Grafo;
 import softwarearit.Arbol.Instrucciones.Instruccion;
 
@@ -40,7 +41,7 @@ public class Interfaz extends javax.swing.JFrame {
 
     public Interfaz() {
         initComponents();
-
+        
         ABRIR = new AbrirArchivo();
         PESTANIA = new Pestania();
         GUARDAR = new Guardar();
@@ -302,12 +303,27 @@ public class Interfaz extends javax.swing.JFrame {
      *
      * @param text - texto para mostrar en la terminal
      */
-    public static void printConsola(String text) {
+    public static void printConsolaLinea(String text) {
         String tmp = jTextArea1.getText();
         if (tmp.equals("")) {
             tmp = " ";
         } else {
             tmp += "\n ";
+        }
+        jTextArea1.setText(tmp + text);
+    }
+
+    /**
+     * Metodo para imprimir text en la terminal, actualmente imprime linea por
+     * linea actualizar para que imprima en una sola linea o agregar parametro
+     * para sabeer si va con salto de linea
+     *
+     * @param text - texto para mostrar en la terminal
+     */
+    public static void printConsola(String text) {
+        String tmp = jTextArea1.getText();
+        if (tmp.equals("")) {
+            tmp = " ";
         }
         jTextArea1.setText(tmp + text);
     }
@@ -320,7 +336,7 @@ public class Interfaz extends javax.swing.JFrame {
     public static void addError(NodoError error) {
         LISTA_ERRORES.add(error);
         String text = "Error tipo: " + error.getTipoError() + " Descripcion: " + error.Descripcion + " Linea: " + error.Linea + " Columna: " + error.Columna;
-        printConsola(text);
+        printConsolaLinea(text);
     }
 
     private void abrirArchivo() {

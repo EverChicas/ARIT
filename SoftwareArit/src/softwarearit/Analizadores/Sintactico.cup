@@ -6,6 +6,7 @@ import softwarearit.Arbol.Expresiones.Logicas.*;
 import softwarearit.Arbol.Expresiones.Relacionales.*;
 import softwarearit.Arbol.Expresiones.Aritmeticas.*;
 import softwarearit.Arbol.Instrucciones.*;
+import softwarearit.Arbol.Funcion.*;
 import softwarearit.Arbol.*;
 import softwarearit.Frame.Interfaz;
 import java_cup.runtime.*;
@@ -99,7 +100,7 @@ non terminal LinkedList<Instruccion> L_PARAMETROS;
 non terminal Instruccion PARAMETRO;
 non terminal Instruccion FUNCIONES;
 non terminal LinkedList<Expresion> EXPRESIONES;
-non terminal LinkedList<Expresion> L_EXPRESIONES;
+non terminal LinkedList<Nodo> L_EXPRESIONES;
 non terminal Expresion ACCESO;
 
 /* Precedencia */
@@ -231,18 +232,10 @@ IMPRIMIR::= _print:op parentesisizquierda E:a parentesisderecha          {: RESU
         | _print:op parentesisizquierda E:a parentesisderecha puntoycoma {: RESULT = new Print(opleft,opright,a); :}
         ;
 
-    // TODO producciones con problemas
 
-EXPRESIONES ::= parentesisizquierda L_EXPRESIONES parentesisderecha
-        | parentesisizquierda  parentesisderecha
-        ;
 
-L_EXPRESIONES ::= L_EXPRESIONES coma E
-        | E
-        ;
-
-ACCESO ::= _id
-        | _id EXPRESIONES
+L_EXPRESIONES ::= L_EXPRESIONES:a coma E:b {: RESULT = a; RESULT.add(b); :}
+        | E:a                              {: RESULT = new LinkedList<>(); RESULT.add(a); :}
         ;
 
 E::=    E:a mas:op E:b               {: RESULT = new Suma(opleft,opright,a,b); :}
@@ -276,6 +269,18 @@ E::=    E:a mas:op E:b               {: RESULT = new Suma(opleft,opright,a,b); :
 
         // TODO terminar con llamada de variables y funciones
         
-        | _id:a {: RESULT = new Acceso(aleft,aright,a); :}
-        
+        | _id:a                                                         {: RESULT = new Acceso(aleft,aright,a); :}
+        | _id:a parentesisizquierda parentesisderecha                  
+        | _id:a parentesisizquierda L_EXPRESIONES:le parentesisderecha  {: RESULT = FactoryFunction.getFunctionEstructura(a,le); :}
+        ;
+
+
+
+// TODO producciones con problemas
+EXPRESIONES ::= parentesisizquierda L_EXPRESIONES parentesisderecha
+        | parentesisizquierda  parentesisderecha
+        ;
+
+ACCESO ::= _id
+        | _id EXPRESIONES
         ;

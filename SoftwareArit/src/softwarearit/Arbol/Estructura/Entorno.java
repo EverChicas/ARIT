@@ -38,20 +38,29 @@ public class Entorno {
 
     public void insertar(String nombre, Simbolo simbolo, int linea, int columna) {
         for (Entorno e = this; e != null; e = e.anterior) {
-            if (e.tabla.containsKey(nombre)) {
+            if (e.tabla.containsKey(nombre.toLowerCase())) {
                 if (e.tipoEntorno == EnumEntorno.GLOBAL || e.tipoEntorno == EnumEntorno.FUNCION) {
-                    e.tabla.put(nombre, simbolo);
-                    return;
+                    if (simbolo.Tipo.Tipo != Tipo.EnumTipo.ERROR) {
+                        e.tabla.put(nombre.toLowerCase(), simbolo);
+                        return;
+                    } else {
+                        return;
+                    }
                 }
             }
         }
-        tabla.put(nombre, simbolo);
+        if (simbolo.Tipo.Tipo != Tipo.EnumTipo.ERROR) {
+            tabla.put(nombre.toLowerCase(), simbolo);
+            return;
+        } else {
+            return;
+        }
     }
 
     public Simbolo buscar(String identificador) {
         for (Entorno e = this; e != null; e = e.anterior) {
-            if (e.tabla.containsKey(identificador)) {
-                return e.tabla.get(identificador);
+            if (e.tabla.containsKey(identificador.toLowerCase())) {
+                return e.tabla.get(identificador.toLowerCase());
             }
         }
         return null;

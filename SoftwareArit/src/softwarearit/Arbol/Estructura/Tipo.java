@@ -42,6 +42,7 @@ public class Tipo {
         ARRAY,
         ERROR,
         NULL,
+        C,
     }
 
 }

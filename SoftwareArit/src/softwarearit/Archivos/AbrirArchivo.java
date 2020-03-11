@@ -50,7 +50,7 @@ public class AbrirArchivo {
                 }
             }
         }catch(IOException e){
-            softwarearit.Frame.Interfaz.printConsola("Error al abrir el archivo");
+            softwarearit.Frame.Interfaz.printConsolaLinea("Error al abrir el archivo");
         }
         return ArchivoRetornar;
     }

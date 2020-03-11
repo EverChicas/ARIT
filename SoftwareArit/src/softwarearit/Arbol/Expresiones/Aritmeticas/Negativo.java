@@ -18,51 +18,85 @@ import softwarearit.Frame.Interfaz;
  *
  * @author chicas
  */
-public class Negativo extends Expresion{
-     
+public class Negativo extends Expresion {
+
     Expresion var1;
-    
-    public Negativo(int linea,int columna,Expresion valor){
+
+    public Negativo(int linea, int columna, Expresion valor) {
         this.LINEA = linea;
         this.COLUMNA = columna;
         this.var1 = valor;
         generarGrafica();
     }
-    
+
     /**
      * Metodo para generar el codigo del grafo
      */
-    private void generarGrafica(){
+    private void generarGrafica() {
         this.NOMBRE = Interfaz.GRAFICA_ARBOL.getNombreNodo();
         this.GRAFICA = Interfaz.GRAFICA_ARBOL.generarGraficaUnHijo("-", this, var1);
     }
 
     @Override
     public Expresion getValor(Entorno e) {
-        TratamientoTipos tratamiento = new TratamientoTipos();
-        
-        Valor resul = new Valor(new Tipo(Tipo.EnumTipo.ERROR),"error");
-        
         Expresion resul1 = this.var1.getValor(e);
-        
-        switch (tratamiento.tipoSuperior(resul1, resul1)) {
+
+        if (resul1.TIPO.Tipo == Tipo.EnumTipo.C) {
+            return operarC(e, resul1);
+        } else {
+            return operar(resul1);
+        }
+
+    }
+
+    /**
+     * Operacion cuando hay un tipo c y un valor normal
+     *
+     * @param e
+     * @param valorTipoC
+     * @param var2
+     * @return
+     */
+    private Expresion operarC(Entorno e, Expresion valorTipoC) { //el var1 siempre va hacer el tipo c
+        Valor resul = new Valor(new Tipo(Tipo.EnumTipo.ERROR), "error");
+
+        Expresion resulValor;
+
+        resul.VALOR.clear();
+        for (Object valor : valorTipoC.VALOR) {
+            resulValor = ((Expresion) valor).getValor(e);
+            if (resulValor == null) {
+                Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.SEMANTICO), "valor nulo", LINEA, COLUMNA));
+            } else {
+                resul.VALOR.add(operar(resulValor));
+            }
+        }
+        resul.TIPO.Tipo = Tipo.EnumTipo.C;
+        return resul;
+    }
+
+    private Expresion operar(Expresion resul1) {
+        Valor resul = new Valor(new Tipo(Tipo.EnumTipo.ERROR), "error");
+
+        switch (TratamientoTipos.tipoSuperiorExpresion(resul1, resul1)) {
             case ERROR:
-                Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.SEMANTICO),"error de tipos: "+resul1.TIPO.Tipo, this.LINEA, this.COLUMNA));
+                Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.SEMANTICO), "error de tipos: " + resul1.TIPO.Tipo, this.LINEA, this.COLUMNA));
                 break;
             case STRING:
-                Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.SEMANTICO),"error de tipos: "+resul1.TIPO.Tipo, this.LINEA, this.COLUMNA));
+                Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.SEMANTICO), "error de tipos: " + resul1.TIPO.Tipo, this.LINEA, this.COLUMNA));
                 break;
             case ENTERO:
                 resul.TIPO = new Tipo(Tipo.EnumTipo.ENTERO);
                 resul.VALOR.clear();
-                resul.VALOR.add(Integer.parseInt(resul1.VALOR.get(0).toString()) * -1);  
+                resul.VALOR.add(Integer.parseInt(resul1.VALOR.get(0).toString()) * -1);
                 break;
             case NUMERIC:
                 resul.TIPO = new Tipo(Tipo.EnumTipo.NUMERIC);
                 resul.VALOR.clear();
-                resul.VALOR.add(Double.parseDouble(resul1.VALOR.get(0).toString()) * -1);  
+                resul.VALOR.add(Double.parseDouble(resul1.VALOR.get(0).toString()) * -1);
                 break;
         }
         return resul;
     }
+
 }
