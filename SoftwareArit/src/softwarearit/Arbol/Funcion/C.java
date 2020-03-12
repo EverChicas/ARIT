@@ -10,7 +10,10 @@ import softwarearit.Arbol.Estructura.AbstractFuncion;
 import java.util.LinkedList;
 import softwarearit.Arbol.Estructura.Entorno;
 import softwarearit.Arbol.Estructura.Nodo;
+import softwarearit.Arbol.Estructura.NodoError;
+import softwarearit.Arbol.Estructura.Simbolo;
 import softwarearit.Arbol.Estructura.Tipo;
+import softwarearit.Arbol.Estructura.TipoError;
 import softwarearit.Arbol.Expresiones.Expresion;
 import softwarearit.Arbol.Herramientas.Casteo;
 import softwarearit.Arbol.Herramientas.TratamientoTipos;
@@ -143,6 +146,47 @@ public class C extends AbstractFuncion {
             }
         }
         return cadena;
+    }
+
+    public static Expresion modificarVector(Entorno e, Expresion indice, Simbolo vector, Expresion nuevoValor, int linea, int columna) {
+        indice = indice.getValor(e);
+        ArrayList<Object> lista = new ArrayList<>();
+
+        if (indice.TIPO.Tipo != Tipo.EnumTipo.ENTERO) {
+            Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.SEMANTICO), "Error en tipo de indice", linea, columna));
+            indice.TIPO.Tipo = Tipo.EnumTipo.ERROR;
+            return indice;
+        } else if (nuevoValor.VALOR.size() > 1) {
+            Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.SEMANTICO), "Error se quiere asignar mas de un valor a una posicion", linea, columna));
+            indice.TIPO.Tipo = Tipo.EnumTipo.ERROR;
+            return indice;
+        }
+
+        if (vector.Valor.size() > (Integer.parseInt(indice.VALOR.get(0).toString()) - 1)) {
+            for (int i = 0; i < vector.Valor.size(); i++) {
+                if (i == (Integer.parseInt(indice.VALOR.get(0).toString()) - 1)) {
+                    lista.add(nuevoValor);
+                } else {
+                    lista.add(vector.Valor.get(i));
+                }
+            }
+        } else {
+            for (int i = 0; i < (Integer.parseInt(indice.VALOR.get(0).toString()) - 1); i++) {
+                if (i >= vector.Valor.size()) {
+                    lista.add(new Valor(new Tipo(Tipo.EnumTipo.NULL), "null"));
+                } else {
+                    lista.add(new Valor(new Tipo(vector.Tipo.Tipo), vector.Valor.get(i)));
+                }
+            }
+            lista.add(nuevoValor);
+        }
+
+        Tipo.EnumTipo tipoValoresC = TratamientoTipos.tipoSuperiorLista(lista);
+        if (lista.size() > 1) {
+            return new Valor(new Tipo(Tipo.EnumTipo.C), Casteo.CasteoDeArray(lista, tipoValoresC));
+        } else {
+            return (Expresion) lista.get(0);
+        }
     }
 
 }

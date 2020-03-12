@@ -275,3 +275,120 @@ print(g)
 print(h)
 print(i)
 print(j)
+
+
+a = c(1,2,3,4,5)
+b = a[2]
+print(a)
+print(b)
+a[1] = 5
+
+a = c(1,2,3,4,5)
+a[3] = 15
+print(a)
+
+
+
+# Creando un vector de tamaño 1
+Vector1 = "hola mundo"; # Vector de tipo String
+print(vector1)
+# Creando un vector de tamaño 1 con la función C
+Vector2 = c("hola mundo");
+print(vector2)
+# Creando un vector de múltiples valores
+Vector3 = c("Casa", "Gato");
+print(vector3)
+# Creando un vector a partir de otro vector
+Vector4 = c(Vector1, Vector3); # Contenido del vector vector4 -> [“hola mundo”, “Casa”, “Gato”]
+print(vector4)
+# Creado un vector a partir de otros vectores de tamaño 1
+Perro = "Perro"
+Gato = "Gato"
+Pez = "Pescado"
+Animales = c(Perro, Gato, Pez); # Contenido del vector Animales ->[“Perro”, “Gato”, “Pescado”]
+print(animales)
+# Creando un vector de tamaño 1
+Vector1 = NULL # Vector de tipo String
+print(vector1)
+print("------------")
+
+# Declarando vectores
+Perro = "Perro"
+Gato = "Gato"
+Animales = c(Perro, Gato) # Contenido del vector animales -> [“Perro”, “Gato”]
+print(animales)
+# Acceso vector
+Aux = Animales[1] # Recordar que el índice inicia en 1, contenido del vector Aux -> [“Perro”]
+print(aux)
+# Creando otro vector
+Animales = c(Aux, Animales) # Contenido del vector animales -> [“Perro”, “Perro”, “Gato”]
+print(animales)
+# Creando otro vector
+Animales = c(Animales[3], Animales) # Contenido del vector animales -> [“Gato”, “Perro”, “Perro”,“Gato”]
+print(animales)
+
+
+
+print("----------")
+# Creando un vector
+Vector1 = "hola"; # Se crea un nuevo vector de tamaño 1
+# Agregando un nuevo valor al vector
+print(vector1)
+Vector1[4] = "45" # Contenido del vector Vector1 -> [“hola”, NULL, NULL, “45”]
+print(vector1)
+# Reemplazando un valor existente
+Vector1[3] = "cambio" # Contenido del vector Vector1 -> [“hola”, NULL, "cambio”, “45”]
+print(vector1)
+# Agregando un nuevo valor sin índice
+Vector1 = c(Vector1, "nuevo") # Contenido del vector Vector1 -> [“hola”, NULL, "cambio”, “45”,“nuevo”]
+print(vector1)
+# Reemplazando un valor existente
+Vector1[3] = c(4,"cambio") # Error, porque estoy tratando de asignar más de un valor a una posición
+# del vector
+# Reemplazando un valor existente
+print(vector1)
+Vector1[3] = c("otro valor") # Contenido del vector Vector1 -> [“hola”, NULL, "otro valor”, “45”,“nuevo”]
+print(vector1)
+
+
+# SUMA DE VECTORES
+# Creando un nuevo vector
+A = c(1, 2, 3, 4, 5)
+B = c(5, -2, 1, 2, 8)
+print(a)
+print(b)
+# Sumando un numero a un vector
+A = A + (5*3-2) # nuevo contenido del vector A -> [14, 15, 16, 17, 18]
+print(a)
+# Suma entre vectores
+A = A + A + A # nuevo contenido del vector A -> [42, 45, 48, 51, 54]
+print(a)
+# RESTA DE VECTORES
+# Creando un vector
+A = c(1, 2, 3, 4, 5)
+print(a)
+# Restando un numero a un vector
+A = A - 5 # nuevo contenido del vector A -> [-4, -3, -2, -1, 0]# Resta entre vectores
+print(a)
+A = A - A - A # nuevo contenido del vector A -> [4, 3, 2, 1, 0]
+print(a)
+# Operaciones de comparación entre vectores
+# Creando un vector
+A = c(1, 2, 3, 4, 5)
+print(a)
+# Verificando si cada elemento del vector es menor a 3
+C= A < 3 # nuevo contenido del vector C -> [true, true, false, false, false]
+print(c)
+# Comparando los elementos de cada vector
+C= A < B # nuevo contenido del vector C -> [true, false, false, false, true]
+print(c)
+# Operaciones lógicas entre vectores
+# Creando un vector
+D = c(true, false, false, false, false)
+print(d)
+# Aplicando operación OR
+B = A or true # nuevo contenido del vector B -> [true, true, true, true, true]
+print(b)
+# Comparando los elementos de cada vector
+A = B and D # nuevo contenido del vector A -> [true, false, false, false, false]
+print(a)

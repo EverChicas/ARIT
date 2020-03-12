@@ -10,6 +10,7 @@ import softwarearit.Arbol.Estructura.NodoError;
 import softwarearit.Arbol.Estructura.Tipo;
 import softwarearit.Arbol.Estructura.TipoError;
 import softwarearit.Arbol.Expresiones.Expresion;
+import softwarearit.Arbol.Herramientas.Casteo;
 import softwarearit.Arbol.Valor;
 import softwarearit.Frame.Interfaz;
 
@@ -57,9 +58,14 @@ public class Or extends Expresion {
     private Expresion operarCIzquierda(Entorno e, Expresion valorTipoC, Expresion var2) { //el var1 siempre va hacer el tipo c
         Valor resul = new Valor(new Tipo(Tipo.EnumTipo.ERROR), "error");
 
-        Expresion resulValor;
+        valorTipoC.VALOR = Casteo.CasteoImplicito(valorTipoC.VALOR, Tipo.EnumTipo.BOOLEAN);
+        if (((Expresion) valorTipoC.VALOR.get(0)).TIPO.Tipo == Tipo.EnumTipo.ERROR) {
+            return resul;
+        }
 
+        Expresion resulValor;
         resul.VALOR.clear();
+
         for (Object valor : valorTipoC.VALOR) {
             resulValor = ((Expresion) valor).getValor(e);
             if (resulValor == null) {
@@ -72,13 +78,18 @@ public class Or extends Expresion {
         return resul;
     }
 
-    private Expresion operarCDerecha(Entorno e, Expresion var1, Expresion valorC) { //el var2 siempre va hacer el tipo c
+    private Expresion operarCDerecha(Entorno e, Expresion var1, Expresion valorTipoC) { //el var2 siempre va hacer el tipo c
         Valor resul = new Valor(new Tipo(Tipo.EnumTipo.ERROR), "error");
 
-        Expresion resulValor;
+        valorTipoC.VALOR = Casteo.CasteoImplicito(valorTipoC.VALOR, Tipo.EnumTipo.BOOLEAN);
+        if (((Expresion) valorTipoC.VALOR.get(0)).TIPO.Tipo == Tipo.EnumTipo.ERROR) {
+            return resul;
+        }
 
+        Expresion resulValor;
         resul.VALOR.clear();
-        for (Object valor : valorC.VALOR) {
+
+        for (Object valor : valorTipoC.VALOR) {
             resulValor = ((Expresion) valor).getValor(e);
             if (resulValor == null) {
                 Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.SEMANTICO), "valor nulo", LINEA, COLUMNA));
@@ -92,6 +103,13 @@ public class Or extends Expresion {
 
     private Expresion operar2C(Entorno e, Expresion var1, Expresion var2) {
         Valor resul = new Valor(new Tipo(Tipo.EnumTipo.ERROR), "error");
+
+        var1.VALOR = Casteo.CasteoImplicito(var1.VALOR, Tipo.EnumTipo.BOOLEAN);
+        var2.VALOR = Casteo.CasteoImplicito(var2.VALOR, Tipo.EnumTipo.BOOLEAN);
+        if (((Expresion) var1.VALOR.get(0)).TIPO.Tipo == Tipo.EnumTipo.ERROR || ((Expresion) var2.VALOR.get(0)).TIPO.Tipo == Tipo.EnumTipo.ERROR) {
+            return resul;
+        }
+
         Expresion resul1;
         Expresion resul2;
 

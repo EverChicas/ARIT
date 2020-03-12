@@ -11,6 +11,7 @@ import softwarearit.Arbol.Estructura.NodoError;
 import softwarearit.Arbol.Estructura.Tipo;
 import softwarearit.Arbol.Estructura.TipoError;
 import softwarearit.Arbol.Expresiones.Expresion;
+import softwarearit.Arbol.Herramientas.Casteo;
 import softwarearit.Arbol.Valor;
 import softwarearit.Frame.Interfaz;
 
@@ -51,8 +52,12 @@ public class Not extends Expresion {
     private Expresion operarC(Entorno e, Expresion valorTipoC) { //el var1 siempre va hacer el tipo c
         Valor resul = new Valor(new Tipo(Tipo.EnumTipo.ERROR), "error");
 
-        Expresion resulValor;
+        valorTipoC.VALOR = Casteo.CasteoImplicito(valorTipoC.VALOR, Tipo.EnumTipo.BOOLEAN);
+        if (((Expresion) valorTipoC.VALOR.get(0)).TIPO.Tipo == Tipo.EnumTipo.ERROR) {
+            return resul;
+        }
 
+        Expresion resulValor;
         resul.VALOR.clear();
         for (Object valor : valorTipoC.VALOR) {
             resulValor = ((Expresion) valor).getValor(e);

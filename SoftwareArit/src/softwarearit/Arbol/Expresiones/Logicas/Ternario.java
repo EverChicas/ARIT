@@ -10,6 +10,7 @@ import softwarearit.Arbol.Estructura.NodoError;
 import softwarearit.Arbol.Estructura.Tipo;
 import softwarearit.Arbol.Estructura.TipoError;
 import softwarearit.Arbol.Expresiones.Expresion;
+import softwarearit.Arbol.Herramientas.Casteo;
 import softwarearit.Arbol.Valor;
 import softwarearit.Frame.Interfaz;
 
@@ -69,6 +70,11 @@ public class Ternario extends Expresion {
                     resul.VALOR = resultFalso.VALOR;
                 }
             } else {
+                resulCondicion.VALOR = Casteo.CasteoImplicito(resulCondicion.VALOR, Tipo.EnumTipo.BOOLEAN);
+                if (((Expresion) resulCondicion.VALOR.get(0)).TIPO.Tipo == Tipo.EnumTipo.ERROR) {
+                    return resul;
+                }
+
                 Expresion resulTemp;
                 for (Object item : resulCondicion.VALOR) {
                     resulTemp = ((Expresion) item).getValor(e);

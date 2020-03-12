@@ -69,8 +69,10 @@ public class TratamientoTipos {
 
             for (Object item : lista) {
                 if (item instanceof Valor) {
-                    tipoSuperior = TipoSuperior(actual, (Valor) item);
-                    actual.TIPO.Tipo = tipoSuperior;
+                    if (((Valor) ((Expresion) item)).TIPO.Tipo != Tipo.EnumTipo.NULL) {
+                        tipoSuperior = TipoSuperior(actual, (Valor) item);
+                        actual.TIPO.Tipo = tipoSuperior;
+                    }
                 }
             }
         }

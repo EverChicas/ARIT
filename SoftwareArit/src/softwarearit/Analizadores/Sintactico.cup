@@ -102,6 +102,7 @@ non terminal Instruccion FUNCIONES;
 non terminal LinkedList<Expresion> EXPRESIONES;
 non terminal LinkedList<Nodo> L_EXPRESIONES;
 non terminal Expresion ACCESO;
+non terminal LinkedList<Nodo> L_ACCESO;
 
 /* Precedencia */
 /*
@@ -226,6 +227,8 @@ ELSE_IF::= ELSE_IF:a _else _if:op parentesisizquierda E:b parentesisderecha BLOQ
 
 ASIGNACION::= _id:ide igual:op E:exp        {:RESULT = new Asignacion(opleft,opright,ide,exp); :}
         | _id:ide igual:op E:exp puntoycoma {:RESULT = new Asignacion(opleft,opright,ide,exp); :}
+        | _id:ide L_ACCESO:b igual:op E:exp        {:RESULT = new AsignacionEstructura(opleft,opright,ide,b,exp); :}
+        | _id:ide L_ACCESO:b igual:op E:exp puntoycoma {:RESULT = new AsignacionEstructura(opleft,opright,ide,b,exp); :}
         ;
 
 IMPRIMIR::= _print:op parentesisizquierda E:a parentesisderecha          {: RESULT = new Print(opleft,opright,a); :}
@@ -236,6 +239,10 @@ IMPRIMIR::= _print:op parentesisizquierda E:a parentesisderecha          {: RESU
 
 L_EXPRESIONES ::= L_EXPRESIONES:a coma E:b {: RESULT = a; RESULT.add(b); :}
         | E:a                              {: RESULT = new LinkedList<>(); RESULT.add(a); :}
+        ;
+
+L_ACCESO::= L_ACCESO:a corcheteizquierda E:b corchetederecha  {: RESULT = a; RESULT.add(b); :}
+        | corcheteizquierda E:a corchetederecha               {: RESULT = new LinkedList<>(); RESULT.add(a); :}
         ;
 
 E::=    E:a mas:op E:b               {: RESULT = new Suma(opleft,opright,a,b); :}
@@ -272,15 +279,21 @@ E::=    E:a mas:op E:b               {: RESULT = new Suma(opleft,opright,a,b); :
         | _id:a                                                         {: RESULT = new Acceso(aleft,aright,a); :}
         | _id:a parentesisizquierda parentesisderecha                  
         | _id:a parentesisizquierda L_EXPRESIONES:le parentesisderecha  {: RESULT = FactoryFunction.getFunctionEstructura(a,le); :}
+        | _id:a L_ACCESO:b                                              {: RESULT = new AccesoEstructura(aleft,aright,a,b); :}
         ;
 
 
 
 // TODO producciones con problemas
-EXPRESIONES ::= parentesisizquierda L_EXPRESIONES parentesisderecha
-        | parentesisizquierda  parentesisderecha
-        ;
 
-ACCESO ::= _id
-        | _id EXPRESIONES
-        ;
+
+
+
+//ACCESO ::= _id corcheteizquierda E corchetederecha
+//        | _id corcheteizquierda corchetederecha
+//        | _id                                       {: RESULT = new Acceso(aleft,aright,a); :}
+//        ;
+
+
+
+

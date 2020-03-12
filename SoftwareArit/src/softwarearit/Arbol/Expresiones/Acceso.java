@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package softwarearit.Arbol.Instrucciones;
+package softwarearit.Arbol.Expresiones;
 
 import softwarearit.Arbol.Estructura.Entorno;
 import softwarearit.Arbol.Estructura.NodoError;
