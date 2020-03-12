@@ -6,7 +6,11 @@
 package softwarearit.Arbol.Instrucciones;
 
 import softwarearit.Arbol.Estructura.Entorno;
+import softwarearit.Arbol.Estructura.NodoError;
+import softwarearit.Arbol.Estructura.Tipo;
+import softwarearit.Arbol.Estructura.TipoError;
 import softwarearit.Arbol.Expresiones.Expresion;
+import softwarearit.Arbol.Herramientas.Casteo;
 import softwarearit.Frame.Interfaz;
 
 /**
@@ -39,22 +43,86 @@ public class While extends Instruccion {
 
     @Override
     public Object Ejecutar(Entorno e) {
+        boolean condicionVerdadera = false;
         Expresion resulCondicion = this.condicion.getValor(e);
         Entorno entornoLocal = new Entorno(e, Entorno.EnumEntorno.WHILE);
-        
-        while ((Boolean.parseBoolean(resulCondicion.VALOR.get(0).toString()))) { 
 
-            Object resulInstruccion = this.bloqueWhile.Ejecutar(entornoLocal);
-            if (resulInstruccion != null) {
-                if (resulInstruccion instanceof Break) {
+        if (resulCondicion.TIPO.Tipo == Tipo.EnumTipo.C) {
+
+            resulCondicion.VALOR = Casteo.CasteoImplicito(resulCondicion.VALOR, Tipo.EnumTipo.BOOLEAN);
+            if (((Expresion) resulCondicion.VALOR.get(0)).TIPO.Tipo == Tipo.EnumTipo.ERROR) {
+                return null;
+            }
+
+            for (Object item : resulCondicion.VALOR) {
+                if (item instanceof Expresion) {
+                    if (((Expresion) item).TIPO.Tipo == Tipo.EnumTipo.BOOLEAN) {
+                        if (!Boolean.parseBoolean(((Expresion) item).VALOR.get(0).toString())) {
+                            return null;
+                        }
+                    } else {
+                        Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.SEMANTICO), "Error de tipo", LINEA, COLUMNA));
+                        return null;
+                    }
+                } else {
+                    Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.SEMANTICO), "Error no es una expresion", LINEA, COLUMNA));
                     return null;
-                } else if (resulInstruccion instanceof Continue) {
-                    continue;
-                } else if (resulInstruccion instanceof Return) {
-                    return resulInstruccion;
                 }
             }
-            resulCondicion = this.condicion.getValor(e);
+            condicionVerdadera = true;
+
+            while (condicionVerdadera) {
+
+                Object resulInstruccion = this.bloqueWhile.Ejecutar(entornoLocal);
+                if (resulInstruccion != null) {
+                    if (resulInstruccion instanceof Break) {
+                        return null;
+                    } else if (resulInstruccion instanceof Continue) {
+                        continue;
+                    } else if (resulInstruccion instanceof Return) {
+                        return resulInstruccion;
+                    }
+                }
+                
+                resulCondicion = this.condicion.getValor(e);
+                resulCondicion.VALOR = Casteo.CasteoImplicito(resulCondicion.VALOR, Tipo.EnumTipo.BOOLEAN);
+                if (((Expresion) resulCondicion.VALOR.get(0)).TIPO.Tipo == Tipo.EnumTipo.ERROR) {
+                    condicionVerdadera = false;
+                    return null;
+                }
+
+                for (Object item : resulCondicion.VALOR) {
+                    if (item instanceof Expresion) {
+                        if (((Expresion) item).TIPO.Tipo == Tipo.EnumTipo.BOOLEAN) {
+                            if (!Boolean.parseBoolean(((Expresion) item).VALOR.get(0).toString())) {
+                                return null;
+                            }
+                        } else {
+                            Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.SEMANTICO), "Error de tipo", LINEA, COLUMNA));
+                            return null;
+                        }
+                    } else {
+                        Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.SEMANTICO), "Error no es una expresion", LINEA, COLUMNA));
+                        return null;
+                    }
+                }
+            }
+
+        } else {
+            while ((Boolean.parseBoolean(resulCondicion.VALOR.get(0).toString()))) {
+
+                Object resulInstruccion = this.bloqueWhile.Ejecutar(entornoLocal);
+                if (resulInstruccion != null) {
+                    if (resulInstruccion instanceof Break) {
+                        return null;
+                    } else if (resulInstruccion instanceof Continue) {
+                        continue;
+                    } else if (resulInstruccion instanceof Return) {
+                        return resulInstruccion;
+                    }
+                }
+                resulCondicion = this.condicion.getValor(e);
+            }
         }
         return null;
     }

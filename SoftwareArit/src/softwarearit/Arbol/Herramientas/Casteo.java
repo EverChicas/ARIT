@@ -105,7 +105,7 @@ public class Casteo {
 
     private static Valor toBoolean(Expresion valor) {
         if (valor.TIPO.Tipo == Tipo.EnumTipo.ENTERO || valor.TIPO.Tipo == Tipo.EnumTipo.NUMERIC) {
-            if (Double.parseDouble(valor.VALOR.get(0).toString()) > 1) {
+            if (Double.parseDouble(valor.VALOR.get(0).toString()) > 0) {
                 return new Valor(new Tipo(Tipo.EnumTipo.BOOLEAN), true);
             } else {
                 return new Valor(new Tipo(Tipo.EnumTipo.BOOLEAN), false);

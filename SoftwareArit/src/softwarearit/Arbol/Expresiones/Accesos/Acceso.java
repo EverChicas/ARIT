@@ -3,13 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package softwarearit.Arbol.Expresiones;
+package softwarearit.Arbol.Expresiones.Accesos;
 
 import softwarearit.Arbol.Estructura.Entorno;
 import softwarearit.Arbol.Estructura.NodoError;
 import softwarearit.Arbol.Estructura.Simbolo;
 import softwarearit.Arbol.Estructura.Tipo;
 import softwarearit.Arbol.Estructura.TipoError;
+import softwarearit.Arbol.Expresiones.Expresion;
 import softwarearit.Arbol.Expresiones.Expresion;
 import softwarearit.Arbol.Valor;
 import softwarearit.Frame.Interfaz;

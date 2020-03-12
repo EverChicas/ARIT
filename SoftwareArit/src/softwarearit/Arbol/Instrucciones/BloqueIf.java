@@ -10,6 +10,7 @@ import softwarearit.Arbol.Estructura.NodoError;
 import softwarearit.Arbol.Estructura.Tipo;
 import softwarearit.Arbol.Estructura.TipoError;
 import softwarearit.Arbol.Expresiones.Expresion;
+import softwarearit.Arbol.Herramientas.Casteo;
 import softwarearit.Frame.Interfaz;
 
 /**
@@ -54,7 +55,47 @@ public class BloqueIf extends Instruccion {
         this.condificionCumplida = false;
         Expresion resultado = this.condicion.getValor(e);
 
-        if (resultado.TIPO.Tipo == Tipo.EnumTipo.BOOLEAN) {
+        if (resultado.TIPO.Tipo == Tipo.EnumTipo.C) {
+
+            resultado.VALOR = Casteo.CasteoImplicito(resultado.VALOR, Tipo.EnumTipo.BOOLEAN);
+            if (((Expresion) resultado.VALOR.get(0)).TIPO.Tipo == Tipo.EnumTipo.ERROR) {
+                Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.SEMANTICO), "Error de tipo", LINEA, COLUMNA));
+                return null;
+            }
+
+            for (Object item : resultado.VALOR) {
+                if (item instanceof Expresion) {
+                    if (((Expresion) item).TIPO.Tipo == Tipo.EnumTipo.BOOLEAN) {
+                        if (!Boolean.parseBoolean(((Expresion) item).VALOR.get(0).toString())) {
+                            return null;
+                        }
+                    } else {
+                        Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.SEMANTICO), "Error de tipo", LINEA, COLUMNA));
+                        return null;
+                    }
+                } else {
+                    Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.SEMANTICO), "Error no es una expresion", LINEA, COLUMNA));
+                    return null;
+                }
+            }
+            /**
+             * Se cumple la condicion y ejecuta lo que esta dentro
+             *
+             */
+            Entorno entornoLocal = new Entorno(e, Entorno.EnumEntorno.IF);
+            Object resultadoBloque = this.bloque.Ejecutar(entornoLocal);
+            this.condificionCumplida = true;
+
+            if (resultadoBloque != null) {
+                if (resultadoBloque instanceof Break) {
+                    return resultadoBloque;
+                } else if (resultadoBloque instanceof Continue) {
+                    return resultadoBloque;
+                } else if (resultadoBloque instanceof Return) {
+                    return resultadoBloque;
+                }
+            }
+        } else if (resultado.TIPO.Tipo == Tipo.EnumTipo.BOOLEAN) {
             if (Boolean.parseBoolean(resultado.VALOR.get(0).toString())) {
                 /**
                  * Se cumple la condicion y ejecuta lo que esta dentro

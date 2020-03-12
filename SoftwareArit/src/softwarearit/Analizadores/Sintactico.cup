@@ -5,6 +5,7 @@ import softwarearit.Arbol.Expresiones.*;
 import softwarearit.Arbol.Expresiones.Logicas.*;
 import softwarearit.Arbol.Expresiones.Relacionales.*;
 import softwarearit.Arbol.Expresiones.Aritmeticas.*;
+import softwarearit.Arbol.Expresiones.Accesos.*;
 import softwarearit.Arbol.Instrucciones.*;
 import softwarearit.Arbol.Funcion.*;
 import softwarearit.Arbol.*;
@@ -241,8 +242,16 @@ L_EXPRESIONES ::= L_EXPRESIONES:a coma E:b {: RESULT = a; RESULT.add(b); :}
         | E:a                              {: RESULT = new LinkedList<>(); RESULT.add(a); :}
         ;
 
-L_ACCESO::= L_ACCESO:a corcheteizquierda E:b corchetederecha  {: RESULT = a; RESULT.add(b); :}
-        | corcheteizquierda E:a corchetederecha               {: RESULT = new LinkedList<>(); RESULT.add(a); :}
+//L_ACCESO::= L_ACCESO:a corcheteizquierda E:b corchetederecha  {: RESULT = a; RESULT.add(b); :}
+//        | corcheteizquierda E:a corchetederecha               {: RESULT = new LinkedList<>(); RESULT.add(a); :}
+//        ;
+
+L_ACCESO::= L_ACCESO:a ACCESO:b  {: RESULT = a; RESULT.add(b); :}
+        | ACCESO:a               {: RESULT = new LinkedList<>(); RESULT.add(a); :}
+        ;
+
+ACCESO::= corcheteizquierda ACCESO:a corchetederecha    {: RESULT = a; ((AccesoProfundo) RESULT).profundidad++; :}
+        | corcheteizquierda E:a corchetederecha         {: RESULT = new AccesoProfundo(aleft,aright,a,1); :}
         ;
 
 E::=    E:a mas:op E:b               {: RESULT = new Suma(opleft,opright,a,b); :}
@@ -277,7 +286,7 @@ E::=    E:a mas:op E:b               {: RESULT = new Suma(opleft,opright,a,b); :
         // TODO terminar con llamada de variables y funciones
         
         | _id:a                                                         {: RESULT = new Acceso(aleft,aright,a); :}
-        | _id:a parentesisizquierda parentesisderecha                  
+        | _id:a parentesisizquierda parentesisderecha   //llamada a funcion               
         | _id:a parentesisizquierda L_EXPRESIONES:le parentesisderecha  {: RESULT = FactoryFunction.getFunctionEstructura(a,le); :}
         | _id:a L_ACCESO:b                                              {: RESULT = new AccesoEstructura(aleft,aright,a,b); :}
         ;
