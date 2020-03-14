@@ -19,7 +19,6 @@ import softwarearit.Arbol.Herramientas.Casteo;
 import softwarearit.Arbol.Herramientas.TratamientoTipos;
 import softwarearit.Arbol.Valor;
 import softwarearit.Frame.Interfaz;
-import static softwarearit.Frame.Interfaz.printConsolaLinea;
 
 /**
  *
@@ -43,6 +42,14 @@ public class C extends AbstractFuncion {
     public Expresion getValor(Entorno e) {
         ArrayList<Object> valores = new ArrayList<>();
         Expresion resulValor;
+
+        for (Object valor : this.lista) {
+            resulValor = ((Expresion) valor).getValor(e);
+            if (resulValor.TIPO.Tipo == Tipo.EnumTipo.LISTA) {
+                Expresion valorLista = new List(lista).getValor(e);
+                return valorLista;
+            }
+        }
 
         /**
          * voy a recorrer el arreglo, si encuentro otro arreglo llama a
@@ -120,13 +127,13 @@ public class C extends AbstractFuncion {
      * @param e
      * @param valor
      */
-    public static void imprimirC(Entorno e, Valor valor) {
+    public static StringBuilder imprimirC(Entorno e, Valor valor) {
         StringBuilder cadena = new StringBuilder();
 
         for (Object nodo : valor.VALOR) {
             cadena.append(printRecursivo(e, (Valor) nodo));
         }
-        printConsolaLinea(cadena.toString());
+        return cadena;
     }
 
     /**

@@ -8,10 +8,6 @@ package softwarearit.Arbol.Funcion;
 import java.util.LinkedList;
 import softwarearit.Arbol.Estructura.AbstractFuncion;
 import softwarearit.Arbol.Estructura.Nodo;
-import softwarearit.Arbol.Estructura.NodoError;
-import softwarearit.Arbol.Estructura.TipoError;
-import softwarearit.Arbol.Instrucciones.Instruccion;
-import softwarearit.Frame.Interfaz;
 
 /**
  *
@@ -19,14 +15,14 @@ import softwarearit.Frame.Interfaz;
  */
 public class FactoryFunction {
 
-    public static AbstractFuncion getFunctionEstructura(String tipo, LinkedList<Nodo> parametros) {
+    public static AbstractFuncion getLlamadaFuncion(String tipo, LinkedList<Nodo> parametros) {
         switch (tipo.toLowerCase()) {
             case "c":
                 return new C(parametros);
             case "list":
                 return new List(parametros);
             default:
-                return new Funcion(tipo, parametros);
+                return new LlamadaFuncion(tipo, parametros);
         }
     }
 

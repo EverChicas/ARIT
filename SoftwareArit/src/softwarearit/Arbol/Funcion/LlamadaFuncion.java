@@ -16,34 +16,19 @@ import softwarearit.Arbol.Instrucciones.Instruccion;
  *
  * @author chicas
  */
-public class Funcion extends AbstractFuncion {
+public class LlamadaFuncion extends AbstractFuncion {
 
     String nombre;
     LinkedList<Nodo> parametros;
-    Instruccion instrucciones;
 
-    /**
-     *
-     * @param nombre
-     * @param parametros
-     * @param instrucciones
-     */
-    public Funcion(String nombre, LinkedList<Nodo> parametros, Instruccion instrucciones) {
+    LlamadaFuncion(String nombre, LinkedList<Nodo> parametros) {
         this.nombre = nombre;
         this.parametros = parametros;
-        this.instrucciones = instrucciones;
-    }
-
-    public Funcion(String nombre, LinkedList<Nodo> parametros) {
-
-    }
-
-    public Funcion(String nombre, Instruccion instrucciones) {
-
     }
 
     @Override
     public Expresion getValor(Entorno e) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
 }

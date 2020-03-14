@@ -287,7 +287,7 @@ E::=    E:a mas:op E:b               {: RESULT = new Suma(opleft,opright,a,b); :
         
         | _id:a                                                         {: RESULT = new Acceso(aleft,aright,a); :}
         | _id:a parentesisizquierda parentesisderecha   //llamada a funcion               
-        | _id:a parentesisizquierda L_EXPRESIONES:le parentesisderecha  {: RESULT = FactoryFunction.getFunctionEstructura(a,le); :}
+        | _id:a parentesisizquierda L_EXPRESIONES:le parentesisderecha  {: RESULT = FactoryFunction.getLlamadaFuncion(a,le); :}
         | _id:a L_ACCESO:b                                              {: RESULT = new AccesoEstructura(aleft,aright,a,b); :}
         ;
 

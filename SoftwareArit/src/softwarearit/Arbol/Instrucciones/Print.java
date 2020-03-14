@@ -11,6 +11,7 @@ import softwarearit.Arbol.Estructura.Entorno;
 import softwarearit.Arbol.Estructura.Tipo;
 import softwarearit.Arbol.Expresiones.Expresion;
 import softwarearit.Arbol.Funcion.C;
+import softwarearit.Arbol.Funcion.List;
 import softwarearit.Arbol.Valor;
 import softwarearit.Frame.Interfaz;
 import static softwarearit.Frame.Interfaz.*;
@@ -43,7 +44,9 @@ public class Print extends Instruccion {
         Expresion resul = var1.getValor(e);
 
         if (resul.TIPO.Tipo == Tipo.EnumTipo.C) {
-            C.imprimirC(e, (Valor) resul);
+            printConsolaLinea(C.imprimirC(e, (Valor) resul).toString());
+        } else if (resul.TIPO.Tipo == Tipo.EnumTipo.LISTA) {
+            printConsolaLinea(List.imprimirLista(e, (Valor) resul).toString());
         } else if (resul.TIPO.Tipo != Tipo.EnumTipo.ERROR) {
             printConsolaLinea(resul.VALOR.get(0).toString());
         }

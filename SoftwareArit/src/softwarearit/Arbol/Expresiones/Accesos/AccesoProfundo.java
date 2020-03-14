@@ -38,10 +38,7 @@ public class AccesoProfundo extends Expresion {
 
     @Override
     public Expresion getValor(Entorno e) {
-        if (profundidad == 1) {
-            return this.valor.getValor(e);
-        }
-        return null;
+        return this.valor.getValor(e);
     }
 
 }

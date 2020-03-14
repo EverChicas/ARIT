@@ -63,9 +63,11 @@ print("no se pudo hacer match")
 If(true){
 print(true)
 }
+
 If(false){
 print(false)
 }
+
 If(false){
 print(false+" 2")
 }
@@ -185,12 +187,12 @@ Vector1 = c(1,2,true, "HOLA", 4.5);
 print(vector1)
 print("------------")
 # vector1 pasa a ser de tipo string debido a que contiene un elemento de tipo string
-# Contenido [“1”, “2”, “true”, “HOLA”, “4.5”]
+# Contenido ["1", "2", "true", "HOLA", "4.5"]
 Vector1 = c(Vector1, c(5,6));
 print(vector1)
 print("------------")
 # vector1 se convierte en una lista
-# contenido [“1”, “2”, “true”, “HOLA”, “4.5”, 5, 6]
+# contenido ["1", "2", "true", "HOLA", "4.5", 5, 6]
 Vector1 = c(c(4,5), c(7,8));
 print(vector1)
 print("------------")
@@ -200,7 +202,7 @@ Lista1 = c(1,2,3)
 Lista2 = c("hola",4, c(9,8));
 Lista3 = c(lista1, lista2);
 # Lista3 se convierte en una lista
-# contenido [1,2,3, “hola”, 4, 9, 8]
+# contenido [1,2,3, "hola", 4, 9, 8]
 Lista4 = c(c(c(1,2,3)),5)
 # Lista4 se convierte en una lista
 # contenido [(1,2,3), 5]
@@ -239,12 +241,12 @@ Vector2 = c("hola mundo");
 # Creando un vector de múltiples valores
 Vector3 = c("Casa", "Gato");
 # Creando un vector a partir de otro vector
-Vector4 = c(Vector1, Vector3); # Contenido del vector vector4 -> [“hola mundo”, “Casa”, “Gato”]
+Vector4 = c(Vector1, Vector3); # Contenido del vector vector4 -> ["hola mundo", "Casa", "Gato"]
 # Creado un vector a partir de otros vectores de tamaño 1
 Perro = "Perro"
 Gato = "Gato"
 Pez = "Pescado"
-Animales = c(Perro, Gato, Pez); # Contenido del vector Animales ->[“Perro”, “Gato”, “Pescado”]
+Animales = c(Perro, Gato, Pez); # Contenido del vector Animales ->["Perro", "Gato", "Pescado"]
 # Creando un vector de tamaño 1
 print(vector1)
 print(vector2)
@@ -299,13 +301,13 @@ print(vector2)
 Vector3 = c("Casa", "Gato");
 print(vector3)
 # Creando un vector a partir de otro vector
-Vector4 = c(Vector1, Vector3); # Contenido del vector vector4 -> [“hola mundo”, “Casa”, “Gato”]
+Vector4 = c(Vector1, Vector3); # Contenido del vector vector4 -> ["hola mundo", "Casa", "Gato"]
 print(vector4)
 # Creado un vector a partir de otros vectores de tamaño 1
 Perro = "Perro"
 Gato = "Gato"
 Pez = "Pescado"
-Animales = c(Perro, Gato, Pez); # Contenido del vector Animales ->[“Perro”, “Gato”, “Pescado”]
+Animales = c(Perro, Gato, Pez); # Contenido del vector Animales ->["Perro", "Gato", "Pescado"]
 print(animales)
 # Creando un vector de tamaño 1
 Vector1 = NULL # Vector de tipo String
@@ -315,16 +317,16 @@ print("------------")
 # Declarando vectores
 Perro = "Perro"
 Gato = "Gato"
-Animales = c(Perro, Gato) # Contenido del vector animales -> [“Perro”, “Gato”]
+Animales = c(Perro, Gato) # Contenido del vector animales -> ["Perro", "Gato"]
 print(animales)
 # Acceso vector
-Aux = Animales[1] # Recordar que el índice inicia en 1, contenido del vector Aux -> [“Perro”]
+Aux = Animales[1] # Recordar que el índice inicia en 1, contenido del vector Aux -> ["Perro"]
 print(aux)
 # Creando otro vector
-Animales = c(Aux, Animales) # Contenido del vector animales -> [“Perro”, “Perro”, “Gato”]
+Animales = c(Aux, Animales) # Contenido del vector animales -> ["Perro", "Perro", "Gato"]
 print(animales)
 # Creando otro vector
-Animales = c(Animales[3], Animales) # Contenido del vector animales -> [“Gato”, “Perro”, “Perro”,“Gato”]
+Animales = c(Animales[3], Animales) # Contenido del vector animales -> ["Gato", "Perro", "Perro","Gato"]
 print(animales)
 
 
@@ -334,20 +336,20 @@ print("----------")
 Vector1 = "hola"; # Se crea un nuevo vector de tamaño 1
 # Agregando un nuevo valor al vector
 print(vector1)
-Vector1[4] = "45" # Contenido del vector Vector1 -> [“hola”, NULL, NULL, “45”]
+Vector1[4] = "45" # Contenido del vector Vector1 -> ["hola", NULL, NULL, "45"]
 print(vector1)
 # Reemplazando un valor existente
-Vector1[3] = "cambio" # Contenido del vector Vector1 -> [“hola”, NULL, "cambio”, “45”]
+Vector1[3] = "cambio" # Contenido del vector Vector1 -> ["hola", NULL, "cambio", "45"]
 print(vector1)
 # Agregando un nuevo valor sin índice
-Vector1 = c(Vector1, "nuevo") # Contenido del vector Vector1 -> [“hola”, NULL, "cambio”, “45”,“nuevo”]
+Vector1 = c(Vector1, "nuevo") # Contenido del vector Vector1 -> ["hola", NULL, "cambio", "45","nuevo"]
 print(vector1)
 # Reemplazando un valor existente
 Vector1[3] = c(4,"cambio") # Error, porque estoy tratando de asignar más de un valor a una posición
 # del vector
 # Reemplazando un valor existente
 print(vector1)
-Vector1[3] = c("otro valor") # Contenido del vector Vector1 -> [“hola”, NULL, "otro valor”, “45”,“nuevo”]
+Vector1[3] = c("otro valor") # Contenido del vector Vector1 -> ["hola", NULL, "otro valor", "45","nuevo"]
 print(vector1)
 
 
@@ -392,3 +394,66 @@ print(b)
 # Comparando los elementos de cada vector
 A = B and D # nuevo contenido del vector A -> [true, false, false, false, false]
 print(a)
+
+
+a = c(true,true,true,true,true)
+contador = 0
+
+while(a){
+print(a)
+if(contador == 1){
+a = c(1,2,3,4,5)
+print(a)
+}else if(contador ==2){
+a[3] = false
+print(a)
+}
+print(contador)
+contador = contador + 1
+}
+print(A)
+
+
+Lista1 = list("hola mundo");
+# Creando otra lista
+Lista2 = list("hola mundo", 43, TRUE, 32.3)
+# Combinando listas, el tipo de la variable Lista3 es list
+Lista3 = c(Lista1, Lista2) # Contenido de Lista3 -> ["hola mundo", "hola mundo", 43, TRUE, 32.3]
+# Creando una lista con la función C, el tipo de la variable Lista4 es list
+Lista4 = c(List(1,2,3), 4, "hola mundo") # Contenido de Lista4 -> [1,2,3,4, "hola mundo"]
+
+
+lista = list(1,2,list(3,4,5),6,7)
+print(lista[3])
+print(lista[[3]])
+
+# Creando una lista
+Lista1 = list(1,2,35,4)
+print(lista1)
+# Acceso a la lista tipo 1
+Lista2 = Lista1[2] # Nos devuelve una nueva lista, pero con un vector de tamaño 1 y un valor de 2
+# Contenido de list lista2 = [2]
+# Tipo de lista2 -> list
+# Acceso a la lista tipo 2
+print(lista2)
+Num = Lista1[[3]] # Nos devuelve un vector de tamaño 1 y con un valor de 3.
+# Contenido del vector Num = [3]
+# Tipo de Num = Vector de integer# Creando otra lista
+print(num)
+Lista3 = list(1,2, 3, 4, c(5,6)) # Contenido de Lista3 = [1,2,3,4, (5,6)]
+# Tipo de Lista3 -> list
+# Acceso a la lista tipo 1
+print(lista3)
+Lista4 = Lista3[5] # Nos devuelve una nueva lista, pero con un vector en su interior
+# Contenido de list Lista4 = [(5,6)]
+# Tipo de Lista4 -> list
+# Acceso a la lista tipo 2
+print(lista4)
+Vector1 = Lista3[[5]] # Nos devuelve un vector
+# Contenido de Vector1 = [5,6]
+# Tipo de Vector1 -> Vector de integer
+# Imprimiendo un valor dentro de la lista
+print(vector1)
+Print(Lista3[[5]][2]) # imprime 6
+# Imprimiendo un valor dentro de la lista
+Print(Lista3[5][[1]]) # imprime 5

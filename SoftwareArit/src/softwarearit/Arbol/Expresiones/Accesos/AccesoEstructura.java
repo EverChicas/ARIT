@@ -48,10 +48,27 @@ public class AccesoEstructura extends Expresion {
         } else {
             result = new Valor(new Tipo(Tipo.EnumTipo.ERROR), simbolo.Valor);
 
-            for (Nodo nivel : this.listaAcceso) {
-                result = buscarValor(e, result.VALOR, nivel);
+            for (Nodo nodoNivel : this.listaAcceso) {
+                result = buscarValor(e, result.VALOR, nodoNivel);
                 if (result.TIPO.Tipo == Tipo.EnumTipo.ERROR) {
                     return result;
+                } else if (simbolo.Tipo.Tipo == Tipo.EnumTipo.LISTA && ((AccesoProfundo) nodoNivel).profundidad == 1) {
+                    ArrayList<Object> nuevoValores = new ArrayList<>();
+                    result.TIPO.Tipo = Tipo.EnumTipo.LISTA;
+                    for (Object item : result.VALOR) {
+                        if (item instanceof Valor) {
+                            nuevoValores.add(item);
+                        } else if (item instanceof String) {
+                            nuevoValores.add(new Valor(new Tipo(Tipo.EnumTipo.STRING), item));
+                        } else if (item instanceof Integer) {
+                            nuevoValores.add(new Valor(new Tipo(Tipo.EnumTipo.ENTERO), item));
+                        } else if (item instanceof Double) {
+                            nuevoValores.add(new Valor(new Tipo(Tipo.EnumTipo.NUMERIC), item));
+                        } else if (item instanceof Boolean) {
+                            nuevoValores.add(new Valor(new Tipo(Tipo.EnumTipo.BOOLEAN), item));
+                        }
+                    }
+                    result.VALOR = nuevoValores;
                 }
             }
         }
@@ -76,5 +93,6 @@ public class AccesoEstructura extends Expresion {
         }
         return resultValor;
     }
-
+    
+    
 }

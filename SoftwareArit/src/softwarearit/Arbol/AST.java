@@ -43,7 +43,7 @@ public class AST {
 
     private void generarArbol() {
         StringBuilder nodo = new StringBuilder();
-        nodo.append("digraph G{\n");
+        nodo.append("digraph G{\nrankir=TD;\n");
 
         nodo.append(Interfaz.GRAFICA_ARBOL.generarGraficaRoot(this.INSTRUCCIONES));
 
