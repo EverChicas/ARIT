@@ -191,7 +191,7 @@ PARAMETRO::= _id igual E
         | E
         ;
 
-SENTENCIA_FOR::= _for parentesisizquierda E _in E parentesisderecha BLOQUE
+SENTENCIA_FOR::= _for:op parentesisizquierda E:ide _in E:est parentesisderecha BLOQUE:bq {: RESULT = new For(opleft,opright,ide,est,bq); :}
         ;
     
 SENTENCIA_DO_WHILE::= _do BLOQUE:b _while:a parentesisizquierda E:cond parentesisderecha puntoycoma  {: RESULT = new Do(aleft,aright,cond,b); :}
@@ -286,7 +286,7 @@ E::=    E:a mas:op E:b               {: RESULT = new Suma(opleft,opright,a,b); :
         // TODO terminar con llamada de variables y funciones
         
         | _id:a                                                         {: RESULT = new Acceso(aleft,aright,a); :}
-        | _id:a parentesisizquierda parentesisderecha   //llamada a funcion               
+        | _id:a parentesisizquierda parentesisderecha                   {: RESULT = FactoryFunction.getLlamadaFuncion(a); :}
         | _id:a parentesisizquierda L_EXPRESIONES:le parentesisderecha  {: RESULT = FactoryFunction.getLlamadaFuncion(a,le); :}
         | _id:a L_ACCESO:b                                              {: RESULT = new AccesoEstructura(aleft,aright,a,b); :}
         ;

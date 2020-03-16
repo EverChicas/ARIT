@@ -15,14 +15,33 @@ import softwarearit.Arbol.Estructura.Nodo;
  */
 public class FactoryFunction {
 
-    public static AbstractFuncion getLlamadaFuncion(String tipo, LinkedList<Nodo> parametros) {
-        switch (tipo.toLowerCase()) {
+    public static AbstractFuncion getLlamadaFuncion(String identificador) {
+        return llamadaFuncion(identificador, null);
+    }
+
+    /**
+     * Llamada a funcion con parametros de entrada
+     * 
+     * @param identificador
+     * @param parametros
+     * @return
+     */
+    public static AbstractFuncion getLlamadaFuncion(String identificador, LinkedList<Nodo> parametros) {
+        return llamadaFuncion(identificador, parametros);
+    }
+
+    private static AbstractFuncion llamadaFuncion(String identificador, LinkedList<Nodo> parametros) {
+        switch (identificador.toLowerCase()) {
             case "c":
                 return new C(parametros);
             case "list":
                 return new List(parametros);
             default:
-                return new LlamadaFuncion(tipo, parametros);
+                if (parametros == null) {
+                    return new LlamadaFuncion(identificador);
+                } else {
+                    return new LlamadaFuncion(identificador, parametros);
+                }
         }
     }
 
