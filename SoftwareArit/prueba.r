@@ -457,3 +457,213 @@ print(vector1)
 Print(Lista3[[5]][2]) # imprime 6
 # Imprimiendo un valor dentro de la lista
 Print(Lista3[5][[1]]) # imprime 5
+
+
+
+factorial = (n=3) => {
+Return(n)
+}
+
+factorial1 = (n=3) => {
+Return
+}
+
+factorial2 = function(n){
+if(n <= 0){
+return(result = 1);
+}
+return(result = n*factorial(n-1));
+}
+
+factorial3 = (n) => {
+if(n <= 0){
+return(result = 1);
+}
+return(result = n*factorial(n-1));
+}
+
+# La función ahora posee un parámetro con un valor por defecto de 3, si en la llamada no agregamos
+#el valor del parámetro se tomará el valor de 3.
+factorial4 = (n=3) => {
+if(n <= 0){
+return(result = 1);
+}
+return(result = n*factorial(n-1));
+}
+print(factorial(2))
+print(factorial1(2))
+print(factorial2(2))
+print(factorial3(2))
+print(factorial4(2))
+print(factorial5(2))
+
+
+saludar = (saludo="Hola ",nombre)=>{
+	return (saludo + nombre)
+}
+
+print(saludar(default,"Ever"))
+print(saludar("Buenas noches ","Ever"))
+
+
+
+ ------------------------------------------------------------------
+ IMPRIMIENDO ESTA LISTA CON CIERTO MENSAJE
+ ------------------------------------------------------------------
+
+
+
+ 
+puntero = 0;
+
+llenarLista = (lista,cd = c(1,2,3,4,5,6,7,8,9)) =>{
+	if(lista == null){
+	return list(cd)
+	}else{
+		for(i in cd){
+			lista = list(lista,i)
+		}
+	}
+	return (lista)
+}
+
+lista = list(1)
+lista = llenarlista(lista,default)
+print(lista)
+
+
+#--------------RECURSION ANIDADA---------------------------
+ackermann = function(m=0, n=0){
+	if (m == 0){
+	    return (n + 1);
+	}else if (m > 0 and n == 0) {
+	    return (ackermann(m - 1, 1));
+	}else{
+	    return (ackermann(m - 1, ackermann(m, n - 1)));
+	}
+}
+
+print(ackermann(3,2))
+
+#--------------RECURSION CRUZADA---------------------------
+par = (nump) => {
+        if (nump == 0) {
+            return (true);
+        }
+        return (impar(nump - 1));
+    }
+
+impar = (numi) => {
+        if (numi == 0) {
+            return (false);
+        }
+        return (par(numi - 1));
+    }
+
+print(par(4))
+
+
+hofstaderFemenina = (n)=> {
+    if (n < 0) {
+        return (0);
+    } else {
+        return ((n == 0) ? 1 : n - hofstaderFemenina(n - 1));
+    }
+}
+
+hofstaderMasculino = (n) => {
+    if (n < 0) {
+        return (0);
+    } else {
+        return (n == 0 ? 0 : n - hofstaderMasculino(n - 1));
+    }
+}
+
+for(i in c(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19)){
+	print(hofstadermasculino(i)+ " ")
+}
+
+
+#---------------RECURSION MULTIPLE---------------------------
+fibonacci = function(n) {
+   if (n <= 1) {
+       return (n);
+   }
+   return (fibonacci(n - 1) + fibonacci(n - 2));
+}
+
+print(fibonacci(19))
+
+#*
+Hanoi = function (discos, origen, destino, auxiliar) {
+   if (discos == 1) {
+       print("Mueva el disco " + discos + " desde la torre " + origen + " hasta la torre " + destino);
+   } else {
+       Hanoi(discos - 1, origen, auxiliar, destino);
+       print("Mueva el disco " + discos + " desde la torre " + origen + " hasta la torre " + destino);
+       Hanoi(discos - 1, auxiliar, destino, origen);
+   }
+}
+
+Hanoi(4,1,3,2)
+
+#---------------RECURSION SIMPLE---------------------------
+mcd = (n1, n2) => {
+   if (n2 != 0) {
+       return (mcd(n2, n1 % n2));
+   } else {
+       return (n1);
+   }
+}
+
+print(mcd(1440,408))
+
+#No se que deveria retornar
+reverse = (x, length) => {
+   if (length == 1) {
+       return (x);
+   } else {
+       b = x % 10;
+       x = x / 10;
+       return (b * 10 ^ (length - 1) + reverse(x, length -1));
+   }
+}
+print(reverse(5,2))
+
+
+potencia = function(base, exp) {
+   return (exp == 0 ? 1 : (base * potencia(base, exp - 1)));
+}
+
+print(potencia(5,3))
+
+factorial = (n) => {
+   return (n == 0 ? 1 : n * factorial(n - 1));
+}
+
+print(factorial(5))
+
+#------------------PASO DE PARAMETROS POR VALOR---------------------
+a = list(5,4,3,"Hola")
+print(A)
+cambio(A)
+print(A)
+
+cambio = function(list){
+	print(list)
+	list[1] = true
+	print(list)
+}
+#--------------------------------------------------------------------
+a = 2
+f=()=>{
+	if(a > 0){
+		a = a -1
+		print(A)
+		f()
+	}else{
+		return (a)
+	}
+}
+f()
+*#

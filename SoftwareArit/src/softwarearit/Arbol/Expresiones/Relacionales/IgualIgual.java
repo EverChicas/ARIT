@@ -10,8 +10,6 @@ import softwarearit.Arbol.Estructura.NodoError;
 import softwarearit.Arbol.Estructura.Tipo;
 import softwarearit.Arbol.Estructura.TipoError;
 import softwarearit.Arbol.Expresiones.Expresion;
-import softwarearit.Arbol.Herramientas.StringTo;
-import softwarearit.Arbol.Herramientas.TratamientoTipos;
 import softwarearit.Arbol.Valor;
 import softwarearit.Frame.Interfaz;
 
@@ -129,6 +127,15 @@ public class IgualIgual extends Expresion {
             resul.TIPO.Tipo = Tipo.EnumTipo.BOOLEAN;
             resul.VALOR.clear();
             resul.VALOR.add(SonIguales(resul1.VALOR.get(0).toString(), resul2.VALOR.get(0).toString()));
+        } else if (resul1.TIPO.Tipo == Tipo.EnumTipo.NULL && resul2.TIPO.Tipo == Tipo.EnumTipo.NULL) {
+            resul.TIPO.Tipo = Tipo.EnumTipo.BOOLEAN;
+            resul.VALOR.clear();
+            resul.VALOR.add(true);
+        } else if (resul1.TIPO.Tipo == Tipo.EnumTipo.NULL && resul2.TIPO.Tipo != Tipo.EnumTipo.NULL
+                || resul1.TIPO.Tipo != Tipo.EnumTipo.NULL && resul2.TIPO.Tipo == Tipo.EnumTipo.NULL) {
+            resul.TIPO.Tipo = Tipo.EnumTipo.BOOLEAN;
+            resul.VALOR.clear();
+            resul.VALOR.add(false);
         } else {
             Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.SEMANTICO), "Error de tipos para igualigual " + resul1.TIPO.Tipo + ", " + resul2.TIPO.Tipo, LINEA, COLUMNA));
         }

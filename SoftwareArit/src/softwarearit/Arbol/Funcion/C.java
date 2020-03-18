@@ -28,7 +28,9 @@ public class C extends AbstractFuncion {
 
     LinkedList<Nodo> lista;
 
-    public C(LinkedList<Nodo> lista) {
+    public C(int linea, int columna, LinkedList<Nodo> lista) {
+        this.LINEA = linea;
+        this.COLUMNA = columna;
         this.lista = lista;
         generarGrafica();
     }
@@ -46,7 +48,7 @@ public class C extends AbstractFuncion {
         for (Object valor : this.lista) {
             resulValor = ((Expresion) valor).getValor(e);
             if (resulValor.TIPO.Tipo == Tipo.EnumTipo.LISTA) {
-                Expresion valorLista = new List(lista).getValor(e);
+                Expresion valorLista = new List(this.LINEA, this.COLUMNA, lista).getValor(e);
                 return valorLista;
             }
         }
@@ -182,7 +184,7 @@ public class C extends AbstractFuncion {
                 if (i >= vector.Valor.size()) {
                     lista.add(new Valor(new Tipo(Tipo.EnumTipo.NULL), "null"));
                 } else {
-                    lista.add(new Valor(new Tipo(vector.Tipo.Tipo), vector.Valor.get(i)));
+                    lista.add(new Valor(new Tipo(vector.Tipo.Tipo), ((Expresion) vector.Valor.get(i)).VALOR));
                 }
             }
             lista.add(nuevoValor);

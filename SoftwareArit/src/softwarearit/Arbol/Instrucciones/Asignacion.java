@@ -5,9 +5,7 @@
  */
 package softwarearit.Arbol.Instrucciones;
 
-import jdk.nashorn.api.scripting.ScriptObjectMirror;
 import softwarearit.Arbol.Estructura.Entorno;
-import softwarearit.Arbol.Estructura.Nodo;
 import softwarearit.Arbol.Estructura.NodoError;
 import softwarearit.Arbol.Estructura.Simbolo;
 import softwarearit.Arbol.Estructura.Tipo;
@@ -22,8 +20,8 @@ import softwarearit.Frame.Interfaz;
  */
 public class Asignacion extends Instruccion {
 
-    String identificador;
-    Expresion valor;
+    public String identificador;
+    public Expresion valor;
 
     /**
      *
@@ -44,9 +42,7 @@ public class Asignacion extends Instruccion {
      * Metodo para generar el codigo del grafo
      */
     private void generarGrafica() {
-
         Valor valorId = new Valor(new Tipo(Tipo.EnumTipo.STRING), this.identificador);
-
         this.NOMBRE = Interfaz.GRAFICA_ARBOL.getNombreNodo();
         this.GRAFICA = Interfaz.GRAFICA_ARBOL.generarGraficaExpresionDosHijos("Asignacion", this, valorId, this.valor);
     }
@@ -55,7 +51,11 @@ public class Asignacion extends Instruccion {
     public Object Ejecutar(Entorno e) {
         Expresion result = this.valor.getValor(e);
         if (result != null) {
-            e.insertar(identificador, new Simbolo(new Tipo(((Valor) result).TIPO.Tipo), identificador, result.VALOR), LINEA, COLUMNA);
+            if (result.TIPO.Tipo == Tipo.EnumTipo.NULL) {
+                e.insertar(identificador, new Simbolo(new Tipo(((Valor) result).TIPO.Tipo), identificador, "null"), LINEA, COLUMNA);
+            } else {
+                e.insertar(identificador, new Simbolo(new Tipo(((Valor) result).TIPO.Tipo), identificador, result.VALOR), LINEA, COLUMNA);
+            }
         } else {
             Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.SEMANTICO), "Error con el valor de la variable " + this.identificador, LINEA, COLUMNA));
         }

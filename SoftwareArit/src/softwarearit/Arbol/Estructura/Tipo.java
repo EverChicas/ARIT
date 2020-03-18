@@ -43,6 +43,8 @@ public class Tipo {
         ERROR,
         NULL,
         C,
+        FUNCION,
+        DEFAULT,
     }
 
 }

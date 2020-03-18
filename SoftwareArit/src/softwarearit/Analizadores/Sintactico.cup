@@ -96,7 +96,7 @@ non terminal Instruccion SENTENCIA_WHILE;
 non terminal Instruccion SENTENCIA_DO_WHILE;
 non terminal Instruccion SENTENCIA_FOR;
 non terminal Instruccion RETURN;
-non terminal Instruccion PARAMETROS;
+non terminal LinkedList<Instruccion> PARAMETROS;
 non terminal LinkedList<Instruccion> L_PARAMETROS;
 non terminal Instruccion PARAMETRO;
 non terminal Instruccion FUNCIONES;
@@ -148,50 +148,57 @@ L_SENTENCIAS::= L_SENTENCIAS:a SENTENCIA:b {: RESULT = a; RESULT.add(b); :}
                 | SENTENCIA:a              {: RESULT = new LinkedList<>(); RESULT.add(a); :}
                 ;
 
-SENTENCIA::= ASIGNACION:a        {: RESULT = a; :}
-        | IMPRIMIR:a             {: RESULT = a; :}
-        | TERNARIO:a             {: RESULT = a; :}
-        | SENTENCIA_IF:a         {: RESULT = a; :}
-        | SENTENCIA_SWITCH:a     {: RESULT = a; :}
-        | SENTENCIA_WHILE:a      {: RESULT = a; :}
-        | SENTENCIA_DO_WHILE:a   {: RESULT = a; :}
-        | SENTENCIA_FOR:a        {: RESULT = a; :}
-        | FUNCIONES:a            {: RESULT = a; :}
-        | _break:a               {: RESULT = new Break(aleft,aright); :}
-        | _break:a puntoycoma    {: RESULT = new Break(aleft,aright); :}
-        | _continue:a            {: RESULT = new Continue(aleft,aright); :}
-        | _continue:a puntoycoma {: RESULT = new Continue(aleft,aright); :}
-        | RETURN:a               {: RESULT = a; :}
+SENTENCIA::= ASIGNACION:a                                                         {: RESULT = a; :}
+        | IMPRIMIR:a                                                              {: RESULT = a; :}
+        | TERNARIO:a                                                              {: RESULT = a; :}
+        | SENTENCIA_IF:a                                                          {: RESULT = a; :}
+        | SENTENCIA_SWITCH:a                                                      {: RESULT = a; :}
+        | SENTENCIA_WHILE:a                                                       {: RESULT = a; :}
+        | SENTENCIA_DO_WHILE:a                                                    {: RESULT = a; :}
+        | SENTENCIA_FOR:a                                                         {: RESULT = a; :}
+        | FUNCIONES:a                                                             {: RESULT = a; :}
+        | _break:a                                                                {: RESULT = new Break(aleft,aright); :}
+        | _break:a puntoycoma                                                     {: RESULT = new Break(aleft,aright); :}
+        | _continue:a                                                             {: RESULT = new Continue(aleft,aright); :}
+        | _continue:a puntoycoma                                                  {: RESULT = new Continue(aleft,aright); :}
+        | RETURN:a                                                                {: RESULT = a; :}
+        | _id:a parentesisizquierda parentesisderecha                             {: RESULT = FactoryFunction.getLlamadaFuncion(aleft,aright,a); :}
+        | _id:a parentesisizquierda L_EXPRESIONES:le parentesisderecha            {: RESULT = FactoryFunction.getLlamadaFuncion(aleft,aright,a,le); :}
+        | _id:a parentesisizquierda parentesisderecha puntoycoma                  {: RESULT = FactoryFunction.getLlamadaFuncion(aleft,aright,a); :}
+        | _id:a parentesisizquierda L_EXPRESIONES:le parentesisderecha puntoycoma {: RESULT = FactoryFunction.getLlamadaFuncion(aleft,aright,a,le); :}
         | error puntoycoma
         | error llavederecha
         ;
 
-RETURN::= _return:op parentesisizquierda E:e parentesisderecha              {: RESULT = new Return(opleft,opright,e); :}
-        | _return:op parentesisizquierda E:e parentesisderecha puntoycoma   {: RESULT = new Return(opleft,opright,e); :}
-        | _return:op puntoycoma                                             {: RESULT = new Return(opleft,opright);   :}
-        | _return:op                                                        {: RESULT = new Return(opleft,opright);   :}
+RETURN::= _return:op parentesisizquierda ASIGNACION:pa parentesisderecha            {: RESULT = new Return(opleft,opright,pa); :}
+        | _return:op parentesisizquierda ASIGNACION:pa parentesisderecha puntoycoma {: RESULT = new Return(opleft,opright,pa); :}
+        | _return:op parentesisizquierda E:e parentesisderecha                      {: RESULT = new Return(opleft,opright,e); :}
+        | _return:op parentesisizquierda E:e parentesisderecha puntoycoma           {: RESULT = new Return(opleft,opright,e); :}
+        | _return:op puntoycoma                                                     {: RESULT = new Return(opleft,opright);   :}
+        | _return:op                                                                {: RESULT = new Return(opleft,opright);   :}
         ;
         
-FUNCIONES::= _id igual _funcion PARAMETROS BLOQUE 
-        | _id igual parentesisizquierda E parentesisderecha flecha BLOQUE
-        | _id igual parentesisizquierda _id coma L_PARAMETROS parentesisderecha flecha BLOQUE
-        | _id igual parentesisizquierda _id igual E coma L_PARAMETROS parentesisderecha flecha BLOQUE
-        | _id igual parentesisizquierda _id igual E parentesisderecha flecha BLOQUE
+FUNCIONES::= _id:id igual:op _funcion PARAMETROS:pa BLOQUE:bq                                                         {: RESULT = new Funcion(opleft,opright,id,pa,bq); :}
+        | _id:id igual:op parentesisizquierda parentesisderecha flecha BLOQUE:bq                                      {: RESULT = new Funcion(opleft,opright,id,bq); :}
+        | _id:id igual:op parentesisizquierda _id:pa parentesisderecha flecha BLOQUE:bq                               {: RESULT = new Funcion(opleft,opright,id, new Declaracion(opleft,opright,pa),bq); :}
+        | _id:id igual:op parentesisizquierda _id:pa coma L_PARAMETROS:lp parentesisderecha flecha BLOQUE:bq          {: RESULT = new Funcion(opleft,opright,id, new Declaracion(opleft,opright,pa),lp,bq); :}
+        | _id:id igual:op parentesisizquierda _id:i igual E:e coma L_PARAMETROS:lp parentesisderecha flecha BLOQUE:bq {: RESULT = new Funcion(opleft,opright,id, new Declaracion(opleft,opright,i,e),lp,bq); :}
+        | _id:id igual:op parentesisizquierda _id:i igual E:e parentesisderecha flecha BLOQUE:bq                      {: RESULT = new Funcion(opleft,opright,id, new Declaracion(opleft,opright,i,e),bq); :}
         ;    
 
-PARAMETROS::= parentesisizquierda L_PARAMETROS parentesisderecha
-        | parentesisizquierda parentesisderecha
+PARAMETROS::= parentesisizquierda L_PARAMETROS:a parentesisderecha {: RESULT = a; :}
+        | parentesisizquierda parentesisderecha                   {: RESULT = new LinkedList<>(); :}
         ;
 
-L_PARAMETROS::= L_PARAMETROS coma PARAMETRO
-        | PARAMETRO
+L_PARAMETROS::= L_PARAMETROS:a coma PARAMETRO:b {: RESULT = a; RESULT.add(b); :}
+        | PARAMETRO:a                           {: RESULT = new LinkedList<>(); RESULT.add(a);:}
         ;
 
-PARAMETRO::= _id igual E
-        | E
+PARAMETRO::= _id:id igual E:e  {: RESULT = new Declaracion(eleft,eright,id,e); :}
+        | _id:id               {: RESULT = new Declaracion(idleft,idright,id); :}
         ;
 
-SENTENCIA_FOR::= _for:op parentesisizquierda E:ide _in E:est parentesisderecha BLOQUE:bq {: RESULT = new For(opleft,opright,ide,est,bq); :}
+SENTENCIA_FOR::= _for:op parentesisizquierda _id:ide _in E:est parentesisderecha BLOQUE:bq {: RESULT = new For(opleft,opright,ide,est,bq); :}
         ;
     
 SENTENCIA_DO_WHILE::= _do BLOQUE:b _while:a parentesisizquierda E:cond parentesisderecha puntoycoma  {: RESULT = new Do(aleft,aright,cond,b); :}
@@ -278,6 +285,7 @@ E::=    E:a mas:op E:b               {: RESULT = new Suma(opleft,opright,a,b); :
         | string:a                                  {: RESULT = new Valor(new Tipo(Tipo.EnumTipo.STRING),a); :} 
         | valorbooleano:a                           {: RESULT = new Valor(new Tipo(Tipo.EnumTipo.BOOLEAN),a.toLowerCase()); :}
         | _null:a                                   {: RESULT = new Valor(new Tipo(Tipo.EnumTipo.NULL),a); :}
+        | _default:a                                {: RESULT = new Valor(new Tipo(Tipo.EnumTipo.DEFAULT),a); :}
         | parentesisizquierda E:a parentesisderecha {: RESULT = a; :}
         
         | E:a ternario:op E:v dospuntos E:f {: RESULT = new Ternario(opleft,opright,a,v,f); :}
@@ -286,8 +294,8 @@ E::=    E:a mas:op E:b               {: RESULT = new Suma(opleft,opright,a,b); :
         // TODO terminar con llamada de variables y funciones
         
         | _id:a                                                         {: RESULT = new Acceso(aleft,aright,a); :}
-        | _id:a parentesisizquierda parentesisderecha                   {: RESULT = FactoryFunction.getLlamadaFuncion(a); :}
-        | _id:a parentesisizquierda L_EXPRESIONES:le parentesisderecha  {: RESULT = FactoryFunction.getLlamadaFuncion(a,le); :}
+        | _id:a parentesisizquierda parentesisderecha                   {: RESULT = FactoryFunction.getLlamadaFuncion(aleft,aright,a); :}
+        | _id:a parentesisizquierda L_EXPRESIONES:le parentesisderecha  {: RESULT = FactoryFunction.getLlamadaFuncion(aleft,aright,a,le); :}
         | _id:a L_ACCESO:b                                              {: RESULT = new AccesoEstructura(aleft,aright,a,b); :}
         ;
 

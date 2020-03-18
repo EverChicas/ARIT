@@ -76,7 +76,7 @@ public class AST {
 
             if (nodo instanceof Instruccion) {
                 Object resultBloque = ((Instruccion) nodo).Ejecutar(this.TABLA);
-
+                /*
                 if (resultBloque != null) {
                     if (resultBloque instanceof Break) {
                         return resultBloque;
@@ -88,7 +88,7 @@ public class AST {
                         return null;
                     }
                 }
-
+                 */
             } else if (nodo instanceof Expresion) {
                 ((Expresion) nodo).getValor(this.TABLA);
             }

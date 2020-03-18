@@ -57,6 +57,10 @@ public class Entorno {
         }
     }
 
+    public void insertarParametro(String identificador, Simbolo simbolo, int LINEA, int COLUMNA) {
+        tabla.put(identificador.toLowerCase(), simbolo);
+    }
+
     public Simbolo buscar(String identificador) {
         for (Entorno e = this; e != null; e = e.anterior) {
             if (e.tabla.containsKey(identificador.toLowerCase())) {

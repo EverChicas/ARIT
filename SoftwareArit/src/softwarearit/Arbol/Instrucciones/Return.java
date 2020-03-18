@@ -17,7 +17,8 @@ import softwarearit.Frame.Interfaz;
  */
 public class Return extends Instruccion {
 
-    Expresion retornarValor;
+    public Expresion retornarValor;
+    public Instruccion asignacion;
 
     /**
      *
@@ -28,6 +29,7 @@ public class Return extends Instruccion {
         this.LINEA = linea;
         this.COLUMNA = columna;
         this.retornarValor = null;
+        this.asignacion = null;
         generarGrafica();
     }
 
@@ -41,6 +43,21 @@ public class Return extends Instruccion {
         this.LINEA = linea;
         this.COLUMNA = columna;
         this.retornarValor = valor;
+        this.asignacion = null;
+        generarGrafica();
+    }
+
+    /**
+     *
+     * @param linea
+     * @param columna
+     * @param valor
+     */
+    public Return(int linea, int columna, Instruccion asignacion) {
+        this.LINEA = linea;
+        this.COLUMNA = columna;
+        this.retornarValor = null;
+        this.asignacion = asignacion;
         generarGrafica();
     }
 
@@ -49,11 +66,15 @@ public class Return extends Instruccion {
      */
     private void generarGrafica() {
         this.NOMBRE = Interfaz.GRAFICA_ARBOL.getNombreNodo();
-        if (this.retornarValor != null) {
+
+        if (this.retornarValor != null && this.asignacion == null) {
             this.GRAFICA = Interfaz.GRAFICA_ARBOL.generarGraficaUnHijo("Return", this, this.retornarValor);
+        } else if (this.retornarValor != null && this.asignacion == null) {
+            this.GRAFICA = Interfaz.GRAFICA_ARBOL.generarGraficaUnHijo("Return", this, this.asignacion);
         } else {
             this.GRAFICA = Interfaz.GRAFICA_ARBOL.generarHojaNodo(this, "Return");
         }
+
     }
 
     @Override
@@ -61,8 +82,11 @@ public class Return extends Instruccion {
         if (e.tipoEntorno == Entorno.EnumEntorno.GLOBAL) {
             Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.SEMANTICO), "Error return en entorno global", LINEA, COLUMNA));
         } else {
-            if (this.retornarValor != null) {
-                return this.retornarValor.getValor(e);
+            if (this.retornarValor != null && this.asignacion == null) {
+                Expresion result = this.retornarValor.getValor(e);
+                return new Return(LINEA, COLUMNA, result);
+            } else if (this.asignacion != null && this.retornarValor == null) {
+                this.asignacion.Ejecutar(e);
             }
         }
         return null;

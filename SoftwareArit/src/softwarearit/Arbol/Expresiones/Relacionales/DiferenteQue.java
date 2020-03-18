@@ -127,6 +127,15 @@ public class DiferenteQue extends Expresion {
             resul.TIPO.Tipo = Tipo.EnumTipo.BOOLEAN;
             resul.VALOR.clear();
             resul.VALOR.add(SonDiferentes(resul1.VALOR.get(0).toString(), resul2.VALOR.get(0).toString()));
+        } else if (resul1.TIPO.Tipo == Tipo.EnumTipo.NULL && resul2.TIPO.Tipo == Tipo.EnumTipo.NULL) {
+            resul.TIPO.Tipo = Tipo.EnumTipo.BOOLEAN;
+            resul.VALOR.clear();
+            resul.VALOR.add(false);
+        } else if (resul1.TIPO.Tipo == Tipo.EnumTipo.NULL && resul2.TIPO.Tipo != Tipo.EnumTipo.NULL
+                || resul1.TIPO.Tipo != Tipo.EnumTipo.NULL && resul2.TIPO.Tipo == Tipo.EnumTipo.NULL) {
+            resul.TIPO.Tipo = Tipo.EnumTipo.BOOLEAN;
+            resul.VALOR.clear();
+            resul.VALOR.add(true);
         } else {
             Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.SEMANTICO), "Error de tipos para igualigual " + resul1.TIPO.Tipo + ", " + resul2.TIPO.Tipo, LINEA, COLUMNA));
         }
