@@ -21,11 +21,11 @@ import softwarearit.Frame.Interfaz;
  *
  * @author chicas
  */
-public class ToUpperCase extends AbstractFuncion {
+public class Round extends AbstractFuncion {
 
     LinkedList<Nodo> lista;
 
-    public ToUpperCase(int linea, int columna, LinkedList<Nodo> lista) {
+    public Round(int linea, int columna, LinkedList<Nodo> lista) {
         this.LINEA = linea;
         this.COLUMNA = columna;
         this.lista = lista;
@@ -34,7 +34,7 @@ public class ToUpperCase extends AbstractFuncion {
 
     private void generarGrafica() {
         this.NOMBRE = Interfaz.GRAFICA_ARBOL.getNombreNodo();
-        this.GRAFICA = Interfaz.GRAFICA_ARBOL.generarGraficaPadreHijosNodos("TOUPPERCASE", this, this.lista);
+        this.GRAFICA = Interfaz.GRAFICA_ARBOL.generarGraficaPadreHijosNodos("ROUND", this, this.lista);
     }
 
     @Override
@@ -57,10 +57,11 @@ public class ToUpperCase extends AbstractFuncion {
 
             if (resulValor.TIPO.Tipo == Tipo.EnumTipo.ERROR) {
                 return resulValor;
-            } else if (resulValor.TIPO.Tipo == Tipo.EnumTipo.STRING) {
+            } else if (resulValor.TIPO.Tipo == Tipo.EnumTipo.NUMERIC || resulValor.TIPO.Tipo == Tipo.EnumTipo.ENTERO) {
                 resul.VALOR.clear();
-                resul.TIPO.Tipo = Tipo.EnumTipo.STRING;
-                resul.VALOR.add(((String) resulValor.VALOR.get(0)).toString().toUpperCase());
+                resul.TIPO.Tipo = Tipo.EnumTipo.ENTERO;
+                String valorEntero = String.format("%.0f", Double.parseDouble(resulValor.VALOR.get(0).toString()));
+                resul.VALOR.add(Integer.parseInt(valorEntero));
             } else if (resulValor.TIPO.Tipo == Tipo.EnumTipo.C) {
                 if (resulValor.VALOR.size() > 1) {
                     Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.SEMANTICO), "Error estructura con tamaño mayor a uno", LINEA, COLUMNA));
@@ -74,10 +75,10 @@ public class ToUpperCase extends AbstractFuncion {
             if (resulInstruccion instanceof Expresion) {
                 if (((Expresion) resulInstruccion).TIPO.Tipo == Tipo.EnumTipo.ERROR) {
                     return ((Expresion) resulInstruccion);
-                } else if (((Expresion) resulInstruccion).TIPO.Tipo == Tipo.EnumTipo.STRING) {
-                    resul.VALOR.clear();
-                    resul.TIPO.Tipo = Tipo.EnumTipo.STRING;
-                    resul.VALOR.add(((String) ((Expresion) resulInstruccion).VALOR.get(0)).toString().toUpperCase());
+                } else if (((Expresion) resulInstruccion).TIPO.Tipo == Tipo.EnumTipo.NUMERIC || ((Expresion) resulInstruccion).TIPO.Tipo == Tipo.EnumTipo.ENTERO) {
+                    resul.TIPO.Tipo = Tipo.EnumTipo.ENTERO;
+                    String valorEntero = String.format("%.0f", Double.parseDouble(((Expresion) resulInstruccion).VALOR.get(0).toString()));
+                    resul.VALOR.add(Integer.parseInt(valorEntero));
                 } else if (((Expresion) resulInstruccion).TIPO.Tipo == Tipo.EnumTipo.C) {
                     if (((Expresion) resulInstruccion).VALOR.size() > 1) {
                         Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.SEMANTICO), "Error estructura con tamaño mayor a uno", LINEA, COLUMNA));

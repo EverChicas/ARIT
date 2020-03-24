@@ -53,7 +53,9 @@ public class FactoryFunction {
             case "touppercase":
                 return new ToUpperCase(linea, columna, parametros);
             case "trunk":
+                return new Trunk(linea, columna, parametros);
             case "round":
+                return new Round(linea, columna, parametros);
             case "mean":
             case "median":
             case "mode":
