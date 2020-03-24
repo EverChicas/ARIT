@@ -36,6 +36,31 @@ public class FactoryFunction {
                 return new C(linea, columna, parametros);
             case "list":
                 return new List(linea, columna, parametros);
+            case "typeof":
+                return new TypeOf(linea, columna, parametros);
+            case "length":
+                return new Length(linea, columna, parametros);
+            // TODO MATRIX
+            case "ncol":
+            case "nrow":
+
+            case "stringlength":
+                return new StringLength(linea, columna, parametros);
+            case "remove":
+                return new Remove(linea, columna, parametros);
+            case "tolowercase":
+                return new ToLowerCase(linea, columna, parametros);
+            case "touppercase":
+                return new ToUpperCase(linea, columna, parametros);
+            case "trunk":
+            case "round":
+            case "mean":
+            case "median":
+            case "mode":
+            case "pie":
+            case "barplot":
+            case "plot":
+            case "hist":
             default:
                 if (parametros == null) {
                     return new LlamadaFuncion(linea, columna, identificador);

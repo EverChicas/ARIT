@@ -104,6 +104,28 @@ public class Funcion extends Instruccion {
 
     @Override
     public Object Ejecutar(Entorno e) {
+        //FUCNIONES NATIVAS
+        if (this.identificador.equals("typeof")
+                || this.identificador.equals("length")
+                || this.identificador.equals("ncol")
+                || this.identificador.equals("nrow")
+                || this.identificador.equals("stringlength")
+                || this.identificador.equals("remove")
+                || this.identificador.equals("tolowercase")
+                || this.identificador.equals("touppercase")
+                || this.identificador.equals("trunk")
+                || this.identificador.equals("round")
+                || this.identificador.equals("mean")
+                || this.identificador.equals("median")
+                || this.identificador.equals("mode")
+                || this.identificador.equals("pie")
+                || this.identificador.equals("barplot")
+                || this.identificador.equals("plot")
+                || this.identificador.equals("hist")) {
+            Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.SEMANTICO), "La funcion " + this.identificador + " no puede tener nombre de funciones nativas", LINEA, COLUMNA));
+            return null;
+        }
+
         this.identificador = "$$" + this.identificador;
 
         Simbolo existe = e.buscar(this.identificador);

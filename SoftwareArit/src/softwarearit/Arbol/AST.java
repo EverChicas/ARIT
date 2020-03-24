@@ -1,15 +1,11 @@
 package softwarearit.Arbol;
 
-import java.io.IOException;
 import softwarearit.Arbol.Estructura.Entorno;
 import softwarearit.Arbol.Instrucciones.Instruccion;
 import java.util.LinkedList;
-import javax.xml.transform.stax.StAXResult;
 import softwarearit.Arbol.Estructura.Nodo;
 import softwarearit.Arbol.Expresiones.Expresion;
-import softwarearit.Arbol.Instrucciones.Break;
-import softwarearit.Arbol.Instrucciones.Continue;
-import softwarearit.Arbol.Instrucciones.Return;
+import softwarearit.Arbol.Instrucciones.Funcion;
 import softwarearit.Archivos.Archivo;
 import softwarearit.Archivos.Guardar;
 import softwarearit.Frame.Interfaz;
@@ -105,5 +101,4 @@ public class AST {
     public String getGrafica() {
         return this.GRAFICA_ARBOL.toString();
     }
-
 }

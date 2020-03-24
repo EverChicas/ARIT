@@ -78,7 +78,7 @@ import softwarearit.Arbol.Instrucciones.*;
 <YYINITIAL> "-" { return new Symbol(sym.menos,yyline,yychar,yytext()); } 
 <YYINITIAL> "*" { return new Symbol(sym.multiplicacion,yyline,yychar,yytext()); } 
 <YYINITIAL> "/" { return new Symbol(sym.division,yyline,yychar,yytext()); } 
-<YYINITIAL> "%" { return new Symbol(sym.modulo,yyline,yychar,yytext()); } 
+<YYINITIAL> "%%" { return new Symbol(sym.modulo,yyline,yychar,yytext()); } 
 <YYINITIAL> "^" { return new Symbol(sym.potencia,yyline,yychar,yytext()); } 
 
 <YYINITIAL> "," { return new Symbol(sym.coma,yyline,yychar,yytext()); } 
@@ -101,9 +101,9 @@ import softwarearit.Arbol.Instrucciones.*;
 <YYINITIAL> "<=" { return new Symbol(sym.menorigual,yyline,yychar,yytext()); } 
 <YYINITIAL> ">=" { return new Symbol(sym.mayorigual,yyline,yychar,yytext()); }
 
-<YYINITIAL> "or" { return new Symbol(sym.or,yyline,yychar,yytext()); } 
-<YYINITIAL> "and" { return new Symbol(sym.and,yyline,yychar,yytext()); } 
-<YYINITIAL> "not" { return new Symbol(sym.not,yyline,yychar,yytext()); }
+<YYINITIAL> "|" { return new Symbol(sym.or,yyline,yychar,yytext()); } 
+<YYINITIAL> "&" { return new Symbol(sym.and,yyline,yychar,yytext()); } 
+<YYINITIAL> "!" { return new Symbol(sym.not,yyline,yychar,yytext()); }
 
 <YYINITIAL> "?" { return new Symbol(sym.ternario,yyline,yychar,yytext()); } 
 

@@ -96,31 +96,14 @@ non terminal Instruccion SENTENCIA_WHILE;
 non terminal Instruccion SENTENCIA_DO_WHILE;
 non terminal Instruccion SENTENCIA_FOR;
 non terminal Instruccion RETURN;
-non terminal LinkedList<Instruccion> PARAMETROS;
 non terminal LinkedList<Instruccion> L_PARAMETROS;
 non terminal Instruccion PARAMETRO;
 non terminal Instruccion FUNCIONES;
-non terminal LinkedList<Expresion> EXPRESIONES;
 non terminal LinkedList<Nodo> L_EXPRESIONES;
 non terminal Expresion ACCESO;
 non terminal LinkedList<Nodo> L_ACCESO;
 
 /* Precedencia */
-/*
-precedence right ternario, dospuntos;
-
-precedence left or;
-precedence left and;
-precedence right not;
-
-precedence left menorque, menorigual,mayorque,mayorigual,igualigual,diferenteque;
-precedence left mas, menos;
-precedence left multiplicacion, division, modulo, potencia;
-precedence left umenos;
-
-precedence right parentesisizquierda, parentesisderecha;
-*/
-
 precedence right igual;
 precedence right ternario, dospuntos;
 precedence left or;
@@ -178,17 +161,18 @@ RETURN::= _return:op parentesisizquierda ASIGNACION:pa parentesisderecha        
         | _return:op                                                                {: RESULT = new Return(opleft,opright);   :}
         ;
         
-FUNCIONES::= _id:id igual:op _funcion PARAMETROS:pa BLOQUE:bq                                                         {: RESULT = new Funcion(opleft,opright,id,pa,bq); :}
+FUNCIONES::= _id:id igual:op _funcion parentesisizquierda parentesisderecha BLOQUE:bq                                   {: RESULT = new Funcion(opleft,opright,id,bq); :}
+        | _id:id igual:op _funcion parentesisizquierda _id:pa parentesisderecha BLOQUE:bq                               {: RESULT = new Funcion(opleft,opright,id, new Declaracion(opleft,opright,pa),bq); :}
+        | _id:id igual:op _funcion parentesisizquierda _id:pa coma L_PARAMETROS:lp parentesisderecha BLOQUE:bq          {: RESULT = new Funcion(opleft,opright,id, new Declaracion(opleft,opright,pa),lp,bq); :}
+        | _id:id igual:op _funcion parentesisizquierda _id:i igual E:e parentesisderecha BLOQUE:bq                      {: RESULT = new Funcion(opleft,opright,id, new Declaracion(opleft,opright,i,e),bq); :}
+        | _id:id igual:op _funcion parentesisizquierda _id:i igual E:e coma L_PARAMETROS:lp parentesisderecha BLOQUE:bq {: RESULT = new Funcion(opleft,opright,id, new Declaracion(opleft,opright,i,e),lp,bq); :}
+
         | _id:id igual:op parentesisizquierda parentesisderecha flecha BLOQUE:bq                                      {: RESULT = new Funcion(opleft,opright,id,bq); :}
         | _id:id igual:op parentesisizquierda _id:pa parentesisderecha flecha BLOQUE:bq                               {: RESULT = new Funcion(opleft,opright,id, new Declaracion(opleft,opright,pa),bq); :}
         | _id:id igual:op parentesisizquierda _id:pa coma L_PARAMETROS:lp parentesisderecha flecha BLOQUE:bq          {: RESULT = new Funcion(opleft,opright,id, new Declaracion(opleft,opright,pa),lp,bq); :}
-        | _id:id igual:op parentesisizquierda _id:i igual E:e coma L_PARAMETROS:lp parentesisderecha flecha BLOQUE:bq {: RESULT = new Funcion(opleft,opright,id, new Declaracion(opleft,opright,i,e),lp,bq); :}
         | _id:id igual:op parentesisizquierda _id:i igual E:e parentesisderecha flecha BLOQUE:bq                      {: RESULT = new Funcion(opleft,opright,id, new Declaracion(opleft,opright,i,e),bq); :}
+        | _id:id igual:op parentesisizquierda _id:i igual E:e coma L_PARAMETROS:lp parentesisderecha flecha BLOQUE:bq {: RESULT = new Funcion(opleft,opright,id, new Declaracion(opleft,opright,i,e),lp,bq); :}
         ;    
-
-PARAMETROS::= parentesisizquierda L_PARAMETROS:a parentesisderecha {: RESULT = a; :}
-        | parentesisizquierda parentesisderecha                   {: RESULT = new LinkedList<>(); :}
-        ;
 
 L_PARAMETROS::= L_PARAMETROS:a coma PARAMETRO:b {: RESULT = a; RESULT.add(b); :}
         | PARAMETRO:a                           {: RESULT = new LinkedList<>(); RESULT.add(a);:}
