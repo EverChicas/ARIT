@@ -57,8 +57,11 @@ public class FactoryFunction {
             case "round":
                 return new Round(linea, columna, parametros);
             case "mean":
+                return new Mean(linea, columna, parametros);
             case "median":
+                return new Median(linea, columna, parametros);
             case "mode":
+                return new Mode(linea, columna, parametros);
             case "pie":
             case "barplot":
             case "plot":

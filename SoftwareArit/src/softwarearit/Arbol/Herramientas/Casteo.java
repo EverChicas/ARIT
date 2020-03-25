@@ -20,6 +20,12 @@ import softwarearit.Frame.Interfaz;
  */
 public class Casteo {
 
+    /**
+     *
+     * @param lista
+     * @param tipo
+     * @return
+     */
     public static ArrayList<Object> CasteoDeArray(ArrayList<Object> lista, Tipo.EnumTipo tipo) {
         ArrayList<Object> retornarValores = new ArrayList<>();
 
@@ -31,11 +37,11 @@ public class Casteo {
                     retornarValores.add(new Valor(new Tipo(((Valor) nodo).TIPO.Tipo), ((Valor) nodo).VALOR));
                 } else {
                     if (tipo == Tipo.EnumTipo.STRING) {
-                        retornarValores.add(toString((Expresion) nodo));
+                        retornarValores.add(toString((Valor) nodo));
                     } else if (tipo == Tipo.EnumTipo.NUMERIC) {
-                        retornarValores.add(toDouble((Expresion) nodo));
+                        retornarValores.add(toDouble((Valor) nodo));
                     } else if (tipo == Tipo.EnumTipo.ENTERO) {
-                        retornarValores.add(toEntero((Expresion) nodo));
+                        retornarValores.add(toEntero((Valor) nodo));
                     }
                 }
             }
@@ -44,6 +50,13 @@ public class Casteo {
         return retornarValores;
     }
 
+    /**
+     * Casteo implicito de valores
+     *
+     * @param lista
+     * @param tipo
+     * @return - arraylist de objectos de valores
+     */
     public static ArrayList<Object> CasteoImplicito(ArrayList<Object> lista, Tipo.EnumTipo tipo) {
         ArrayList<Object> retornarValores = new ArrayList<>();
         Valor valorNuevo = new Valor(new Tipo(Tipo.EnumTipo.ERROR), "Error");
@@ -82,7 +95,7 @@ public class Casteo {
         return new Valor(new Tipo(Tipo.EnumTipo.STRING), String.valueOf(valor.VALOR.get(0)));
     }
 
-    private static Valor toDouble(Expresion valor) {
+    public static Valor toDouble(Expresion valor) {
         if (valor.TIPO.Tipo == Tipo.EnumTipo.STRING || valor.TIPO.Tipo == Tipo.EnumTipo.ENTERO) {
             return new Valor(new Tipo(Tipo.EnumTipo.NUMERIC), Double.parseDouble(valor.VALOR.get(0).toString()));
         } else if (valor.TIPO.Tipo == Tipo.EnumTipo.BOOLEAN) {
