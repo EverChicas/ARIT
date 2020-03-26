@@ -14,7 +14,6 @@ import softwarearit.Arbol.Estructura.Simbolo;
 import softwarearit.Arbol.Estructura.Tipo;
 import softwarearit.Arbol.Estructura.TipoError;
 import softwarearit.Arbol.Expresiones.Expresion;
-import softwarearit.Arbol.Instrucciones.Asignacion;
 import softwarearit.Arbol.Instrucciones.Declaracion;
 import softwarearit.Arbol.Instrucciones.Funcion;
 import softwarearit.Arbol.Instrucciones.Instruccion;

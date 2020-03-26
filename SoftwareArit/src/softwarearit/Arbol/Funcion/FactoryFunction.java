@@ -36,6 +36,8 @@ public class FactoryFunction {
                 return new C(linea, columna, parametros);
             case "list":
                 return new List(linea, columna, parametros);
+            case "matrix":
+                return new Matrix(linea, columna, parametros);
             case "typeof":
                 return new TypeOf(linea, columna, parametros);
             case "length":

@@ -667,3 +667,22 @@ f=()=>{
 }
 f()
 *#
+
+
+
+Vector = c(12,13,15,16,24,15,17,19,17,15)
+Mean1 = mean(Vector) # No se aplica trim, Mean1 toma el valor de 16.3
+Mode1 = mode(Vector) # No se aplica trim, Mode1 toma el valor de 15
+Median1 = median(Vector) # No se aplica trim, Median1 toma el valor de 15.5
+# Si colocamos el trim en 14, no se toman en cuenta los valores menores a 14
+# Solo analizamos los siguientes valores 15,16,24,15,17,19,17,15
+Mean2 = mean(Vector,14) # Se aplica trim, Mean2 toma el valor de 17.25
+Mode2 = mode(Vector,14) # Se aplica trim, Mode2 toma el valor de 15
+Median2 = median(Vector,14) # Se aplica trim, Median2 toma el valor de 16.5
+
+print(mean1)
+print(mode1)
+print(median1)
+print(mean2)
+print(mode2)
+print(median2)

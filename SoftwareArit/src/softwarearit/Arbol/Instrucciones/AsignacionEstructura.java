@@ -5,7 +5,6 @@
  */
 package softwarearit.Arbol.Instrucciones;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import softwarearit.Arbol.Estructura.Entorno;
 import softwarearit.Arbol.Estructura.Nodo;

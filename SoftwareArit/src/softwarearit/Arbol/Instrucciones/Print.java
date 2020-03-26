@@ -10,6 +10,7 @@ import softwarearit.Arbol.Estructura.Tipo;
 import softwarearit.Arbol.Expresiones.Expresion;
 import softwarearit.Arbol.Funcion.C;
 import softwarearit.Arbol.Funcion.List;
+import softwarearit.Arbol.Funcion.Matrix;
 import softwarearit.Arbol.Valor;
 import softwarearit.Frame.Interfaz;
 import static softwarearit.Frame.Interfaz.*;
@@ -41,12 +42,21 @@ public class Print extends Instruccion {
     public Object Ejecutar(Entorno e) {
         Expresion resul = var1.getValor(e);
 
-        if (resul.TIPO.Tipo == Tipo.EnumTipo.C) {
-            printConsolaLinea(C.imprimirC(e, (Valor) resul).toString());
-        } else if (resul.TIPO.Tipo == Tipo.EnumTipo.LISTA) {
-            printConsolaLinea(List.imprimirLista(e, (Valor) resul).toString());
-        } else if (resul.TIPO.Tipo != Tipo.EnumTipo.ERROR) {
-            printConsolaLinea(resul.VALOR.get(0).toString());
+        switch (resul.TIPO.Tipo) {
+            case C:
+                printConsolaLinea(C.imprimirC(e, (Valor) resul).toString());
+                break;
+            case LISTA:
+                printConsolaLinea(List.imprimirLista(e, (Valor) resul).toString());
+                break;
+            case MATRIZ:
+                printConsolaLinea(Matrix.imprimirMatriz(e, resul).toString());
+                break;
+            case ERROR:
+                break;
+            default:
+                printConsolaLinea(resul.VALOR.get(0).toString());
+                break;
         }
         return null;
     }
