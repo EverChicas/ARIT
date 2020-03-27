@@ -217,10 +217,16 @@ ELSE_IF::= ELSE_IF:a _else _if:op parentesisizquierda E:b parentesisderecha BLOQ
         | _if:op parentesisizquierda E:a parentesisderecha BLOQUE:b                  {: RESULT = new LinkedList<>(); RESULT.add(new BloqueIf(opleft,opright,a,b)); :}
         ;
 
-ASIGNACION::= _id:ide igual:op E:exp        {:RESULT = new Asignacion(opleft,opright,ide,exp); :}
-        | _id:ide igual:op E:exp puntoycoma {:RESULT = new Asignacion(opleft,opright,ide,exp); :}
-        | _id:ide L_ACCESO:b igual:op E:exp        {:RESULT = new AsignacionEstructura(opleft,opright,ide,b,exp); :}
-        | _id:ide L_ACCESO:b igual:op E:exp puntoycoma {:RESULT = new AsignacionEstructura(opleft,opright,ide,b,exp); :}
+ASIGNACION::= _id:ide igual:op E:exp                                                       {: RESULT = new Asignacion(opleft,opright,ide,exp); :}
+        | _id:ide igual:op E:exp puntoycoma                                                {: RESULT = new Asignacion(opleft,opright,ide,exp); :}
+        | _id:ide L_ACCESO:b igual:op E:exp                                                {: RESULT = new AsignacionEstructura(opleft,opright,ide,b,exp); :}
+        | _id:ide L_ACCESO:b igual:op E:exp puntoycoma                                     {: RESULT = new AsignacionEstructura(opleft,opright,ide,b,exp); :}
+        | _id:ide corcheteizquierda coma E:b corchetederecha igual:op E:exp                {: RESULT = new AsignacionMatrix(opleft,opright,ide,null,b,exp); :}
+        | _id:ide corcheteizquierda E:b coma corchetederecha igual:op E:exp                {: RESULT = new AsignacionMatrix(opleft,opright,ide,b,null,exp); :}
+        | _id:ide corcheteizquierda E:b coma E:c corchetederecha igual:op E:exp            {: RESULT = new AsignacionMatrix(opleft,opright,ide,b,c,exp); :}
+        | _id:ide corcheteizquierda coma E:b corchetederecha igual:op E:exp puntoycoma     {: RESULT = new AsignacionMatrix(opleft,opright,ide,null,b,exp); :}
+        | _id:ide corcheteizquierda E:b coma corchetederecha igual:op E:exp puntoycoma     {: RESULT = new AsignacionMatrix(opleft,opright,ide,b,null,exp); :}
+        | _id:ide corcheteizquierda E:b coma E:c corchetederecha igual:op E:exp puntoycoma {: RESULT = new AsignacionMatrix(opleft,opright,ide,b,c,exp); :}
         ;
 
 IMPRIMIR::= _print:op parentesisizquierda E:a parentesisderecha          {: RESULT = new Print(opleft,opright,a); :}
@@ -232,10 +238,6 @@ IMPRIMIR::= _print:op parentesisizquierda E:a parentesisderecha          {: RESU
 L_EXPRESIONES ::= L_EXPRESIONES:a coma E:b {: RESULT = a; RESULT.add(b); :}
         | E:a                              {: RESULT = new LinkedList<>(); RESULT.add(a); :}
         ;
-
-//L_ACCESO::= L_ACCESO:a corcheteizquierda E:b corchetederecha  {: RESULT = a; RESULT.add(b); :}
-//        | corcheteizquierda E:a corchetederecha               {: RESULT = new LinkedList<>(); RESULT.add(a); :}
-//        ;
 
 L_ACCESO::= L_ACCESO:a ACCESO:b  {: RESULT = a; RESULT.add(b); :}
         | ACCESO:a               {: RESULT = new LinkedList<>(); RESULT.add(a); :}
@@ -281,6 +283,9 @@ E::=    E:a mas:op E:b               {: RESULT = new Suma(opleft,opright,a,b); :
         | _id:a parentesisizquierda parentesisderecha                   {: RESULT = FactoryFunction.getLlamadaFuncion(aleft,aright,a); :}
         | _id:a parentesisizquierda L_EXPRESIONES:le parentesisderecha  {: RESULT = FactoryFunction.getLlamadaFuncion(aleft,aright,a,le); :}
         | _id:a L_ACCESO:b                                              {: RESULT = new AccesoEstructura(aleft,aright,a,b); :}
+        | _id:a corcheteizquierda coma E:b corchetederecha              {: RESULT = new AccesoMatrix(aleft,aright,a,null,b); :}
+        | _id:a corcheteizquierda E:b coma corchetederecha              {: RESULT = new AccesoMatrix(aleft,aright,a,b,null); :}
+        | _id:a corcheteizquierda E:b coma E:c corchetederecha          {: RESULT = new AccesoMatrix(aleft,aright,a,b,c); :}
         ;
 
 
