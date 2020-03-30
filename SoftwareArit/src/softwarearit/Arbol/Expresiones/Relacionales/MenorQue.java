@@ -12,6 +12,7 @@ import softwarearit.Arbol.Estructura.TipoError;
 import softwarearit.Arbol.Expresiones.Expresion;
 import softwarearit.Arbol.Herramientas.StringTo;
 import softwarearit.Arbol.Herramientas.TratamientoTipos;
+import softwarearit.Arbol.Herramientas.ValidarTiposVectores;
 import softwarearit.Arbol.Valor;
 import softwarearit.Frame.Interfaz;
 
@@ -20,10 +21,10 @@ import softwarearit.Frame.Interfaz;
  * @author chicas
  */
 public class MenorQue extends Expresion {
-
+    
     Expresion var1;
     Expresion var2;
-
+    
     public MenorQue(int linea, int columna, Expresion var1, Expresion var2) {
         this.LINEA = linea;
         this.COLUMNA = columna;
@@ -39,28 +40,35 @@ public class MenorQue extends Expresion {
         this.NOMBRE = Interfaz.GRAFICA_ARBOL.getNombreNodo();
         this.GRAFICA = Interfaz.GRAFICA_ARBOL.generarGraficaExpresionDosHijos("<", this, var1, var2);
     }
-
+    
     @Override
     public Expresion getValor(Entorno e) {
         Expresion resul1 = this.var1.getValor(e);
         Expresion resul2 = this.var2.getValor(e);
-
+        
         if (resul1.TIPO.Tipo == Tipo.EnumTipo.C && resul2.TIPO.Tipo == Tipo.EnumTipo.C) {
-            return operar2C(e, resul1, resul2);
+            if (ValidarTiposVectores.validarVectoresRelacionales(this.LINEA, this.COLUMNA, (Expresion) resul1.VALOR.get(0), (Expresion) resul2.VALOR.get(0))) {
+                return operar2C(e, resul1, resul2);
+            }
         } else if (resul1.TIPO.Tipo == Tipo.EnumTipo.C) {
-            return operarCIzquierda(e, resul1, resul2);
+            if (ValidarTiposVectores.validarVectoresRelacionales(this.LINEA, this.COLUMNA, (Expresion) resul1.VALOR.get(0), resul2)) {
+                return operarCIzquierda(e, resul1, resul2);
+            }
         } else if (resul2.TIPO.Tipo == Tipo.EnumTipo.C) {
-            return operarCDerecha(e, resul1, resul2);
+            if (ValidarTiposVectores.validarVectoresRelacionales(this.LINEA, this.COLUMNA, resul1, (Expresion) resul2.VALOR.get(0))) {
+                return operarCDerecha(e, resul1, resul2);
+            }
         } else {
             return operar(resul1, resul2);
         }
+        return new Valor(new Tipo(Tipo.EnumTipo.ERROR), "Error");
     }
-
+    
     private Expresion operarCIzquierda(Entorno e, Expresion valorTipoC, Expresion var2) { //el var1 siempre va hacer el tipo c
         Valor resul = new Valor(new Tipo(Tipo.EnumTipo.ERROR), "error");
-
+        
         Expresion resulValor;
-
+        
         resul.VALOR.clear();
         for (Object valor : valorTipoC.VALOR) {
             resulValor = ((Expresion) valor).getValor(e);
@@ -73,12 +81,12 @@ public class MenorQue extends Expresion {
         resul.TIPO.Tipo = Tipo.EnumTipo.C;
         return resul;
     }
-
+    
     private Expresion operarCDerecha(Entorno e, Expresion var1, Expresion valorC) { //el var2 siempre va hacer el tipo c
         Valor resul = new Valor(new Tipo(Tipo.EnumTipo.ERROR), "error");
-
+        
         Expresion resulValor;
-
+        
         resul.VALOR.clear();
         for (Object valor : valorC.VALOR) {
             resulValor = ((Expresion) valor).getValor(e);
@@ -91,12 +99,12 @@ public class MenorQue extends Expresion {
         resul.TIPO.Tipo = Tipo.EnumTipo.C;
         return resul;
     }
-
+    
     private Expresion operar2C(Entorno e, Expresion var1, Expresion var2) {
         Valor resul = new Valor(new Tipo(Tipo.EnumTipo.ERROR), "error");
         Expresion resul1;
         Expresion resul2;
-
+        
         if (var1.VALOR.size() == var2.VALOR.size()) {
             resul.VALOR.clear();
             for (int i = 0; i < var1.VALOR.size(); i++) {
@@ -111,11 +119,11 @@ public class MenorQue extends Expresion {
         resul.TIPO.Tipo = Tipo.EnumTipo.C;
         return resul;
     }
-
+    
     private Expresion operar(Expresion resul1, Expresion resul2) {
         Valor resul = new Valor(new Tipo(Tipo.EnumTipo.ERROR), "error");
         Tipo.EnumTipo TipoSuperiorValores = TratamientoTipos.tipoSuperiorExpresion(resul1, resul2);
-
+        
         if (resul1.TIPO.Tipo == Tipo.EnumTipo.STRING && resul2.TIPO.Tipo == Tipo.EnumTipo.STRING) {
             resul.TIPO.Tipo = Tipo.EnumTipo.BOOLEAN;
             resul.VALOR.clear();

@@ -62,9 +62,10 @@ public class TratamientoTipos {
 
     public static EnumTipo tipoSuperiorLista(ArrayList<Object> lista) {
         EnumTipo tipoSuperior = Tipo.EnumTipo.ERROR;
+        Valor actual = new Valor(new Tipo(Tipo.EnumTipo.ERROR), "");
 
         if (lista.get(0) instanceof Valor) {
-            Valor actual = (Valor) lista.get(0);
+            actual.TIPO.Tipo = ((Valor) lista.get(0)).TIPO.Tipo;
             tipoSuperior = actual.TIPO.Tipo;
 
             for (Object item : lista) {

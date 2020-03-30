@@ -12,6 +12,7 @@ import softwarearit.Arbol.Estructura.TipoError;
 import softwarearit.Arbol.Expresiones.Expresion;
 import softwarearit.Arbol.Herramientas.StringTo;
 import softwarearit.Arbol.Herramientas.TratamientoTipos;
+import softwarearit.Arbol.Herramientas.ValidarTiposVectores;
 import softwarearit.Arbol.Valor;
 import softwarearit.Frame.Interfaz;
 
@@ -46,14 +47,21 @@ public class MayorIgual extends Expresion {
         Expresion resul2 = this.var2.getValor(e);
 
         if (resul1.TIPO.Tipo == Tipo.EnumTipo.C && resul2.TIPO.Tipo == Tipo.EnumTipo.C) {
-            return operar2C(e, resul1, resul2);
+            if (ValidarTiposVectores.validarVectoresRelacionales(this.LINEA, this.COLUMNA, (Expresion) resul1.VALOR.get(0), (Expresion) resul2.VALOR.get(0))) {
+                return operar2C(e, resul1, resul2);
+            }
         } else if (resul1.TIPO.Tipo == Tipo.EnumTipo.C) {
-            return operarCIzquierda(e, resul1, resul2);
+            if (ValidarTiposVectores.validarVectoresRelacionales(this.LINEA, this.COLUMNA, (Expresion) resul1.VALOR.get(0), resul2)) {
+                return operarCIzquierda(e, resul1, resul2);
+            }
         } else if (resul2.TIPO.Tipo == Tipo.EnumTipo.C) {
-            return operarCDerecha(e, resul1, resul2);
+            if (ValidarTiposVectores.validarVectoresRelacionales(this.LINEA, this.COLUMNA, resul1, (Expresion) resul2.VALOR.get(0))) {
+                return operarCDerecha(e, resul1, resul2);
+            }
         } else {
             return operar(resul1, resul2);
         }
+        return new Valor(new Tipo(Tipo.EnumTipo.ERROR), "Error");
     }
 
     private Expresion operarCIzquierda(Entorno e, Expresion valorTipoC, Expresion var2) { //el var1 siempre va hacer el tipo c

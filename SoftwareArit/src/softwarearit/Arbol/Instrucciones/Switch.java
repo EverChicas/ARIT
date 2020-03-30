@@ -70,11 +70,11 @@ public class Switch extends Instruccion {
                         } else if (resultInstuccionesCaso instanceof Return) {
                             return resultInstuccionesCaso;
                         } else {
-                            Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.SEMANTICO), "Error en instrucciones switch", LINEA, COLUMNA));
+                            Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.SEMANTICO), "Error en instrucciones switch", caso.LINEA, caso.COLUMNA));
                         }
                     }
                 }
-            } else {
+            } else {/*
                 if (esDefault) {
                     Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.SEMANTICO), " Error switch con mas de un default", ((CasoSwitch) caso).LINEA, ((CasoSwitch) caso).COLUMNA));
                 } else {
@@ -91,6 +91,19 @@ public class Switch extends Instruccion {
                         } else {
                             Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.SEMANTICO), "Error en instrucciones switch", LINEA, COLUMNA));
                         }
+                    }
+                }*/
+                entornoLocal = new Entorno(e, Entorno.EnumEntorno.SWITCH);
+                resultInstuccionesCaso = ((CasoSwitch) caso).Ejecutar(entornoLocal);
+                if (resultInstuccionesCaso != null) {
+                    if (resultInstuccionesCaso instanceof Break) {
+                        return null;
+                    } else if (resultInstuccionesCaso instanceof Continue) {
+                        return resultInstuccionesCaso;
+                    } else if (resultInstuccionesCaso instanceof Return) {
+                        return resultInstuccionesCaso;
+                    } else {
+                        Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.SEMANTICO), "Error en instrucciones switch", caso.LINEA, caso.COLUMNA));
                     }
                 }
             }

@@ -44,15 +44,47 @@ public class C extends AbstractFuncion {
     public Expresion getValor(Entorno e) {
         ArrayList<Object> valores = new ArrayList<>();
         Expresion resulValor;
+        /**
+         * Busco que sea una lista
+         */
 
-        for (Object valor : this.lista) {
-            resulValor = ((Expresion) valor).getValor(e);
-            if (resulValor.TIPO.Tipo == Tipo.EnumTipo.LISTA) {
-                Expresion valorLista = new List(this.LINEA, this.COLUMNA, lista).getValor(e);
-                return valorLista;
+        if (hayUnaLista(e, this.lista)) {
+            LinkedList<Nodo> valoresDeLista = new LinkedList<>(); // getValoresLista(e, resulValor);
+            LinkedList<Nodo> listaTemp;
+            for (Object valor : this.lista) {
+                if (valor instanceof Expresion) {
+                    resulValor = ((Expresion) valor).getValor(e);
+                    listaTemp = getValoresLista(e, resulValor);
+                    for (Nodo item : listaTemp) {
+                        if (!(item instanceof Expresion) || ((Expresion) item).TIPO.Tipo == Tipo.EnumTipo.ERROR) {
+                            return new Valor(new Tipo(Tipo.EnumTipo.ERROR), "Error");
+                        } else {
+                            valoresDeLista.add(item);
+                        }
+                    }
+                } else {
+                    Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.SEMANTICO), "Error de tipo en c", LINEA, COLUMNA));
+                    return new Valor(new Tipo(Tipo.EnumTipo.ERROR), "Error");
+                }
             }
         }
 
+        /**
+         * for (Object valor : this.lista) { resulValor = ((Expresion)
+         * valor).getValor(e);
+         *
+         * if (resulValor.TIPO.Tipo == Tipo.EnumTipo.LISTA) {
+         *
+         * Si trae una estrucutra tipo list, tengo que hacer una nueva list, con
+         * todos los datos que traen las demas
+         *
+         *
+         * //Expresion valorLista = new List(this.LINEA, this.COLUMNA,
+         * lista).getValor(e); //return valorLista; LinkedList<Nodo>
+         * valoresDeLista = getValoresLista(e, resulValor); Expresion valorLista
+         * = new List(this.LINEA, this.COLUMNA, valoresDeLista).getValor(e);
+         * return valorLista; } }
+         */
         /**
          * voy a recorrer el arreglo, si encuentro otro arreglo llama a
          * recursivo cuando recursivo retorne, me va a dar una lista de valores,
@@ -66,7 +98,9 @@ public class C extends AbstractFuncion {
                 if (resulValor.TIPO.Tipo == Tipo.EnumTipo.ERROR) {
                     return new Valor(new Tipo(Tipo.EnumTipo.ERROR), "error");
                 } else if (resulValor.TIPO.Tipo == Tipo.EnumTipo.C) {
+
                     ArrayList<Object> listaTemporal = getValorRecursivo(e, (Valor) resulValor);
+
                     for (Object item : listaTemporal) {
                         if (((Expresion) item).TIPO.Tipo == Tipo.EnumTipo.ERROR) {
                             valores.clear();
@@ -76,6 +110,7 @@ public class C extends AbstractFuncion {
                             valores.add((Expresion) item);
                         }
                     }
+
                 } else {
                     valores.add(resulValor);
                 }
@@ -92,7 +127,14 @@ public class C extends AbstractFuncion {
         }
     }
 
-    private ArrayList<Object> getValorRecursivo(Entorno e, Valor valor) {
+    /**
+     * Cuando tiene estructuras tipo c dentro de otra
+     *
+     * @param e
+     * @param valor
+     * @return
+     */
+    private ArrayList<Object> getValorRecursivo(Entorno e, Expresion valor) {
         ArrayList<Object> valores = new ArrayList<Object>();
         Expresion result;
 
@@ -184,7 +226,11 @@ public class C extends AbstractFuncion {
                 if (i >= vector.Valor.size()) {
                     lista.add(new Valor(new Tipo(Tipo.EnumTipo.NULL), "null"));
                 } else {
-                    lista.add(new Valor(new Tipo(vector.Tipo.Tipo), ((Expresion) vector.Valor.get(i)).VALOR));
+                    if (vector.Valor.get(i) instanceof Valor) {
+                        lista.add(new Valor(new Tipo(vector.Tipo.Tipo), ((Expresion) vector.Valor.get(i)).VALOR));
+                    } else {
+                        lista.add(new Valor(new Tipo(vector.Tipo.Tipo), vector.Valor.get(i)));
+                    }
                 }
             }
             lista.add(nuevoValor);
@@ -196,6 +242,86 @@ public class C extends AbstractFuncion {
         } else {
             return (Expresion) lista.get(0);
         }
+    }
+
+    private LinkedList<Nodo> getValoresLista(Entorno e, Expresion valor) {
+        LinkedList<Nodo> lista = new LinkedList<>();
+        Expresion resul;
+
+        for (Object nodo : valor.VALOR) {
+            if (nodo instanceof Expresion) {
+                resul = ((Expresion) nodo).getValor(e);
+                if (sePuedeOperarList(resul)) {
+                    if (resul.TIPO.Tipo == Tipo.EnumTipo.LISTA) {
+                        LinkedList<Nodo> listaTemp = getValoresLista(e, resul);
+
+                        for (Nodo item : listaTemp) {
+                            if (!(item instanceof Expresion) || ((Expresion) item).TIPO.Tipo == Tipo.EnumTipo.ERROR) {
+                                lista.clear();
+                                lista.add(new Valor(new Tipo(Tipo.EnumTipo.ERROR), "Error"));
+                                return lista;
+                            } else {
+                                lista.add(item);
+                            }
+                        }
+                    } else if (resul.TIPO.Tipo == Tipo.EnumTipo.C) {
+                        ArrayList<Object> arrayC = getValorRecursivo(e, resul);
+
+                        for (Object item : arrayC) {
+                            if (!(item instanceof Expresion) || ((Expresion) item).TIPO.Tipo == Tipo.EnumTipo.ERROR) {
+                                lista.clear();
+                                lista.add(new Valor(new Tipo(Tipo.EnumTipo.ERROR), "Error"));
+                                return lista;
+                            } else {
+                                lista.add((Nodo) item);
+                            }
+                        }
+                    } else {
+                        lista.add(resul);
+                    }
+                } else {
+                    Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.SEMANTICO), "Error no se puede operar el tipo: " + resul.TIPO.Tipo, LINEA, COLUMNA));
+                    lista.clear();
+                    lista.add(new Valor(new Tipo(Tipo.EnumTipo.ERROR), "Error"));
+                    return lista;
+                }
+            } else {
+                Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.SEMANTICO), "Error tipo de valor ", LINEA, COLUMNA));
+                lista.add(new Valor(new Tipo(Tipo.EnumTipo.ERROR), "Error"));
+                return lista;
+            }
+        }
+
+        return lista;
+    }
+
+    private boolean sePuedeOperarList(Expresion valor) {
+        switch (valor.TIPO.Tipo) {
+            case ARRAY:
+            case MATRIZ:
+            case DEFAULT:
+            case ERROR:
+            case FUNCION:
+            case VECTOR:
+                return false;
+            default:
+                return true;
+        }
+    }
+
+    private boolean hayUnaLista(Entorno e, LinkedList<Nodo> lista) {
+        Expresion resulValor;
+        for (Object valor : lista) {
+            if (valor instanceof Expresion) {
+                resulValor = ((Expresion) valor).getValor(e);
+                if (resulValor.TIPO.Tipo == Tipo.EnumTipo.LISTA) {
+                    return true;
+                }
+            } else {
+                return false;
+            }
+        }
+        return false;
     }
 
 }

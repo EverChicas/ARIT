@@ -114,19 +114,21 @@ public class IgualIgual extends Expresion {
     private Expresion operar(Expresion resul1, Expresion resul2) {
         Valor resul = new Valor(new Tipo(Tipo.EnumTipo.ERROR), "error");
 
-        if (resul1.TIPO.Tipo == Tipo.EnumTipo.STRING && resul2.TIPO.Tipo == Tipo.EnumTipo.STRING) {
+        if (resul1.TIPO.Tipo == Tipo.EnumTipo.STRING || resul2.TIPO.Tipo == Tipo.EnumTipo.STRING) {
             resul.TIPO.Tipo = Tipo.EnumTipo.BOOLEAN;
             resul.VALOR.clear();
-            resul.VALOR.add(SonIguales(resul1.VALOR.get(0).toString(), resul2.VALOR.get(0).toString()));
+            resul.VALOR.add(SonIguales(resul1.VALOR.get(0).toString().toLowerCase(), resul2.VALOR.get(0).toString().toLowerCase()));
         } else if (resul1.TIPO.Tipo == Tipo.EnumTipo.BOOLEAN && resul2.TIPO.Tipo == Tipo.EnumTipo.BOOLEAN) {
             resul.TIPO.Tipo = Tipo.EnumTipo.BOOLEAN;
             resul.VALOR.clear();
-            resul.VALOR.add(SonIguales(resul1.VALOR.get(0).toString(), resul2.VALOR.get(0).toString()));
+            resul.VALOR.add(SonIguales(resul1.VALOR.get(0).toString().toLowerCase(), resul2.VALOR.get(0).toString().toLowerCase()));
         } else if (resul1.TIPO.Tipo == Tipo.EnumTipo.ENTERO || resul1.TIPO.Tipo == Tipo.EnumTipo.NUMERIC
                 && resul2.TIPO.Tipo == Tipo.EnumTipo.ENTERO || resul2.TIPO.Tipo == Tipo.EnumTipo.NUMERIC) {
             resul.TIPO.Tipo = Tipo.EnumTipo.BOOLEAN;
             resul.VALOR.clear();
-            resul.VALOR.add(SonIguales(resul1.VALOR.get(0).toString(), resul2.VALOR.get(0).toString()));
+            double tmp1 = Double.parseDouble(resul1.VALOR.get(0).toString());
+            double tmp2 = Double.parseDouble(resul2.VALOR.get(0).toString());
+            resul.VALOR.add(SonIguales(String.valueOf(tmp1), String.valueOf(tmp2)));
         } else if (resul1.TIPO.Tipo == Tipo.EnumTipo.NULL && resul2.TIPO.Tipo == Tipo.EnumTipo.NULL) {
             resul.TIPO.Tipo = Tipo.EnumTipo.BOOLEAN;
             resul.VALOR.clear();

@@ -67,12 +67,11 @@ public class AST {
      * @return
      */
     public Object ejecutar() {
-
+        /*
         for (Nodo nodo : this.INSTRUCCIONES) {
-
             if (nodo instanceof Instruccion) {
                 Object resultBloque = ((Instruccion) nodo).Ejecutar(this.TABLA);
-                /*
+                
                 if (resultBloque != null) {
                     if (resultBloque instanceof Break) {
                         return resultBloque;
@@ -84,12 +83,28 @@ public class AST {
                         return null;
                     }
                 }
-                 */
+                 
             } else if (nodo instanceof Expresion) {
                 ((Expresion) nodo).getValor(this.TABLA);
             }
-
         }
+         */
+        for (Nodo nodo : this.INSTRUCCIONES) {
+            if (nodo instanceof Funcion) {
+                ((Funcion) nodo).Ejecutar(TABLA);
+            }
+        }
+
+        for (Nodo nodo : this.INSTRUCCIONES) {
+            if (nodo instanceof Instruccion) {
+                if (!(nodo instanceof Funcion)) {
+                    ((Instruccion) nodo).Ejecutar(TABLA);
+                }
+            } else if (nodo instanceof Expresion) {
+                ((Expresion) nodo).getValor(TABLA);
+            }
+        }
+
         return null;
     }
 

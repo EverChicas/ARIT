@@ -11,6 +11,7 @@ import softwarearit.Arbol.Estructura.Tipo;
 import softwarearit.Arbol.Estructura.TipoError;
 import softwarearit.Arbol.Expresiones.Expresion;
 import softwarearit.Arbol.Herramientas.TratamientoTipos;
+import softwarearit.Arbol.Herramientas.ValidarTiposVectores;
 import softwarearit.Arbol.Valor;
 import softwarearit.Frame.Interfaz;
 
@@ -42,11 +43,13 @@ public class Negativo extends Expresion {
         Expresion resul1 = this.var1.getValor(e);
 
         if (resul1.TIPO.Tipo == Tipo.EnumTipo.C) {
-            return operarC(e, resul1);
+            if (ValidarTiposVectores.validarVectorAritmeticoNegativo((Expresion) resul1.VALOR.get(0))) {
+                return operarC(e, resul1);
+            }
         } else {
             return operar(resul1);
         }
-
+        return new Valor(new Tipo(Tipo.EnumTipo.ERROR), "Error");
     }
 
     /**
@@ -98,5 +101,4 @@ public class Negativo extends Expresion {
         }
         return resul;
     }
-
 }

@@ -5,8 +5,10 @@
  */
 package softwarearit.Arbol.Estructura;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import softwarearit.Arbol.Expresiones.Expresion;
+import softwarearit.Arbol.Valor;
 import softwarearit.Frame.Interfaz;
 
 /**
@@ -37,6 +39,9 @@ public class Entorno {
     }
 
     public void insertar(String nombre, Simbolo simbolo, int linea, int columna) {
+        /**
+         * PARA BUSCAR ENTORNO GLOBAL O DE UNA FUNCION
+         */
         for (Entorno e = this; e != null; e = e.anterior) {
             if (e.tabla.containsKey(nombre.toLowerCase())) {
                 if (e.tipoEntorno == EnumEntorno.GLOBAL || e.tipoEntorno == EnumEntorno.FUNCION) {
@@ -49,12 +54,30 @@ public class Entorno {
                 }
             }
         }
+        /**
+         * SI NO EXISTE EN ENTORNO GLOBAL O DE UNA FUNCION, BUSCA SI EXISTE EN
+         * ENTORNO EN OTRO ENTORNO ANTERIOR
+         */
+        for (Entorno e = this; e != null; e = e.anterior) {
+            if (e.tabla.containsKey(nombre.toLowerCase())) {
+                if (simbolo.Tipo.Tipo != Tipo.EnumTipo.ERROR) {
+                    e.tabla.put(nombre.toLowerCase(), simbolo);
+                    return;
+                } else {
+                    return;
+                }
+            }
+        }
+        /**
+         * SI NO EXISTE EN ENTORNO ANTERIOR, LO GUARDA EN ENTORNO LOCAL
+         */
         if (simbolo.Tipo.Tipo != Tipo.EnumTipo.ERROR) {
             tabla.put(nombre.toLowerCase(), simbolo);
             return;
         } else {
             return;
         }
+
     }
 
     public void insertarParametro(String identificador, Simbolo simbolo, int LINEA, int COLUMNA) {

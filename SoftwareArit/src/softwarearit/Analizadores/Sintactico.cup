@@ -67,11 +67,6 @@ terminal String _break, _continue, _return;
 terminal String _funcion;
 terminal String _print;
 terminal String _null;
-//terminal String _c, _list, _matrix, _array;
-//terminal String _typeof, _length, _ncol, _nrow, _stringlength, _remove; 
-//terminal String _tolowercase, _touppercase, _trunk, _round;
-//terminal String _mean, _median, _mode;
-//terminal String _pie, _barplot, _plot, _hist;
 terminal umenos;
 
 
@@ -289,16 +284,6 @@ E::=    E:a mas:op E:b               {: RESULT = new Suma(opleft,opright,a,b); :
         ;
 
 
-
-// TODO producciones con problemas
-
-
-
-
-//ACCESO ::= _id corcheteizquierda E corchetederecha
-//        | _id corcheteizquierda corchetederecha
-//        | _id                                       {: RESULT = new Acceso(aleft,aright,a); :}
-//        ;
 
 
 
