@@ -48,16 +48,6 @@ public class List extends AbstractFuncion {
                 resulValor = ((Expresion) valor).getValor(e);
                 if (resulValor.TIPO.Tipo == Tipo.EnumTipo.ERROR) {
                     return resulValor;
-                    /*} else if (resulValor.TIPO.Tipo == Tipo.EnumTipo.LISTA) {
-                    ArrayList<Object> tempValores = valorEnLista(e, resulValor);
-                    if (tempValores == null) {
-                        resul.TIPO.Tipo = Tipo.EnumTipo.ERROR;
-                        return resul;
-                    } else {
-                        for (Object item : tempValores) {
-                            resul.VALOR.add(item);
-                        }
-                    }*/
                 } else {
                     resul.VALOR.add(resulValor);
                 }

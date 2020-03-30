@@ -69,29 +69,6 @@ public class C extends AbstractFuncion {
             }
         }
 
-        /**
-         * for (Object valor : this.lista) { resulValor = ((Expresion)
-         * valor).getValor(e);
-         *
-         * if (resulValor.TIPO.Tipo == Tipo.EnumTipo.LISTA) {
-         *
-         * Si trae una estrucutra tipo list, tengo que hacer una nueva list, con
-         * todos los datos que traen las demas
-         *
-         *
-         * //Expresion valorLista = new List(this.LINEA, this.COLUMNA,
-         * lista).getValor(e); //return valorLista; LinkedList<Nodo>
-         * valoresDeLista = getValoresLista(e, resulValor); Expresion valorLista
-         * = new List(this.LINEA, this.COLUMNA, valoresDeLista).getValor(e);
-         * return valorLista; } }
-         */
-        /**
-         * voy a recorrer el arreglo, si encuentro otro arreglo llama a
-         * recursivo cuando recursivo retorne, me va a dar una lista de valores,
-         * voy a recorrer en busca de errores si encuentro un error lo mando
-         * como error tanto en lista del tipo c, que estoy recorriendo, como en
-         * la del recursivo
-         */
         for (Nodo nodo : this.lista) {
             if (nodo instanceof Expresion) {
                 resulValor = ((Expresion) nodo).getValor(e);

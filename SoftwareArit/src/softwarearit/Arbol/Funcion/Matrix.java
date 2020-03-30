@@ -20,7 +20,7 @@ import softwarearit.Frame.Interfaz;
 
 /**
  * la matrix, guardara el tamanio de columnas y tamanio de filas en la posicion
- * 0 columnas en la posicion 1 filas
+ * 0 columnas [integer] en la posicion 1 filas [integer]
  *
  * @author chicas
  */
@@ -70,16 +70,16 @@ public class Matrix extends AbstractFuncion {
                         if (punteroValores == valores.VALOR.size()) {
                             punteroValores = 0;
                             if (valores instanceof Valor && valores.TIPO.Tipo != Tipo.EnumTipo.C) {
-                                resul.VALOR.add(mapeoLexicoGraficoColumna(numCol, numFila, tamanioCol), valores);
+                                resul.VALOR.add(mapeoLexicoGraficoMatriz(numCol, numFila, tamanioCol), valores);
                             } else {
-                                resul.VALOR.add(mapeoLexicoGraficoColumna(numCol, numFila, tamanioCol), valores.VALOR.get(punteroValores));
+                                resul.VALOR.add(mapeoLexicoGraficoMatriz(numCol, numFila, tamanioCol), valores.VALOR.get(punteroValores));
                             }
                             punteroValores++;
                         } else {
                             if (valores instanceof Valor && valores.TIPO.Tipo != Tipo.EnumTipo.C) {
-                                resul.VALOR.add(mapeoLexicoGraficoColumna(numCol, numFila, tamanioCol), valores);
+                                resul.VALOR.add(mapeoLexicoGraficoMatriz(numCol, numFila, tamanioCol), valores);
                             } else {
-                                resul.VALOR.add(mapeoLexicoGraficoColumna(numCol, numFila, tamanioCol), valores.VALOR.get(punteroValores));
+                                resul.VALOR.add(mapeoLexicoGraficoMatriz(numCol, numFila, tamanioCol), valores.VALOR.get(punteroValores));
                             }
                             punteroValores++;
                         }
@@ -93,10 +93,6 @@ public class Matrix extends AbstractFuncion {
         }
 
         return resul;
-    }
-
-    private static int mapeoLexicoGraficoColumna(int numCol, int numFila, int tamanioCol) {
-        return ((numFila - 1) * tamanioCol + numCol + 1);
     }
 
     public static StringBuilder imprimirMatriz(Entorno e, Expresion matrix) {
@@ -117,13 +113,25 @@ public class Matrix extends AbstractFuncion {
         for (int i = 1; i <= tamanioCol; i++) {
             cadena.append("[" + i + ",]");
             for (int j = 1; j <= tamanioFila; j++) {
-                valor = ((Expresion) matrix.VALOR.get(mapeoLexicoGraficoColumna(i, j, tamanioCol))).getValor(e);
+                valor = ((Expresion) matrix.VALOR.get(mapeoLexicoGraficoMatriz(i, j, tamanioCol))).getValor(e);
                 cadena.append("  " + valor.VALOR.get(0).toString() + "  ");
             }
             cadena.append("\n");
         }
 
         return cadena;
+    }
+
+    /**
+     * mapeo lexicografico para la matrix
+     *
+     * @param numCol
+     * @param numFila
+     * @param tamanioCol
+     * @return
+     */
+    public static int mapeoLexicoGraficoMatriz(int numCol, int numFila, int tamanioCol) {
+        return ((numFila - 1) * tamanioCol + numCol + 1);
     }
 
 }
