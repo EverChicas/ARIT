@@ -20,7 +20,7 @@ import softwarearit.Frame.Interfaz;
 
 /**
  * la matrix, guardara el tamanio de columnas y tamanio de filas en la posicion
- * 0 columnas [integer] en la posicion 1 filas [integer]
+ * 0 filas [integer] en la posicion 1 columnas [integer]
  *
  * @author chicas
  */
@@ -47,16 +47,18 @@ public class Matrix extends AbstractFuncion {
                 && (!(((Expresion) lista.get(0)).getValor(e) instanceof List)
                 || !(((Expresion) lista.get(0)).getValor(e) instanceof Matrix))) {
             Expresion valores = ((Expresion) lista.get(0)).getValor(e);
-            Expresion columnas = ((Expresion) lista.get(1)).getValor(e);
-            Expresion filas = ((Expresion) lista.get(2)).getValor(e);
-            int tamanioCol = Integer.parseInt(columnas.VALOR.get(0).toString());
+
+            Expresion filas = ((Expresion) lista.get(1)).getValor(e);
+            Expresion columnas = ((Expresion) lista.get(2)).getValor(e);
             int tamanioFila = Integer.parseInt(filas.VALOR.get(0).toString());
-            if (tamanioCol > 0 && tamanioFila > 0) {
+            int tamanioCol = Integer.parseInt(columnas.VALOR.get(0).toString());
+
+            if (tamanioFila > 0 && tamanioCol > 0) {
 
                 resul.TIPO.Tipo = Tipo.EnumTipo.MATRIZ;
                 resul.VALOR.clear();
-                resul.VALOR.add(0, tamanioCol);
-                resul.VALOR.add(1, tamanioFila);
+                resul.VALOR.add(0, tamanioFila);
+                resul.VALOR.add(1, tamanioCol);
                 int punteroValores = 0;
 
                 Tipo.EnumTipo tipoValoresMatrix = TratamientoTipos.tipoSuperiorLista(valores.VALOR);
@@ -64,27 +66,28 @@ public class Matrix extends AbstractFuncion {
                     valores.VALOR = Casteo.CasteoDeArray(valores.VALOR, tipoValoresMatrix);
                 }
 
-                for (int numFila = 1; numFila <= tamanioFila; numFila++) {
-                    for (int numCol = 1; numCol <= tamanioCol; numCol++) {
+                for (int numCol = 1; numCol <= tamanioCol; numCol++) {
+                    for (int numFila = 1; numFila <= tamanioFila; numFila++) {
 
                         if (punteroValores == valores.VALOR.size()) {
                             punteroValores = 0;
                             if (valores instanceof Valor && valores.TIPO.Tipo != Tipo.EnumTipo.C) {
-                                resul.VALOR.add(mapeoLexicoGraficoMatriz(numCol, numFila, tamanioCol), valores);
+                                resul.VALOR.add(mapeoLexicoGraficoMatriz(numFila, numCol, tamanioFila), valores);
                             } else {
-                                resul.VALOR.add(mapeoLexicoGraficoMatriz(numCol, numFila, tamanioCol), valores.VALOR.get(punteroValores));
+                                resul.VALOR.add(mapeoLexicoGraficoMatriz(numFila, numCol, tamanioFila), valores.VALOR.get(punteroValores));
                             }
                             punteroValores++;
                         } else {
                             if (valores instanceof Valor && valores.TIPO.Tipo != Tipo.EnumTipo.C) {
-                                resul.VALOR.add(mapeoLexicoGraficoMatriz(numCol, numFila, tamanioCol), valores);
+                                resul.VALOR.add(mapeoLexicoGraficoMatriz(numFila, numCol, tamanioFila), valores);
                             } else {
-                                resul.VALOR.add(mapeoLexicoGraficoMatriz(numCol, numFila, tamanioCol), valores.VALOR.get(punteroValores));
+                                resul.VALOR.add(mapeoLexicoGraficoMatriz(numFila, numCol, tamanioFila), valores.VALOR.get(punteroValores));
                             }
                             punteroValores++;
                         }
                     }
                 }
+
             } else {
                 Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.SEMANTICO), "Error con indices de matriz", LINEA, COLUMNA));
             }
@@ -97,11 +100,11 @@ public class Matrix extends AbstractFuncion {
 
     public static StringBuilder imprimirMatriz(Entorno e, Expresion matrix) {
         StringBuilder cadena = new StringBuilder();
-        int tamanioCol = Integer.parseInt(matrix.VALOR.get(0).toString());
-        int tamanioFila = Integer.parseInt(matrix.VALOR.get(1).toString());
+        int tamanioFila = Integer.parseInt(matrix.VALOR.get(0).toString());
+        int tamanioCol = Integer.parseInt(matrix.VALOR.get(1).toString());
         Expresion valor;
 
-        for (int i = 1; i <= tamanioFila; i++) {
+        for (int i = 1; i <= tamanioCol; i++) {
             if (i == 1) {
                 cadena.append("     [," + i + "]");
             } else {
@@ -110,10 +113,11 @@ public class Matrix extends AbstractFuncion {
         }
 
         cadena.append("\n");
-        for (int i = 1; i <= tamanioCol; i++) {
+
+        for (int i = 1; i <= tamanioFila; i++) {
             cadena.append("[" + i + ",]");
-            for (int j = 1; j <= tamanioFila; j++) {
-                valor = ((Expresion) matrix.VALOR.get(mapeoLexicoGraficoMatriz(i, j, tamanioCol))).getValor(e);
+            for (int j = 1; j <= tamanioCol; j++) {
+                valor = ((Expresion) matrix.VALOR.get(mapeoLexicoGraficoMatriz(i, j, tamanioFila))).getValor(e);
                 cadena.append("  " + valor.VALOR.get(0).toString() + "  ");
             }
             cadena.append("\n");
@@ -130,8 +134,8 @@ public class Matrix extends AbstractFuncion {
      * @param tamanioCol
      * @return
      */
-    public static int mapeoLexicoGraficoMatriz(int numCol, int numFila, int tamanioCol) {
-        return ((numFila - 1) * tamanioCol + numCol + 1);
+    public static int mapeoLexicoGraficoMatriz(int numFila, int numCol, int tamanioFila) {
+        return ((numCol - 1) * tamanioFila + numFila + 1);
     }
 
 }

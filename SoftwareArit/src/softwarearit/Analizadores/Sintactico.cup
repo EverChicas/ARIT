@@ -278,8 +278,8 @@ E::=    E:a mas:op E:b               {: RESULT = new Suma(opleft,opright,a,b); :
         | _id:a parentesisizquierda parentesisderecha                   {: RESULT = FactoryFunction.getLlamadaFuncion(aleft,aright,a); :}
         | _id:a parentesisizquierda L_EXPRESIONES:le parentesisderecha  {: RESULT = FactoryFunction.getLlamadaFuncion(aleft,aright,a,le); :}
         | _id:a L_ACCESO:b                                              {: RESULT = new AccesoEstructura(aleft,aright,a,b); :}
-        | _id:a corcheteizquierda coma E:b corchetederecha              {: RESULT = new AccesoMatrix(aleft,aright,a,null,b); :}
         | _id:a corcheteizquierda E:b coma corchetederecha              {: RESULT = new AccesoMatrix(aleft,aright,a,b,null); :}
+        | _id:a corcheteizquierda coma E:b corchetederecha              {: RESULT = new AccesoMatrix(aleft,aright,a,null,b); :}
         | _id:a corcheteizquierda E:b coma E:c corchetederecha          {: RESULT = new AccesoMatrix(aleft,aright,a,b,c); :}
         ;
 

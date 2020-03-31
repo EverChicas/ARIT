@@ -14,6 +14,7 @@ import softwarearit.Arbol.Estructura.Simbolo;
 import softwarearit.Arbol.Estructura.Tipo;
 import softwarearit.Arbol.Estructura.TipoError;
 import softwarearit.Arbol.Expresiones.Expresion;
+import softwarearit.Arbol.Funcion.Matrix;
 import softwarearit.Arbol.Valor;
 import softwarearit.Frame.Interfaz;
 
@@ -45,8 +46,33 @@ public class AccesoEstructura extends Expresion {
 
         if (simbolo == null) {
             Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.SEMANTICO), "No se encontro valor de variable", LINEA, COLUMNA));
+            return result;
         } else {
-            result = new Valor(new Tipo(Tipo.EnumTipo.ERROR), simbolo.Valor);
+
+            if (simbolo.Tipo.Tipo == Tipo.EnumTipo.MATRIZ) {
+                if (this.listaAcceso.size() > 1) {
+                    Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.SEMANTICO), "Error con acceso en matrix", LINEA, COLUMNA));
+                    return result;
+                } else {
+                    if (esEntero(((AccesoProfundo) this.listaAcceso.get(0)).valor)) {
+                        Expresion indice = ((AccesoProfundo) this.listaAcceso.get(0)).valor;
+                        indice = indice.getValor(e);
+                        if (Integer.parseInt(indice.VALOR.get(0).toString()) < 1) {
+                            Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.SEMANTICO), "Error valor de indice menor que 1", LINEA, COLUMNA));
+                            return result;
+                        } else if (Integer.parseInt(indice.VALOR.get(0).toString()) >= simbolo.Valor.size() - 1) {
+                            Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.SEMANTICO), "Error indice superior al limite", LINEA, COLUMNA));
+                            return result;
+                        } else {
+                            result = ((Expresion) simbolo.Valor.get(Integer.parseInt(indice.VALOR.get(0).toString()) + 1)).getValor(e);
+                            return new Valor(new Tipo(result.TIPO.Tipo), result.VALOR);
+                        }
+                    } else {
+                        Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.SEMANTICO), "Error con tipo de indice ", LINEA, COLUMNA));
+                        return result;
+                    }
+                }
+            }
 
             for (Nodo nodoNivel : this.listaAcceso) {
                 result = buscarValor(e, result.VALOR, nodoNivel);
@@ -93,6 +119,18 @@ public class AccesoEstructura extends Expresion {
         }
         return resultValor;
     }
-    
-    
+
+    /**
+     * Validar si el indice es de tipo entero
+     *
+     * @param e
+     * @return
+     */
+    private boolean esEntero(Expresion e) {
+        if (e.TIPO.Tipo == Tipo.EnumTipo.ENTERO) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

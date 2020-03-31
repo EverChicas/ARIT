@@ -13,7 +13,9 @@ import softwarearit.Arbol.Estructura.Simbolo;
 import softwarearit.Arbol.Estructura.Tipo;
 import softwarearit.Arbol.Estructura.TipoError;
 import softwarearit.Arbol.Expresiones.Expresion;
+import softwarearit.Arbol.Funcion.C;
 import softwarearit.Arbol.Funcion.Matrix;
+import static softwarearit.Arbol.Funcion.Matrix.mapeoLexicoGraficoMatriz;
 import softwarearit.Arbol.Valor;
 import softwarearit.Frame.Interfaz;
 
@@ -27,19 +29,25 @@ public class AccesoMatrix extends Expresion {
     Expresion columnaMatrix;
     Expresion filaMatrix;
 
-    public AccesoMatrix(int linea, int columna, String id, Expresion columnaMatrix, Expresion filaMatrix) {
+    public AccesoMatrix(int linea, int columna, String id, Expresion filaMatrix, Expresion columnaMatrix) {
         this.LINEA = linea;
         this.COLUMNA = columna;
         this.identificador = id;
-        this.columnaMatrix = columnaMatrix;
         this.filaMatrix = filaMatrix;
+        this.columnaMatrix = columnaMatrix;
         generarGrafica();
     }
 
     private void generarGrafica() {
         LinkedList<Nodo> listaAcceso = new LinkedList<>();
-        listaAcceso.add(columnaMatrix);
-        listaAcceso.add(filaMatrix);
+        if (columnaMatrix != null && filaMatrix != null) {
+            listaAcceso.add(columnaMatrix);
+            listaAcceso.add(filaMatrix);
+        } else if (columnaMatrix == null && filaMatrix != null) {
+            listaAcceso.add(filaMatrix);
+        } else if (filaMatrix == null && columnaMatrix != null) {
+            listaAcceso.add(columnaMatrix);
+        }
         this.GRAFICA = Interfaz.GRAFICA_ARBOL.generarGraficaPadreHijosNodos(identificador, this, listaAcceso);
     }
 
@@ -56,34 +64,84 @@ public class AccesoMatrix extends Expresion {
                 resultColumna = columnaMatrix.getValor(e);
                 resultFila = filaMatrix.getValor(e);
                 if (esEntero(resultColumna) && esEntero(resultFila)) {
-                    return accesoCelda(Integer.parseInt(resultColumna.VALOR.get(0).toString()), Integer.parseInt(resultFila.VALOR.get(0).toString()), matrix);
+                    return accesoCelda(Integer.parseInt(resultFila.VALOR.get(0).toString()), Integer.parseInt(resultColumna.VALOR.get(0).toString()), matrix);
+                }
+            } else if (columnaMatrix == null && filaMatrix != null) {
+                resultFila = filaMatrix.getValor(e);
+                if (esEntero(resultFila)) {
+                    return accesoFila(e, matrix, Integer.parseInt(resultFila.VALOR.get(0).toString()));
+                }
+            } else if (filaMatrix == null && columnaMatrix != null) {
+                resultColumna = columnaMatrix.getValor(e);
+                if (esEntero(resultColumna)) {
+                    return accesoColumna(e, matrix, Integer.parseInt(resultColumna.VALOR.get(0).toString()));
                 }
             }
         }
-        return null;
+        return new Valor(new Tipo(Tipo.EnumTipo.ERROR), "Error");
     }
 
-    private Valor accesoCelda(int columna, int fila, Simbolo matrix) {
+    private Expresion accesoCelda(int fila, int columna, Simbolo matrix) {
         Valor resul = new Valor(new Tipo(Tipo.EnumTipo.ERROR), "Error");
+        if (fila == 0 || columna == 0) {
+            Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.SEMANTICO), "Indices no pueden ser 0 en matriz", LINEA, COLUMNA));
+            return resul;
+        } else if (fila * columna >= matrix.Valor.size() - 1) {
+            Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.SEMANTICO), "Error indice fuera de limite", LINEA, COLUMNA));
+            return resul;
+        } else {
+            int posicion = Matrix.mapeoLexicoGraficoMatriz(fila, columna, Integer.parseInt(matrix.Valor.get(0).toString()));
 
-        int posicion = Matrix.mapeoLexicoGraficoMatriz(columna, fila, Integer.parseInt(matrix.Valor.get(0).toString()));
+            Object temp = ((Expresion) matrix.Valor.get(posicion));
+            if (temp instanceof Valor && ((Expresion) temp).TIPO.Tipo != Tipo.EnumTipo.ERROR) {
+                resul = new Valor(new Tipo(((Expresion) temp).TIPO.Tipo), ((Expresion) temp).VALOR);
+            }
 
-        if (matrix.Valor.get(posicion) instanceof Valor && ((Expresion) matrix.Valor.get(posicion)).TIPO.Tipo != Tipo.EnumTipo.ERROR) {
-            Expresion temp = ((Expresion) matrix.Valor.get(posicion));
-            resul = new Valor(new Tipo(temp.TIPO.Tipo), temp.VALOR);
+            return resul;
         }
 
-        return resul;
     }
 
-    private Valor accesoColumna(int columna) {
-        Valor resul = new Valor(new Tipo(Tipo.EnumTipo.ERROR), "Error");
-        return resul;
+    private Expresion accesoColumna(Entorno e, Simbolo matrix, int columna) {
+        Expresion resul = new Valor(new Tipo(Tipo.EnumTipo.ERROR), "Error");
+
+        if (columna == 0) {
+            Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.SEMANTICO), "Indices no pueden ser 0 en matriz", LINEA, COLUMNA));
+            return resul;
+        } else if (columna > Integer.parseInt(matrix.Valor.get(1).toString())) {
+            Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.SEMANTICO), "Error indice fuera de limite", LINEA, COLUMNA));
+            return resul;
+        } else {
+            LinkedList<Nodo> valores = new LinkedList<>();
+            Expresion valor;
+            for (int i = 1; i <= Integer.parseInt(matrix.Valor.get(0).toString()); i++) {
+                valor = ((Expresion) matrix.Valor.get(mapeoLexicoGraficoMatriz(i, columna, Integer.parseInt(matrix.Valor.get(0).toString())))).getValor(e);
+                valores.add(valor);
+            }
+            resul = new C(this.LINEA, this.COLUMNA, valores).getValor(e);
+            return resul;
+        }
     }
 
-    private Valor accesoFila(int fila) {
-        Valor resul = new Valor(new Tipo(Tipo.EnumTipo.ERROR), "Error");
-        return resul;
+    private Expresion accesoFila(Entorno e, Simbolo matrix, int fila) {
+        Expresion resul = new Valor(new Tipo(Tipo.EnumTipo.ERROR), "Error");
+
+        if (fila == 0) {
+            Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.SEMANTICO), "Indices no pueden ser 0 en matriz", LINEA, COLUMNA));
+            return resul;
+        } else if (fila > Integer.parseInt(matrix.Valor.get(0).toString())) {
+            Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.SEMANTICO), "Error indice fuera de limite", LINEA, COLUMNA));
+            return resul;
+        } else {
+            LinkedList<Nodo> valoresFila = new LinkedList<>();
+            Expresion valor;
+            for (int i = 1; i <= Integer.parseInt(matrix.Valor.get(1).toString()); i++) {
+                valor = ((Expresion) matrix.Valor.get(mapeoLexicoGraficoMatriz(fila, i, Integer.parseInt(matrix.Valor.get(0).toString())))).getValor(e);
+                valoresFila.add(valor);
+            }
+            resul = new C(this.LINEA, this.COLUMNA, valoresFila).getValor(e);
+            return resul;
+        }
     }
 
     private boolean esEntero(Expresion e) {
