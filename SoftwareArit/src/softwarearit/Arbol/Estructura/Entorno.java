@@ -87,7 +87,8 @@ public class Entorno {
     public Simbolo buscar(String identificador) {
         for (Entorno e = this; e != null; e = e.anterior) {
             if (e.tabla.containsKey(identificador.toLowerCase())) {
-                return e.tabla.get(identificador.toLowerCase());
+                Simbolo tmp = e.tabla.get(identificador.toLowerCase());
+                return new Simbolo(new Tipo(tmp.Tipo.Tipo), tmp.Id, tmp.Valor);
             }
         }
         return null;

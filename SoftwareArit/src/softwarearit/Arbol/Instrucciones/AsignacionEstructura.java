@@ -14,6 +14,7 @@ import softwarearit.Arbol.Estructura.Tipo;
 import softwarearit.Arbol.Estructura.TipoError;
 import softwarearit.Arbol.Expresiones.Expresion;
 import softwarearit.Arbol.Funcion.C;
+import softwarearit.Arbol.Funcion.Matrix;
 import softwarearit.Arbol.Valor;
 import softwarearit.Frame.Interfaz;
 
@@ -63,7 +64,12 @@ public class AsignacionEstructura extends Instruccion {
         Simbolo simbolo = e.buscar(this.identificador);
 
         if (valorNuevo != null) {
-            if (simbolo.Tipo.Tipo == Tipo.EnumTipo.LISTA) {
+            if (simbolo.Tipo.Tipo == Tipo.EnumTipo.MATRIZ) {
+                resul = Matrix.modificarMatrizIndice(e, (Expresion) listaAcceso.get(0), simbolo, valorNuevo, LINEA, COLUMNA);
+                if (resul.TIPO.Tipo != Tipo.EnumTipo.ERROR) {
+                    e.insertar(simbolo.Id, new Simbolo(resul.TIPO, simbolo.Id, resul.VALOR), LINEA, COLUMNA);
+                }
+            } else if (simbolo.Tipo.Tipo == Tipo.EnumTipo.LISTA) {
 
             } else {
                 resul = C.modificarVector(e, (Expresion) this.listaAcceso.get(0), simbolo, valorNuevo, this.LINEA, this.COLUMNA);

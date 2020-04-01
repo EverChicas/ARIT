@@ -5,11 +5,13 @@
  */
 package softwarearit.Arbol.Funcion;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import softwarearit.Arbol.Estructura.AbstractFuncion;
 import softwarearit.Arbol.Estructura.Entorno;
 import softwarearit.Arbol.Estructura.Nodo;
 import softwarearit.Arbol.Estructura.NodoError;
+import softwarearit.Arbol.Estructura.Simbolo;
 import softwarearit.Arbol.Estructura.Tipo;
 import softwarearit.Arbol.Estructura.TipoError;
 import softwarearit.Arbol.Expresiones.Expresion;
@@ -136,6 +138,44 @@ public class Matrix extends AbstractFuncion {
      */
     public static int mapeoLexicoGraficoMatriz(int numFila, int numCol, int tamanioFila) {
         return ((numCol - 1) * tamanioFila + numFila + 1);
+    }
+
+    public static Expresion modificarMatrizIndice(Entorno e, Expresion indice, Simbolo matrix, Expresion nuevoValor, int linea, int columna) {
+        ArrayList<Object> copiaValoresMatrix = (ArrayList<Object>) matrix.Valor.clone();
+        Expresion result = new Valor(new Tipo(Tipo.EnumTipo.ERROR), "Error");
+        indice = indice.getValor(e);
+
+        if (indice.TIPO.Tipo != Tipo.EnumTipo.ERROR && indice.TIPO.Tipo == Tipo.EnumTipo.ENTERO) {
+            int indiceEntero = Integer.parseInt(indice.VALOR.get(0).toString());
+            if (indiceEntero < 1) {
+                Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.SEMANTICO), "Error el indice no puede ser menor de 1", linea, columna));
+            } else if (indiceEntero >= matrix.Valor.size() - 1) {
+                Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.SEMANTICO), "Error el indice supera el limite de estructura", linea, columna));
+            } else {
+                result.TIPO.Tipo = Tipo.EnumTipo.MATRIZ;
+                result.VALOR.clear();
+                result.VALOR.add(0, matrix.Valor.get(0));
+                result.VALOR.add(1, matrix.Valor.get(1));
+
+                copiaValoresMatrix.set(indiceEntero + 1, nuevoValor);
+                copiaValoresMatrix.remove(0);
+                copiaValoresMatrix.remove(0);
+
+                Tipo.EnumTipo tipoValoresMatrix = TratamientoTipos.tipoSuperiorLista(copiaValoresMatrix);
+                if (copiaValoresMatrix.size() > 1) {
+                    copiaValoresMatrix = Casteo.CasteoDeArray(copiaValoresMatrix, tipoValoresMatrix);
+                }
+
+                for (Object item : copiaValoresMatrix) {
+                    result.VALOR.add(item);
+                }
+
+                return result;
+            }
+        } else {
+            Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.SEMANTICO), "Error con indice", linea, columna));
+        }
+        return result;
     }
 
 }
