@@ -5,6 +5,7 @@
  */
 package softwarearit.Arbol.Expresiones.Logicas;
 
+import java.util.ArrayList;
 import softwarearit.Arbol.Estructura.Entorno;
 import softwarearit.Arbol.Estructura.Nodo;
 import softwarearit.Arbol.Estructura.NodoError;
@@ -44,6 +45,8 @@ public class Not extends Expresion {
 
         if (resul1.TIPO.Tipo == Tipo.EnumTipo.C) {
             return operarC(e, resul1);
+        } else if (resul1.TIPO.Tipo == Tipo.EnumTipo.MATRIZ) {
+            return operarMatrix(e, resul1);
         } else {
             return operar(resul1);
         }
@@ -68,6 +71,38 @@ public class Not extends Expresion {
             }
         }
         resul.TIPO.Tipo = Tipo.EnumTipo.C;
+        return resul;
+    }
+
+    private Expresion operarMatrix(Entorno e, Expresion matrix) { //el var1 siempre va hacer el tipo c
+        ArrayList<Object> copiaMatrix = (ArrayList<Object>) matrix.VALOR.clone();
+        Valor resul = new Valor(new Tipo(Tipo.EnumTipo.ERROR), "error");
+        Expresion resulValor;
+
+        copiaMatrix.remove(0);
+        copiaMatrix.remove(0);
+
+        copiaMatrix = Casteo.CasteoImplicito(copiaMatrix, Tipo.EnumTipo.BOOLEAN);
+        if (((Expresion) copiaMatrix.get(0)).TIPO.Tipo == Tipo.EnumTipo.ERROR) {
+            return resul;
+        }
+
+        resul.VALOR.clear();
+        resul.VALOR.add(0, matrix.VALOR.get(0));
+        resul.VALOR.add(1, matrix.VALOR.get(1));
+
+        for (int i = 0; i < copiaMatrix.size(); i++) {
+            resulValor = ((Expresion) copiaMatrix.get(i)).getValor(e);
+            if (resulValor == null) {
+                Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.SEMANTICO), "valor nulo", LINEA, COLUMNA));
+                resul.VALOR.clear();
+                resul.VALOR.add("Error");
+                return resul;
+            } else {
+                resul.VALOR.add(operar(resulValor));
+            }
+        }
+        resul.TIPO.Tipo = Tipo.EnumTipo.MATRIZ;
         return resul;
     }
 

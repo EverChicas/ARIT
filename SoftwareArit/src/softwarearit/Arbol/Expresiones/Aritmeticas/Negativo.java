@@ -40,14 +40,21 @@ public class Negativo extends Expresion {
 
     @Override
     public Expresion getValor(Entorno e) {
-        Expresion resul1 = this.var1.getValor(e);
+        Expresion resul = this.var1.getValor(e);
 
-        if (resul1.TIPO.Tipo == Tipo.EnumTipo.C) {
-            if (ValidarTiposVectores.validarVectorAritmeticoNegativo((Expresion) resul1.VALOR.get(0))) {
-                return operarC(e, resul1);
+        /* OPERACIONES PARA TIPO C */
+        if (resul.TIPO.Tipo == Tipo.EnumTipo.C) {
+            if (ValidarTiposVectores.validarVectorAritmeticoNegativo((Expresion) resul.VALOR.get(0))) {
+                return operarC(e, resul);
             }
+            /* OPERACIONES PARA MATRIX */
+        } else if (resul.TIPO.Tipo == Tipo.EnumTipo.MATRIZ) {
+            if (ValidarTiposVectores.validarVectorAritmeticoNegativo((Expresion) resul.VALOR.get(2))) {
+                return operacionMatrices(e, resul);
+            }
+            /* OPERACION NORMAL */
         } else {
-            return operar(resul1);
+            return operar(resul);
         }
         return new Valor(new Tipo(Tipo.EnumTipo.ERROR), "Error");
     }
@@ -75,6 +82,25 @@ public class Negativo extends Expresion {
             }
         }
         resul.TIPO.Tipo = Tipo.EnumTipo.C;
+        return resul;
+    }
+
+    /*  OPERACIONES DE MATRICES */
+    private Expresion operacionMatrices(Entorno e, Expresion matrix) {
+        Valor resul = new Valor(new Tipo(Tipo.EnumTipo.ERROR), "error");
+        Expresion resul1;
+
+        resul.VALOR.clear();
+
+        resul.VALOR.add(0, matrix.VALOR.get(0));
+        resul.VALOR.add(1, matrix.VALOR.get(1));
+
+        for (int i = 2; i < matrix.VALOR.size(); i++) {
+            resul1 = ((Expresion) matrix.VALOR.get(i)).getValor(e);
+            resul.VALOR.add(operar(resul1));
+        }
+
+        resul.TIPO.Tipo = Tipo.EnumTipo.MATRIZ;
         return resul;
     }
 

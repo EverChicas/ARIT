@@ -5,6 +5,7 @@
  */
 package softwarearit.Arbol.Expresiones.Logicas;
 
+import java.util.ArrayList;
 import softwarearit.Arbol.Estructura.Entorno;
 import softwarearit.Arbol.Estructura.NodoError;
 import softwarearit.Arbol.Estructura.Tipo;
@@ -44,12 +45,21 @@ public class And extends Expresion {
         Expresion resul1 = var1.getValor(e);
         Expresion resul2 = var2.getValor(e);
 
+        /* OPERACIONES CON VECTORES*/
         if (resul1.TIPO.Tipo == Tipo.EnumTipo.C && resul2.TIPO.Tipo == Tipo.EnumTipo.C) {
             return operar2C(e, resul1, resul2);
         } else if (resul1.TIPO.Tipo == Tipo.EnumTipo.C) {
             return operarCIzquierda(e, resul1, resul2);
         } else if (resul2.TIPO.Tipo == Tipo.EnumTipo.C) {
             return operarCDerecha(e, resul1, resul2);
+            /* OPERACIONES CON MATRICES */
+        } else if (resul1.TIPO.Tipo == Tipo.EnumTipo.MATRIZ && resul2.TIPO.Tipo == Tipo.EnumTipo.MATRIZ) {
+            return operar2Matrix(e, resul1, resul2);
+        } else if (resul1.TIPO.Tipo == Tipo.EnumTipo.MATRIZ) {
+            return operarMatrixIzquierda(e, resul1, resul2);
+        } else if (resul2.TIPO.Tipo == Tipo.EnumTipo.MATRIZ) {
+            return operarMatrixDerecha(e, resul1, resul2);
+            /* OPERACIONES CON VALORES REALES */
         } else {
             return operar(resul1, resul2);
         }
@@ -125,6 +135,109 @@ public class And extends Expresion {
             return resul;
         }
         resul.TIPO.Tipo = Tipo.EnumTipo.C;
+        return resul;
+    }
+
+    /* OPERACIONES PARA MATRIX*/
+    private Expresion operar2Matrix(Entorno e, Expresion matrix1, Expresion matrix2) {
+        ArrayList<Object> copiaMatrix1 = (ArrayList<Object>) matrix1.VALOR.clone();
+        ArrayList<Object> copiaMatrix2 = (ArrayList<Object>) matrix2.VALOR.clone();
+        Valor resul = new Valor(new Tipo(Tipo.EnumTipo.ERROR), "error");
+        Expresion resul1;
+        Expresion resul2;
+
+        copiaMatrix1.remove(0);
+        copiaMatrix1.remove(0);
+        copiaMatrix2.remove(0);
+        copiaMatrix2.remove(0);
+
+        copiaMatrix1 = Casteo.CasteoImplicito(copiaMatrix1, Tipo.EnumTipo.BOOLEAN);
+        copiaMatrix2 = Casteo.CasteoImplicito(copiaMatrix2, Tipo.EnumTipo.BOOLEAN);
+
+        if (((Expresion) copiaMatrix1.get(0)).TIPO.Tipo == Tipo.EnumTipo.ERROR || ((Expresion) copiaMatrix2.get(0)).TIPO.Tipo == Tipo.EnumTipo.ERROR) {
+            return resul;
+        }
+
+        if (matrix1.VALOR.get(0) == matrix2.VALOR.get(0) && matrix1.VALOR.get(1) == matrix2.VALOR.get(1)) {
+            resul.VALOR.clear();
+
+            resul.VALOR.add(0, matrix1.VALOR.get(0));
+            resul.VALOR.add(1, matrix1.VALOR.get(1));
+
+            for (int i = 0; i < copiaMatrix1.size(); i++) {
+                resul1 = ((Expresion) copiaMatrix1.get(i)).getValor(e);
+                resul2 = ((Expresion) copiaMatrix2.get(i)).getValor(e);
+                resul.VALOR.add(operar(resul1, resul2));
+            }
+            resul.TIPO.Tipo = Tipo.EnumTipo.MATRIZ;
+        } else {
+            Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.SEMANTICO), "Error dimeciones de matriz diferentes", LINEA, COLUMNA));
+        }
+        return resul;
+    }
+
+    private Expresion operarMatrixIzquierda(Entorno e, Expresion matrix, Expresion constante) {
+        ArrayList<Object> copiaMatrix = (ArrayList<Object>) matrix.VALOR.clone();
+        Valor resul = new Valor(new Tipo(Tipo.EnumTipo.ERROR), "error");
+        Expresion resulValor;
+
+        copiaMatrix.remove(0);
+        copiaMatrix.remove(0);
+
+        copiaMatrix = Casteo.CasteoImplicito(copiaMatrix, Tipo.EnumTipo.BOOLEAN);
+        if (((Expresion) copiaMatrix.get(0)).TIPO.Tipo == Tipo.EnumTipo.ERROR) {
+            return resul;
+        }
+
+        resul.VALOR.clear();
+        resul.VALOR.add(0, matrix.VALOR.get(0));
+        resul.VALOR.add(1, matrix.VALOR.get(1));
+
+        for (int i = 0; i < copiaMatrix.size(); i++) {
+            resulValor = ((Expresion) copiaMatrix.get(i)).getValor(e);
+            if (resulValor == null) {
+                Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.SEMANTICO), "valor nulo", LINEA, COLUMNA));
+                resul.VALOR.clear();
+                resul.VALOR.add("Error");
+                return resul;
+            } else {
+                resul.VALOR.add(operar(resulValor, constante));
+            }
+        }
+        resul.TIPO.Tipo = Tipo.EnumTipo.MATRIZ;
+        return resul;
+    }
+
+    private Expresion operarMatrixDerecha(Entorno e, Expresion constante, Expresion matrix) {
+        ArrayList<Object> copiaMatrix = (ArrayList<Object>) matrix.VALOR.clone();
+        Valor resul = new Valor(new Tipo(Tipo.EnumTipo.ERROR), "error");
+        Expresion resulValor;
+
+        copiaMatrix.remove(0);
+        copiaMatrix.remove(0);
+
+        copiaMatrix = Casteo.CasteoImplicito(copiaMatrix, Tipo.EnumTipo.BOOLEAN);
+        if (((Expresion) copiaMatrix.get(0)).TIPO.Tipo == Tipo.EnumTipo.ERROR) {
+            return resul;
+        }
+
+        resul.VALOR.clear();
+        resul.VALOR.add(0, matrix.VALOR.get(0));
+        resul.VALOR.add(1, matrix.VALOR.get(1));
+
+        for (int i = 0; i < copiaMatrix.size(); i++) {
+            resulValor = ((Expresion) copiaMatrix.get(i)).getValor(e);
+            if (resulValor == null) {
+                Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.SEMANTICO), "valor nulo", LINEA, COLUMNA));
+                resul.VALOR.clear();
+                resul.VALOR.add("Error");
+                return resul;
+            } else {
+                resul.VALOR.add(operar(constante, resulValor));
+            }
+        }
+
+        resul.TIPO.Tipo = Tipo.EnumTipo.MATRIZ;
         return resul;
     }
 

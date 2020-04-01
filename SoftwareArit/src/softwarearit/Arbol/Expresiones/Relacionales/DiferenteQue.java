@@ -44,12 +44,23 @@ public class DiferenteQue extends Expresion {
         Expresion resul1 = this.var1.getValor(e);
         Expresion resul2 = this.var2.getValor(e);
 
+        /* OPERACIONES DE C */
         if (resul1.TIPO.Tipo == Tipo.EnumTipo.C && resul2.TIPO.Tipo == Tipo.EnumTipo.C) {
             return operar2C(e, resul1, resul2);
         } else if (resul1.TIPO.Tipo == Tipo.EnumTipo.C) {
             return operarCIzquierda(e, resul1, resul2);
         } else if (resul2.TIPO.Tipo == Tipo.EnumTipo.C) {
             return operarCDerecha(e, resul1, resul2);
+
+            /* OPERACIONES DE MATRIX */
+        } else if (resul1.TIPO.Tipo == Tipo.EnumTipo.MATRIZ && resul2.TIPO.Tipo == Tipo.EnumTipo.MATRIZ) {
+            return operar2Matrix(e, resul1, resul2);
+        } else if (resul1.TIPO.Tipo == Tipo.EnumTipo.MATRIZ) {
+            return operarMatrixIzquierda(e, resul1, resul2);
+        } else if (resul2.TIPO.Tipo == Tipo.EnumTipo.MATRIZ) {
+            return operarMatrixDerecha(e, resul1, resul2);
+
+            /* OPERACION DE VALORES NORMALES */
         } else {
             return operar(resul1, resul2);
         }
@@ -65,6 +76,9 @@ public class DiferenteQue extends Expresion {
             resulValor = ((Expresion) valor).getValor(e);
             if (resulValor == null) {
                 Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.SEMANTICO), "valor nulo", LINEA, COLUMNA));
+                resul.VALOR.clear();
+                resul.VALOR.add("Error");
+                return resul;
             } else {
                 resul.VALOR.add(operar(resulValor, var2));
             }
@@ -83,6 +97,9 @@ public class DiferenteQue extends Expresion {
             resulValor = ((Expresion) valor).getValor(e);
             if (resulValor == null) {
                 Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.SEMANTICO), "valor nulo", LINEA, COLUMNA));
+                resul.VALOR.clear();
+                resul.VALOR.add("Error");
+                return resul;
             } else {
                 resul.VALOR.add(operar(var1, resulValor));
             }
@@ -102,14 +119,91 @@ public class DiferenteQue extends Expresion {
                 resul1 = ((Expresion) var1.VALOR.get(i)).getValor(e);
                 resul2 = ((Expresion) var2.VALOR.get(i)).getValor(e);
                 resul.VALOR.add(operar(resul1, resul2));
+                resul.TIPO.Tipo = Tipo.EnumTipo.C;
             }
         } else {
             Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.SEMANTICO), "Error tamaño de vectores diferente, no se puede realizar la operacion", LINEA, COLUMNA));
             return resul;
         }
-        resul.TIPO.Tipo = Tipo.EnumTipo.C;
+
         return resul;
     }
+
+    /* OPERACIONES PARA MATRIX*/
+    private Expresion operar2Matrix(Entorno e, Expresion matrix1, Expresion matrix2) {
+        Valor resul = new Valor(new Tipo(Tipo.EnumTipo.ERROR), "error");
+        Expresion resul1;
+        Expresion resul2;
+
+        if (matrix1.VALOR.get(0) == matrix2.VALOR.get(0) && matrix1.VALOR.get(1) == matrix2.VALOR.get(1)) {
+            resul.VALOR.clear();
+
+            resul.VALOR.add(0, matrix1.VALOR.get(0));
+            resul.VALOR.add(1, matrix1.VALOR.get(1));
+
+            for (int i = 2; i < matrix1.VALOR.size(); i++) {
+                resul1 = ((Expresion) matrix1.VALOR.get(i)).getValor(e);
+                resul2 = ((Expresion) matrix2.VALOR.get(i)).getValor(e);
+                resul.VALOR.add(operar(resul1, resul2));
+            }
+            resul.TIPO.Tipo = Tipo.EnumTipo.MATRIZ;
+        } else {
+            Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.SEMANTICO), "Error dimeciones de matriz diferentes", LINEA, COLUMNA));
+        }
+        return resul;
+    }
+
+    private Expresion operarMatrixIzquierda(Entorno e, Expresion matrix, Expresion constante) {
+        Valor resul = new Valor(new Tipo(Tipo.EnumTipo.ERROR), "error");
+
+        Expresion resulValor;
+
+        resul.VALOR.clear();
+        resul.VALOR.add(0, matrix.VALOR.get(0));
+        resul.VALOR.add(1, matrix.VALOR.get(1));
+
+        for (int i = 2; i < matrix.VALOR.size(); i++) {
+            resulValor = ((Expresion) matrix.VALOR.get(i)).getValor(e);
+            if (resulValor == null) {
+                Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.SEMANTICO), "valor nulo", LINEA, COLUMNA));
+                resul.VALOR.clear();
+                resul.VALOR.add("Error");
+                return resul;
+            } else {
+                resul.VALOR.add(operar(resulValor, constante));
+            }
+        }
+
+        resul.TIPO.Tipo = Tipo.EnumTipo.MATRIZ;
+        return resul;
+    }
+
+    private Expresion operarMatrixDerecha(Entorno e, Expresion constante, Expresion matrix) {
+        Valor resul = new Valor(new Tipo(Tipo.EnumTipo.ERROR), "error");
+
+        Expresion resulValor;
+
+        resul.VALOR.clear();
+        resul.VALOR.add(0, matrix.VALOR.get(0));
+        resul.VALOR.add(1, matrix.VALOR.get(1));
+
+        for (int i = 2; i < matrix.VALOR.size(); i++) {
+            resulValor = ((Expresion) matrix.VALOR.get(i)).getValor(e);
+            if (resulValor == null) {
+                Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.SEMANTICO), "valor nulo", LINEA, COLUMNA));
+                resul.VALOR.clear();
+                resul.VALOR.add("Error");
+                return resul;
+            } else {
+                resul.VALOR.add(operar(constante, resulValor));
+            }
+        }
+
+        resul.TIPO.Tipo = Tipo.EnumTipo.MATRIZ;
+        return resul;
+    }
+
+  
 
     private Expresion operar(Expresion resul1, Expresion resul2) {
         Valor resul = new Valor(new Tipo(Tipo.EnumTipo.ERROR), "error");

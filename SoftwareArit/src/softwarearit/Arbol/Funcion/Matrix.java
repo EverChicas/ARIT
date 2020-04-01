@@ -102,29 +102,35 @@ public class Matrix extends AbstractFuncion {
 
     public static StringBuilder imprimirMatriz(Entorno e, Expresion matrix) {
         StringBuilder cadena = new StringBuilder();
-        int tamanioFila = Integer.parseInt(matrix.VALOR.get(0).toString());
-        int tamanioCol = Integer.parseInt(matrix.VALOR.get(1).toString());
-        Expresion valor;
 
-        for (int i = 1; i <= tamanioCol; i++) {
-            if (i == 1) {
-                cadena.append("     [," + i + "]");
-            } else {
-                cadena.append(" [," + i + "]");
+        if (matrix.TIPO.Tipo != Tipo.EnumTipo.ERROR) {
+
+            int tamanioFila = Integer.parseInt(matrix.VALOR.get(0).toString());
+            int tamanioCol = Integer.parseInt(matrix.VALOR.get(1).toString());
+            Expresion valor;
+
+            for (int i = 1; i <= tamanioCol; i++) {
+                if (i == 1) {
+                    cadena.append("     [," + i + "]");
+                } else {
+                    cadena.append(" [," + i + "]");
+                }
             }
-        }
 
-        cadena.append("\n");
-
-        for (int i = 1; i <= tamanioFila; i++) {
-            cadena.append("[" + i + ",]");
-            for (int j = 1; j <= tamanioCol; j++) {
-                valor = ((Expresion) matrix.VALOR.get(mapeoLexicoGraficoMatriz(i, j, tamanioFila))).getValor(e);
-                cadena.append("  " + valor.VALOR.get(0).toString() + "  ");
-            }
             cadena.append("\n");
-        }
 
+            for (int i = 1; i <= tamanioFila; i++) {
+                cadena.append("[" + i + ",]");
+                for (int j = 1; j <= tamanioCol; j++) {
+                    valor = ((Expresion) matrix.VALOR.get(mapeoLexicoGraficoMatriz(i, j, tamanioFila))).getValor(e);
+                    cadena.append("  " + valor.VALOR.get(0).toString() + "  ");
+                }
+                cadena.append("\n");
+            }
+
+        } else {
+            cadena.append("");
+        }
         return cadena;
     }
 
