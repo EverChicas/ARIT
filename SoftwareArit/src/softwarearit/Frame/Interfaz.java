@@ -35,10 +35,10 @@ public class Interfaz extends javax.swing.JFrame {
     private final Pestania PESTANIA;
     public static LinkedList<NodoError> LISTA_ERRORES;
     public static Grafo GRAFICA_ARBOL;
-    
+
     public Interfaz() {
         initComponents();
-        
+
         ABRIR = new AbrirArchivo();
         PESTANIA = new Pestania();
         GUARDAR = new Guardar();
@@ -53,7 +53,7 @@ public class Interfaz extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
-        
+
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
@@ -71,21 +71,21 @@ public class Interfaz extends javax.swing.JFrame {
         jMenu4 = new javax.swing.JMenu();
         jMenuItem7 = new javax.swing.JMenuItem();
         jMenuItem8 = new javax.swing.JMenuItem();
-        
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        
+
         jTextArea1.setBackground(new java.awt.Color(0, 0, 0));
         jTextArea1.setColumns(20);
         jTextArea1.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jTextArea1.setForeground(new java.awt.Color(102, 255, 0));
         jTextArea1.setRows(5);
         jScrollPane1.setViewportView(jTextArea1);
-        
+
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel1.setText("Fila :   Columna :");
-        
+
         jMenu1.setText("Archivo");
-        
+
         jMenuItem1.setText("Abrir");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -93,7 +93,7 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
         jMenu1.add(jMenuItem1);
-        
+
         jMenuItem2.setText("Guardar");
         jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -101,7 +101,7 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
         jMenu1.add(jMenuItem2);
-        
+
         jMenuItem3.setText("Guardar como");
         jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -109,11 +109,11 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
         jMenu1.add(jMenuItem3);
-        
+
         jMenuBar1.add(jMenu1);
-        
+
         jMenu2.setText("Ventana");
-        
+
         jMenuItem4.setText("Abrir pestaña");
         jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -121,7 +121,7 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
         jMenu2.add(jMenuItem4);
-        
+
         jMenuItem5.setText("Cerrar pestaña");
         jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -129,11 +129,11 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
         jMenu2.add(jMenuItem5);
-        
+
         jMenuBar1.add(jMenu2);
-        
+
         jMenu3.setText("Ejecutar");
-        
+
         jMenuItem6.setText("Ejecutar");
         jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -141,21 +141,21 @@ public class Interfaz extends javax.swing.JFrame {
             }
         });
         jMenu3.add(jMenuItem6);
-        
+
         jMenuBar1.add(jMenu3);
-        
+
         jMenu4.setText("Reporte");
-        
+
         jMenuItem7.setText("Arbol AST");
         jMenu4.add(jMenuItem7);
-        
+
         jMenuItem8.setText("Errores");
         jMenu4.add(jMenuItem8);
-        
+
         jMenuBar1.add(jMenu4);
-        
+
         setJMenuBar(jMenuBar1);
-        
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -177,7 +177,7 @@ public class Interfaz extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabel1))
         );
-        
+
         pack();
     }// </editor-fold>                        
 
@@ -186,36 +186,36 @@ public class Interfaz extends javax.swing.JFrame {
         GUARDAR.GuardarComo(tmp);
         jTabbedPane1.setTitleAt(jTabbedPane1.getSelectedIndex(), tmp.getNombre());
     }
-    
+
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {
         abrirArchivo();
     }
-    
+
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {
         Archivo tmp = getArchivo();
-        
+
         if (tmp.getPath().equals("nuevo")) {
             GUARDAR.GuardarComo(tmp);
             jTabbedPane1.setTitleAt(jTabbedPane1.getSelectedIndex(), tmp.getNombre());
         } else {
             GUARDAR.Guardar(tmp);
         }
-        
+
     }
-    
+
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {
         Archivo tmp = new Archivo("nuevo", "nueva.java", "");
         JScrollPane agregar = PESTANIA.nueva(tmp);
         jTabbedPane1.addTab(tmp.getNombre(), agregar);
     }
-    
+
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {
         int index = jTabbedPane1.getSelectedIndex();
         if (index >= 0) {
             jTabbedPane1.remove(index);
         }
     }
-    
+
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {
         ejecutarInterprete();
     }
@@ -335,7 +335,7 @@ public class Interfaz extends javax.swing.JFrame {
         String text = "Error tipo: " + error.getTipoError() + " Descripcion: " + error.Descripcion + " Linea: " + error.Linea + " Columna: " + error.Columna;
         printConsolaLinea(text);
     }
-    
+
     private void abrirArchivo() {
         Archivo tmp = ABRIR.Abrir();
         JScrollPane agregar = PESTANIA.nueva(tmp);
@@ -362,7 +362,7 @@ public class Interfaz extends javax.swing.JFrame {
         GRAFICA_ARBOL.nuevoGrafo();
         AST arbol;
         cleanConsola();
-        
+
         try {
             /*
             Lexico tokens = new Lexico(new BufferedReader(new StringReader(tmp2.getText())));
@@ -375,12 +375,13 @@ public class Interfaz extends javax.swing.JFrame {
             Lexico lexico = new Lexico(new BufferedReader(new StringReader(tmp2.getText())));
             Sintactico sintactico = new Sintactico(lexico);
             sintactico.parse();
-            
+
             arbol = sintactico.AST;
             if (arbol != null) {
                 //for(Instruccion t:arbol.INSTRUCCIONES){
                 //    printConsola(t.getClass().toString());
                 //}
+                AbrirNavegador.inicioCompilacion();
                 arbol.getGrafica();
                 arbol.ejecutar();
                 AbrirNavegador.openGrafica("AST.png");
@@ -391,5 +392,5 @@ public class Interfaz extends javax.swing.JFrame {
             Logger.getLogger(Interfaz.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
 }

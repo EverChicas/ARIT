@@ -74,7 +74,7 @@ public class AccesoEstructura extends Expresion {
             }
 
             for (Nodo nodoNivel : this.listaAcceso) {
-                result = buscarValor(e, result.VALOR, nodoNivel);
+                result = buscarValor(e, simbolo.Valor, nodoNivel);
                 if (result.TIPO.Tipo == Tipo.EnumTipo.ERROR) {
                     return result;
                 } else if (simbolo.Tipo.Tipo == Tipo.EnumTipo.LISTA && ((AccesoProfundo) nodoNivel).profundidad == 1) {
@@ -113,7 +113,7 @@ public class AccesoEstructura extends Expresion {
                 if (sim.get(Integer.parseInt(resultIndice.VALOR.get(0).toString()) - 1) instanceof Expresion) {
                     Expresion resul = (Expresion) sim.get(Integer.parseInt(resultIndice.VALOR.get(0).toString()) - 1);
                     resultValor = resul;
-                }else{
+                } else {
                     Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.SEMANTICO), "Error indice superior al limite", LINEA, COLUMNA));
                 }
             } else {

@@ -17,6 +17,12 @@ import softwarearit.Frame.Interfaz;
  */
 public class AbrirNavegador {
 
+    private static int pagina = 0;
+
+    public static void inicioCompilacion() {
+        pagina = 0;
+    }
+
     public static void openGrafica(String url) {
         StringBuilder html = new StringBuilder();
         html.append(headerHtml());
@@ -35,11 +41,12 @@ public class AbrirNavegador {
         html.append(footerHtml());
 
         try {
-            FileWriter write = new FileWriter("html/grafica.html");
+            FileWriter write = new FileWriter("html/grafica" + pagina + ".html");
             write.write(html.toString());
             write.close();
-            File errores = new File("html/grafica.html");
+            File errores = new File("html/grafica" + pagina + ".html");
             Desktop.getDesktop().open(errores);
+            pagina++;
         } catch (Exception e) {
             System.out.println(e.toString());
         }
