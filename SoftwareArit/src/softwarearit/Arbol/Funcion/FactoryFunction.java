@@ -42,10 +42,10 @@ public class FactoryFunction {
                 return new TypeOf(linea, columna, parametros);
             case "length":
                 return new Length(linea, columna, parametros);
-            // TODO MATRIX
             case "ncol":
+                return new NCol(linea, columna, parametros);
             case "nrow":
-
+                return new NRow(linea, columna, parametros);
             case "stringlength":
                 return new StringLength(linea, columna, parametros);
             case "remove":
@@ -65,7 +65,9 @@ public class FactoryFunction {
             case "mode":
                 return new Mode(linea, columna, parametros);
             case "pie":
+                return new Pie(linea, columna, parametros);
             case "barplot":
+                return new BarPlot(linea, columna, parametros);
             case "plot":
             case "hist":
             default:

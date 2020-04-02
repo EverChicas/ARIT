@@ -282,9 +282,3 @@ E::=    E:a mas:op E:b               {: RESULT = new Suma(opleft,opright,a,b); :
         | _id:a corcheteizquierda coma E:b corchetederecha              {: RESULT = new AccesoMatrix(aleft,aright,a,null,b); :}
         | _id:a corcheteizquierda E:b coma E:c corchetederecha          {: RESULT = new AccesoMatrix(aleft,aright,a,b,c); :}
         ;
-
-
-
-
-
-

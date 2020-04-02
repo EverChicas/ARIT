@@ -6,6 +6,7 @@
 package softwarearit.Arbol.Expresiones.Accesos;
 
 import softwarearit.Arbol.Estructura.Entorno;
+import softwarearit.Arbol.Estructura.Tipo;
 import softwarearit.Arbol.Expresiones.Expresion;
 import softwarearit.Frame.Interfaz;
 
@@ -27,8 +28,13 @@ public class AccesoProfundo extends Expresion {
     }
 
     private void generarGrafica() {
-        String nombre = valor.VALOR.get(0).toString();
-        this.NOMBRE = Interfaz.GRAFICA_ARBOL.getNombreNodo();
+        String nombre = "";
+        if (valor instanceof Acceso) {
+            nombre = ((Acceso) valor).identificador;
+            this.NOMBRE = Interfaz.GRAFICA_ARBOL.getNombreNodo();
+        } else {
+            nombre = valor.VALOR.get(0).toString();
+        }
 
         for (int i = 1; i <= profundidad; i++) {
             nombre = "[" + nombre + "]";

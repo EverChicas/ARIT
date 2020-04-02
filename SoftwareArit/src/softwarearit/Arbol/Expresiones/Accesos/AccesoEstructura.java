@@ -110,8 +110,12 @@ public class AccesoEstructura extends Expresion {
             Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.SEMANTICO), "Error valor de indice menor que 1", LINEA, COLUMNA));
         } else {
             if (sim.size() >= Integer.parseInt(resultIndice.VALOR.get(0).toString())) {
-                Expresion resul = (Expresion) sim.get(Integer.parseInt(resultIndice.VALOR.get(0).toString()) - 1);
-                resultValor = resul;
+                if (sim.get(Integer.parseInt(resultIndice.VALOR.get(0).toString()) - 1) instanceof Expresion) {
+                    Expresion resul = (Expresion) sim.get(Integer.parseInt(resultIndice.VALOR.get(0).toString()) - 1);
+                    resultValor = resul;
+                }else{
+                    Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.SEMANTICO), "Error indice superior al limite", LINEA, COLUMNA));
+                }
             } else {
                 Interfaz.addError(new NodoError(new TipoError(TipoError.EnumTipoError.SEMANTICO), "Error indice superior al limite", LINEA, COLUMNA));
             }
