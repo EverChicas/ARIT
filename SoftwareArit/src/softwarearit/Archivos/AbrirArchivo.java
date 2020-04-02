@@ -30,7 +30,7 @@ public class AbrirArchivo {
         
         try{
             JFileChooser file = new JFileChooser();
-            file.setFileFilter(new FileNameExtensionFilter("*.java","java"));
+            file.setFileFilter(new FileNameExtensionFilter("*.arit","arit"));
             file.showOpenDialog(file);
             File archivo = file.getSelectedFile();
                 

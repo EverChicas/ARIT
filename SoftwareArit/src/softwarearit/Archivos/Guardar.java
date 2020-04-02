@@ -40,13 +40,13 @@ public class Guardar {
         int retrival = chooser.showSaveDialog(null);
         if (retrival == JFileChooser.APPROVE_OPTION) {
             try {
-                FileWriter save = new FileWriter(chooser.getSelectedFile() + ".java");
+                FileWriter save = new FileWriter(chooser.getSelectedFile() + ".arit");
                 save.write(archivo.getContenido());
                 save.close();
 
-                Path name = Paths.get(chooser.getSelectedFile() + ".java");
+                Path name = Paths.get(chooser.getSelectedFile() + ".arit");
 
-                archivo.setPath(chooser.getSelectedFile() + ".java");
+                archivo.setPath(chooser.getSelectedFile() + ".arits");
                 archivo.setNombre(name.getFileName().toString());
 
                 JOptionPane.showMessageDialog(null, "Guardado", "Informacion", JOptionPane.INFORMATION_MESSAGE);
