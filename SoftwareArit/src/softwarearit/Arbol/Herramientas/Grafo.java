@@ -100,17 +100,17 @@ public class Grafo {
      */
     public StringBuilder generarGraficaRoot(LinkedList<Nodo> lista) {
         StringBuilder nodo = new StringBuilder();
-        String root = getNombreNodo();
-
-        nodo.append(root + " [label = \"root\"];\n");
+//        String root = getNombreNodo();
+//
+//        nodo.append(root + " [label = \"root\"];\n");
 
         for (Nodo ins : lista) {
             nodo.append(ins.GRAFICA);
         }
 
-        for (Nodo ins : lista) {
-            nodo.append(root + " -> " + ins.NOMBRE + ";\n");
-        }
+//        for (Nodo ins : lista) {
+//            nodo.append(root + " -> " + ins.NOMBRE + ";\n");
+//        }
 
         return nodo;
     }
