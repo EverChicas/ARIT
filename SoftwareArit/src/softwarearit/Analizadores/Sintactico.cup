@@ -128,7 +128,7 @@ L_SENTENCIAS::= L_SENTENCIAS:a SENTENCIA:b {: RESULT = a; RESULT.add(b); :}
 
 SENTENCIA::= ASIGNACION:a                                                         {: RESULT = a; :}
         | IMPRIMIR:a                                                              {: RESULT = a; :}
-        | TERNARIO:a                                                              {: RESULT = a; :}
+        //| TERNARIO:a                                                              {: RESULT = a; :}
         | SENTENCIA_IF:a                                                          {: RESULT = a; :}
         | SENTENCIA_SWITCH:a                                                      {: RESULT = a; :}
         | SENTENCIA_WHILE:a                                                       {: RESULT = a; :}
